@@ -2,7 +2,7 @@
 
 基于 **RAG（检索增强生成）** 架构的法律知识问答系统。面向法律条文、案例、合同模板等专业文档，提供**语义检索**与 **AI 智能问答**能力，帮助用户快速定位法律依据并生成专业回答。
 
-> ✅ **项目状态**：演示数据集层已完成（17 部官方法律 PDF + 企业制度/合同/案例 + 100 条 QA 评估集 + 官方法律下载工具）；应用层（FastAPI 后端 / Vue3 前端）开发中。本文档的架构描述为目标形态。
+> ✅ **项目状态**：演示数据集层已完成。当前聚焦把数据资产做成一条**可验证、可解释、可评估**的 RAG 纵向管线（Roadmap V1），应用层（FastAPI / Vue3 / Docker）按战略暂缓（见「原计划功能处置」）。本文档的架构描述为目标形态。
 
 ---
 
@@ -22,8 +22,23 @@
 | --- | --- | --- |
 | 演示数据集 `data/` | ✅ 已完成 | 17 部官方法律 PDF、28 份企业制度、7 份合同模板、4 份模拟案例、100 条 QA 评估集（详见 [data/README.md](data/README.md)） |
 | 法律下载工具 `tools/download_laws.py` | ✅ 已完成 | 从国家法律法规数据库（flk.npc.gov.cn）幂等下载官方 PDF，可断点重跑 |
-| 后端 FastAPI `backend/` | 🚧 开发中 | 目录已就位，待实现文档入库 / 检索 / 问答 |
-| 前端 Vue3 `frontend/` | ⏳ 未开始 | 规划中 |
+| RAG 管线（解析 → 检索 → 生成 → 评估） | 🚧 V1 开发中 | 能力链各环节待实现，见下方 Roadmap V1 |
+| 工程化与评估 | ⏳ V1.5 重点推进 | 分层评估、错误案例回归、Citation/Evidence |
+| 应用层（FastAPI / Vue3 / Docker Compose） | ⏸ 暂缓 | 不增强 RAG 纵向能力，见「原计划功能处置」 |
+
+---
+
+## 能力链（项目主线）
+
+本项目不做「大而全」的产品堆叠，而是沿一条**纵向能力链**做深，最终在 GitHub 上呈现为一个可复现、可评估的 RAG 工程案例：
+
+```
+数据 → Parsing/OCR → Chunk → Embedding → Retrieval ─┐
+                                  (Dense + BM25)    ├→ Hybrid(RRF) → Rerank → Context → Generation → Validation → Evaluation
+                                   └───────────────┘
+```
+
+每到一个环节，README 与评估报告都会给出**可验证的证据**（跑通日志、指标对比、错误案例分析），而不是「看起来能跑」。
 
 ## 技术栈
 
@@ -95,6 +110,8 @@ legal-ai-assistant/
 ---
 
 ## 快速开始
+
+> ⚠️ 当前仓库处于**数据层阶段**，以下「后端 / 前端 / Docker」启动步骤为目标形态，待 V1 管线落地（见 Roadmap）后生效。
 
 ### 环境要求
 
@@ -206,27 +223,62 @@ docker compose up -d
 
 ## Roadmap
 
-### V1（本期）
-- [x] 技术选型与架构设计
-- [x] 演示数据集构建（17 部法律 PDF + 制度/合同/案例 + 100 条评估集）
+> 战略：**做深不做大**。V1 打通并验证 RAG 纵向链路，V1.5 做成可评估、可解释的工程案例，V2 保留演进方向但当前不投入。
+
+### V1 — Core RAG Pipeline（纵向核心链路）
+
+- [x] 技术选型与 RAG 架构设计
+- [x] 多源法律文档数据集构建（17 部法律 + 28 制度 + 7 合同 + 4 案例 + 100 条评估集）
 - [x] 官方法律下载工具（tools/download_laws.py）
-- [ ] 后端基础框架（FastAPI + 配置 + 认证）
-- [ ] 文档上传、解析、切片
-- [ ] Milvus 向量化与检索
-- [ ] LangChain + GPT 问答链路
-- [ ] Vue3 前端（文档管理页 + 问答页）
-- [ ] Docker Compose 一键部署
+- [ ] PDF / DOCX 文档解析与 OCR
+- [ ] 文档清洗、结构化与层级 Chunk
+- [ ] BGE Embedding（bge-base-zh-v1.5）
+- [ ] Milvus 向量检索（Dense）
+- [ ] BM25 Sparse Retrieval
+- [ ] Hybrid Retrieval + RRF Fusion
+- [ ] BGE Reranker
+- [ ] Context Builder
+- [ ] LLM Generation
+- [ ] Citation Validation / Groundedness
+- [ ] RAG Evaluation
 
-### V1.5
-- [ ] 流式输出（SSE）
-- [ ] 多轮对话上下文
-- [ ] 引用溯源高亮
+### V1.5 — Engineering & Evaluation（当前重点推进方向）
 
-### V2（后期）
-- [ ] 本地对象存储切换 **MinIO**
-- [ ] 私有化部署大模型（如本地 Llama / 通义千问）
-- [ ] 知识库版本管理与权限控制
-- [ ] 文档批注与人工纠错反馈闭环
+- [ ] 完善 50～100 条真实评估集
+- [ ] 建立 Retrieval / Rerank / Generation 分层评估
+- [ ] 对比 Dense / BM25 / Hybrid / Reranker 效果
+- [ ] 完善错误案例分析与回归测试
+- [ ] 优化 Query Rewrite / Query Understanding
+- [ ] 完善 Citation 与 Evidence Traceability
+- [ ] 增加真实 LLM API Adapter
+- [ ] 完善 README / Architecture / Technical Design 文档
+
+### V2 — Future Evolution（保留在 Roadmap，当前不做）
+
+- Knowledge Graph / Graph Retrieval
+- 知识库版本管理
+- 企业级权限与多租户
+- MinIO / Object Storage
+- 本地 LLM / 私有化部署
+- Human Feedback / Correction Loop
+- Agent-based Legal Research
+
+### 原计划功能处置
+
+| 原计划 | 处置 | 原因 |
+| --- | --- | --- |
+| Evaluation | ✅ 强烈推进 | 证明 RAG 不是「看起来能跑」 |
+| 错误案例回归 | ✅ 强烈推进 | 展示真正的工程能力 |
+| Citation / Evidence | ✅ 强烈推进 | 非常契合企业法律场景 |
+| Graph RAG | 🔮 V2 | 作为「下一阶段演进」展示 |
+| SSE 流式输出 | ❌ 暂缓 | 属于应用层，不增强 RAG 纵向能力 |
+| 多轮对话 | ❌ 暂缓 | 属于 Chat 产品能力 |
+| Vue3 前端 | ❌ 暂缓 | 不是当前作品集核心 |
+| Docker Compose | 🟡 可选 | 如以后需要别人一键运行再做 |
+| MinIO | ❌ 暂缓 | 当前本地数据集完全够展示 |
+| 私有化 LLM | ❌ 暂缓 | 会把项目带向部署 / 推理工程 |
+| 权限控制 | ❌ 暂缓 | 横向治理能力放到其他项目 |
+| 文档批注反馈 | ❌ 暂缓 | 属于产品闭环，不是当前核心 |
 
 ---
 
@@ -236,4 +288,4 @@ docker compose up -d
 
 ---
 
-*文档最后更新：2026-08-08 · 法律知识助手 V1 规划*
+*文档最后更新：2026-08-08 · 法律知识助手 · 数据层 ✅ / V1 RAG 管线开发中*
