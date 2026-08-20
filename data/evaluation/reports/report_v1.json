@@ -1,0 +1,3359 @@
+{
+  "tag": "v1",
+  "num_questions": 100,
+  "retrieval": {
+    "dense": {
+      "recall_at": {
+        "5": 0.72,
+        "10": 0.75,
+        "20": 0.75
+      },
+      "mrr": 0.5194,
+      "ndcg_at": {
+        "5": 0.6164,
+        "10": 0.6308,
+        "20": 0.6308
+      }
+    },
+    "bm25": {
+      "recall_at": {
+        "5": 0.58,
+        "10": 0.72,
+        "20": 0.72
+      },
+      "mrr": 0.369,
+      "ndcg_at": {
+        "5": 0.4563,
+        "10": 0.5304,
+        "20": 0.5304
+      }
+    },
+    "hybrid": {
+      "recall_at": {
+        "5": 0.72,
+        "10": 0.77,
+        "20": 0.77
+      },
+      "mrr": 0.5298,
+      "ndcg_at": {
+        "5": 0.6138,
+        "10": 0.6414,
+        "20": 0.6414
+      }
+    },
+    "rerank": {
+      "recall_at": {
+        "5": 0.7,
+        "10": 0.73,
+        "20": 0.73
+      },
+      "mrr": 0.5004,
+      "ndcg_at": {
+        "5": 0.5904,
+        "10": 0.606,
+        "20": 0.606
+      }
+    }
+  },
+  "generation": {
+    "em": 0.0,
+    "f1": 0.171,
+    "rouge1": 0.1965,
+    "rouge2": 0.0646,
+    "rougeL": 0.1359,
+    "citation_rate": 0.96,
+    "avg_groundedness": 0.9667
+  },
+  "error_cases": [
+    {
+      "id": "R002",
+      "question": "加班工资如何计算?",
+      "gold_answer": "依《劳动法》第四十四条,安排延长工作时间的支付不低于工资的150%;休息日安排工作又不能安排补休的支付不低于200%;法定休假日安排工作的支付不低于300%。",
+      "pred_answer": "工作日、休息日、法定节假日的加班工资分别如何计算?考勤记录由谁掌握、举证责任如何分配?[1]书面劳动合同，应当支付劳动者的二倍工资 按月计算；[4]A4:每满一年一个月工资,六个月以上不满一年按一年计算,不满六个月半个月;[5]",
+      "em": 0.0,
+      "f1": 0.1463,
+      "rouge1": 0.1786,
+      "rouge2": 0.0,
+      "rougeL": 0.0976,
+      "citations": [
+        "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。",
+        "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第六条用人单位未依法与劳动者订立",
+        "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R004",
+      "question": "年假如何计算?",
+      "gold_answer": "依《劳动法》第四十五条及国务院《职工带薪年休假条例》,连续工作满一年以上享受带薪年休假:累计工作满1年不满10年的5天;满10年不满20年的10天;满20年的15天。",
+      "pred_answer": "不满一个月的，按该月实际工作日 计算。书面劳动合同，应当支付劳动者的二倍工资 按月计算；[7]工作日、休息日、法定节假日的加班工资分别如何计算?考勤记录由谁掌握、举证责任如何分配?[8]",
+      "em": 0.0,
+      "f1": 0.0988,
+      "rouge1": 0.0727,
+      "rouge2": 0.0,
+      "rougeL": 0.0988,
+      "citations": [
+        "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第六条用人单位未依法与劳动者订立",
+        "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R006",
+      "question": "公司解除合同需要支付赔偿吗?",
+      "gold_answer": "视解除原因而定:因劳动者过错(如严重违纪)解除的无需补偿;无过失性辞退或经济性裁员需支付经济补偿(每满一年一个月工资);违法解除则需支付二倍经济补偿标准的赔偿金。",
+      "pred_answer": "A5:按经济补偿标准的2倍支付赔偿金(见本制度4.4.4条;[1]",
+      "em": 0.0,
+      "f1": 0.2143,
+      "rouge1": 0.25,
+      "rouge2": 0.1154,
+      "rougeL": 0.1786,
+      "citations": [
+        "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R009",
+      "question": "劳动合同应当包含哪些条款?",
+      "gold_answer": "依《劳动合同法》第十七条,应包含:用人单位与劳动者信息、劳动合同期限、工作内容和工作地点、工作时间和休息休假、劳动报酬、社会保险、劳动保护与职业危害防护等必备条款。",
+      "pred_answer": "建立劳动关系应当订立劳动合同。并具备以下条款： （一）劳动合同期限；劳动合同除前款规定的必备条款外，当事人 可以协商约定其他内容。解除劳动合同或者违反劳动合同中约定的保密事 项，对用人单位造成经济损失的，应当依法承担 赔偿责任。[1]",
+      "em": 0.0,
+      "f1": 0.1728,
+      "rouge1": 0.2059,
+      "rouge2": 0.0506,
+      "rougeL": 0.1235,
+      "citations": [
+        "中华人民共和国劳动法.pdf · 目　　录"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R010",
+      "question": "用人单位在什么情形下可以即时解除劳动合同?",
+      "gold_answer": "依《劳动合同法》第三十九条,包括:试用期内被证明不符合录用条件;严重违反规章制度;严重失职营私舞弊造成重大损害;同时与其他单位建立劳动关系影响本职工作且拒不改正;以欺诈胁迫手段订立合同致合同无效;被依法追究刑事责任。",
+      "pred_answer": "可以解除劳动合同，但是应当提前三十日以书面 形式通知劳动者本人： （一）劳动者患病或者非因工负伤，医疗期 满后，不能从事原工作也不能从事由用人单位另 行安排的工作的；以随时通知用人单位解除劳动合同： （一）在试用期内的；人单位可以解除劳动合同： （一）在试用期间被证明不符合录用条件的；解除劳动合同或者违反劳动合同中约定的保密事 项，对用人单位造成经济损失的，应当依法承担 赔偿责任。[1]",
+      "em": 0.0,
+      "f1": 0.1818,
+      "rouge1": 0.2376,
+      "rouge2": 0.0976,
+      "rougeL": 0.1515,
+      "citations": [
+        "中华人民共和国劳动法.pdf · 目　　录"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R011",
+      "question": "用人单位提前三十日通知解除劳动合同的情形有哪些?",
+      "gold_answer": "依《劳动合同法》第四十条,包括:劳动者患病或非因工负伤医疗期满后不能从事原工作也不能从事另行安排的工作;不能胜任工作经培训或调岗后仍不能胜任;客观情况发生重大变化致合同无法履行且协商变更未成。",
+      "pred_answer": "7.2 乙方提前三十日以书面形式通知甲方,可以解除劳动合同;乙方在试用期内提前三日通知甲方,可以解除劳动合同。7.3 甲方存在未及时足额支付劳动报酬、未依法为乙方缴纳社会保险费等法定情形的,乙方可以依法解除劳动合同。7.4 乙方存在严重违反甲方规章制度、严重失职营私舞弊给甲方造成重大损害等法定情形的,甲方可以依法解除劳动合同。[1]",
+      "em": 0.0,
+      "f1": 0.0517,
+      "rouge1": 0.0759,
+      "rouge2": 0.0,
+      "rougeL": 0.0345,
+      "citations": [
+        "劳动合同.md · 7.1 经双方协商一致,本合同可以解除。"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R012",
+      "question": "劳动者辞职要提前多久通知?",
+      "gold_answer": "依《劳动合同法》第三十七条,劳动者提前三十日以书面形式通知用人单位可以解除劳动合同;试用期内提前三日通知即可。",
+      "pred_answer": "A1:提前30日书面通知(见本制度4.2.1条;A2:提前3日书面通知(见本制度4.2.2条)。[1]",
+      "em": 0.0,
+      "f1": 0.0976,
+      "rouge1": 0.0645,
+      "rouge2": 0.0,
+      "rougeL": 0.0976,
+      "citations": [
+        "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R013",
+      "question": "竞业限制期限最长是多久?",
+      "gold_answer": "二年。依《劳动合同法》第二十四条,竞业限制期限不得超过二年,且用人单位应依法给予经济补偿。",
+      "pred_answer": "竞业限制期限不得超过二年。乙方违反竞业限制约定的,应当按照约定向甲方支付违约金。8.2 经双方协商一致,对负有保密义务的乙方,甲方可以在劳动合同中约定竞业限制条款,并在解除或者终止劳动合同后,在竞业限制期限内按月给予乙方经济补偿。7.5 本合同期限届满、约定的终止条件出现或法律法规规定的其他终止情形出现时,本合同终止。[2]",
+      "em": 0.0,
+      "f1": 0.1915,
+      "rouge1": 0.2609,
+      "rouge2": 0.1364,
+      "rougeL": 0.1915,
+      "citations": [
+        "劳动合同.md · 7.1 经双方协商一致,本合同可以解除。"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R015",
+      "question": "劳动仲裁的申请时效是多久?",
+      "gold_answer": "一年。依《劳动争议调解仲裁法》第二十七条,劳动争议申请仲裁的时效期间为一年,自当事人知道或应当知道权利被侵害之日起计算。",
+      "pred_answer": "6. **劳动争议处理机制风险**:未明确劳动仲裁前置程序、忽略劳动仲裁时效(一年),可能导致权利主张超过时效而无法获得支持。4. **解除终止条款不规范风险**:解除、终止条件约定与《劳动合同法》规定不符的条款可能被认定无效;7. **合同文本与规章制度脱节风险**:合同未明示引用的规章制度内容,或规章制度未经民主程序公示告知,相关条款难以作为处理劳动争议的依据。[1]",
+      "em": 0.0,
+      "f1": 0.188,
+      "rouge1": 0.2222,
+      "rouge2": 0.0194,
+      "rougeL": 0.1368,
+      "citations": [
+        "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R016",
+      "question": "劳动仲裁多长时间内审结?",
+      "gold_answer": "依《劳动争议调解仲裁法》第四十三条,仲裁庭应当自受理之日起四十五日内结束;案情复杂需要延期的,经批准可延长十五日。",
+      "pred_answer": "劳动争议仲裁委员会主任由劳动行政部 门代表担任。劳动合同的无效，由劳动争议仲裁委员会或 者人民法院确认。动争议发生之日起六十日内向劳动争议仲裁委员 会提出书面申请。调解不 成，当事人一方要求仲裁的，可以向劳动争议仲 裁委员会申请仲裁。[1]",
+      "em": 0.0,
+      "f1": 0.1266,
+      "rouge1": 0.1639,
+      "rouge2": 0.0286,
+      "rougeL": 0.1013,
+      "citations": [
+        "中华人民共和国劳动法.pdf · 目　　录"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R017",
+      "question": "哪些劳动争议属于一裁终局?",
+      "gold_answer": "依《劳动争议调解仲裁法》第四十七条,包括:追索劳动报酬、工伤医疗费、经济补偿或赔偿金且金额不超过当地月最低工资标准十二个月金额的争议;以及因执行国家劳动标准在工作时间、休息休假、社会保险等方面发生的争议。",
+      "pred_answer": "向本单位劳动争议调解委员会申请调解；劳动争议调 解委员会主任由工会代表担任。劳动争议经调解达成协议的，当事人应当履 行。劳动争议仲裁委员会主任由劳动行政部 门代表担任。[1]",
+      "em": 0.0,
+      "f1": 0.1647,
+      "rouge1": 0.127,
+      "rouge2": 0.0526,
+      "rougeL": 0.1647,
+      "citations": [
+        "中华人民共和国劳动法.pdf · 目　　录"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R018",
+      "question": "工资能低于当地最低工资标准吗?",
+      "gold_answer": "不能。依《劳动法》第四十八条,用人单位支付劳动者的工资不得低于当地最低工资标准。",
+      "pred_answer": "A3:不得低于本单位相同岗位最低档工资的80%或合同约定工资的80%,且不得低于当地最低工资标准(见本制度4.3条;[1]2. **工资条款风险**:试用期工资低于约定工资的80%或低于当地最低工资标准、不明确工资构成(基本工资/绩效/加班费基数不清),易引发劳动报酬争议及补差、赔偿风险。[2]",
+      "em": 0.0,
+      "f1": 0.1667,
+      "rouge1": 0.2333,
+      "rouge2": 0.1127,
+      "rougeL": 0.1667,
+      "citations": [
+        "员工入职管理制度.md · 4. 试用期内员工主动辞职的,须提前3日书面通知公司。",
+        "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R019",
+      "question": "定金数额最高能约定多少?",
+      "gold_answer": "依《民法典》第五百八十六条,定金不得超过主合同标的额的百分之二十,超过部分不产生定金的效力。",
+      "pred_answer": "2. 违约金数额应合理,一般不超过合同金额的 30%,防止约定过高被依法调减(参照《民法典》第五百八十五条);供应商首次合作或资信不足时,预付款不超过 20% 或争取货到付款 | | 付款与验收脱钩 | 约定付款在先、验收在后,或\"付款即视为验收合格\" | 付款节点必须与交付、验收挂钩;验收合格前不得付清全款 | | 无质保金 | 无质保条款或质保金安排,质保期内质量问题无约束 | 重要采购/工程项目应约定不低于合同金额 5% 的质保金,质保期满且无质量问题后支付 | | 逾期付款责任不对等 | 我方逾期付款责任较重,相对方逾期交付责任较轻 | 双方逾期责任应基本对等,罚则比例相当,避免单方高额违约金 | ### 4.2 违约责任对等性审查 1. 违约金比例、赔偿范围、责任上限应对等设定,避免出现\"我方高额赔偿、对方象征性赔偿\"的不对等条款;[2]",
+      "em": 0.0,
+      "f1": 0.07,
+      "rouge1": 0.084,
+      "rouge2": 0.0,
+      "rougeL": 0.05,
+      "citations": [
+        "合同风险控制指南.md · 4. 《中华人民共和国个人信息保护法》;"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R022",
+      "question": "违规处理个人信息最高可罚多少?",
+      "gold_answer": "依《个人信息保护法》第六十六条,情节严重的,处五千万元以下或上一年度营业额百分之五以下罚款,并可以责令暂停相关业务、吊销许可证等。",
+      "pred_answer": "处理相关服务应当取得行政许可的，服务提供者 应当依法取得许可。重要数据的处理者应当明确数据安全负责人 和管理机构，落实数据安全保护责任。在统计、档案工作中开展数据处理活动，开 展涉及个人信息的数据处理活动，还应当遵守有 关法律、行政法规的规定。风险评估报告应当包括处理的重要数据的种 类、数量，开展数据处理活动的情况，面临的数 据安全风险及其应对措施等。[1]",
+      "em": 0.0,
+      "f1": 0.0741,
+      "rouge1": 0.0952,
+      "rouge2": 0.0,
+      "rougeL": 0.0556,
+      "citations": [
+        "中华人民共和国数据安全法.pdf · 目　　录"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    },
+    {
+      "id": "R024",
+      "question": "专利保护期限是多久?",
+      "gold_answer": "依《专利法》第四十二条,发明专利保护期二十年,实用新型专利十年,外观设计专利十五年,均自申请日起计算。",
+      "pred_answer": "（四）该商标作为驰名商标受保护的记录；人认为其权利受到侵害时，可以依照本法规定请 求驰名商标保护。第七章 注册商标专用权的保护 册的商标和核定使用的商品为限。第一章 总 则 第二章 商标注册的申请 第三章 商标注册的审查和核准 第四章 注册商标的续展、变更、转让和使 用许可 第五章 注册商标的无效宣告 第六章 商标使用的管理 第七章 注册商标专用权的保护 第八章 附 则 第一章 总 则 权，促使生产、经营者保证商品和服务质量，维 护商标信誉，以保障消费者和生产、经营者的利 益，促进社会主义市场经济的发展，特制定本 法。[1]",
+      "em": 0.0,
+      "f1": 0.0154,
+      "rouge1": 0.0215,
+      "rouge2": 0.0,
+      "rougeL": 0.0154,
+      "citations": [
+        "中华人民共和国商标法.pdf · 目　　录"
+      ],
+      "groundedness": 1.0,
+      "unsupported": []
+    }
+  ],
+  "per_question": {
+    "retrieval": [
+      {
+        "id": "R001",
+        "question": "试用期最长多久?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R002",
+        "question": "加班工资如何计算?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R003",
+        "question": "法定节假日加班能拿几倍工资?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动法.pdf"
+        ],
+        "hit_ranks": [
+          6
+        ],
+        "mrr": 0.16666666666666666,
+        "recall@5": false,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R004",
+        "question": "年假如何计算?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R005",
+        "question": "经济补偿金如何计算?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R006",
+        "question": "公司解除合同需要支付赔偿吗?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R007",
+        "question": "试用期工资最低能发多少?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R008",
+        "question": "同一单位能约定几次试用期?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R009",
+        "question": "劳动合同应当包含哪些条款?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R010",
+        "question": "用人单位在什么情形下可以即时解除劳动合同?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R011",
+        "question": "用人单位提前三十日通知解除劳动合同的情形有哪些?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R012",
+        "question": "劳动者辞职要提前多久通知?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R013",
+        "question": "竞业限制期限最长是多久?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动合同法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R014",
+        "question": "社保包括哪些险种?",
+        "gold_docs": [
+          "laws/中华人民共和国社会保险法.pdf"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R015",
+        "question": "劳动仲裁的申请时效是多久?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动争议调解仲裁法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R016",
+        "question": "劳动仲裁多长时间内审结?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动争议调解仲裁法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R017",
+        "question": "哪些劳动争议属于一裁终局?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动争议调解仲裁法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R018",
+        "question": "工资能低于当地最低工资标准吗?",
+        "gold_docs": [
+          "laws/中华人民共和国劳动法.pdf"
+        ],
+        "hit_ranks": [
+          3
+        ],
+        "mrr": 0.3333333333333333,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R019",
+        "question": "定金数额最高能约定多少?",
+        "gold_docs": [
+          "laws/中华人民共和国民法典.pdf"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R020",
+        "question": "违约金约定过高能请求减少吗?",
+        "gold_docs": [
+          "laws/中华人民共和国民法典.pdf"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R021",
+        "question": "电子合同具有法律效力吗?",
+        "gold_docs": [
+          "laws/中华人民共和国民法典.pdf",
+          "laws/中华人民共和国电子签名法.pdf"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R022",
+        "question": "违规处理个人信息最高可罚多少?",
+        "gold_docs": [
+          "laws/中华人民共和国个人信息保护法.pdf"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R023",
+        "question": "处理敏感个人信息有哪些要求?",
+        "gold_docs": [
+          "laws/中华人民共和国个人信息保护法.pdf"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R024",
+        "question": "专利保护期限是多久?",
+        "gold_docs": [
+          "data/raw/laws/中华人民共和国专利法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R025",
+        "question": "注册商标的有效期是多长?",
+        "gold_docs": [
+          "laws/中华人民共和国商标法.pdf"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R026",
+        "question": "著作权保护期是多久?",
+        "gold_docs": [
+          "data/raw/laws/中华人民共和国著作权法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "R027",
+        "question": "商业秘密需要满足哪些构成要件?",
+        "gold_docs": [
+          "laws/中华人民共和国反不正当竞争法.pdf"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R028",
+        "question": "数据安全法对数据如何分类分级?",
+        "gold_docs": [
+          "laws/中华人民共和国数据安全法.pdf"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R029",
+        "question": "处理个人信息需要什么前提?",
+        "gold_docs": [
+          "laws/中华人民共和国个人信息保护法.pdf"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "R030",
+        "question": "招标有哪几种方式?",
+        "gold_docs": [
+          "laws/中华人民共和国招标投标法.pdf"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "P001",
+        "question": "试用期最长多久?",
+        "gold_docs": [
+          "policies/HR制度/员工入职管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P002",
+        "question": "试用期工资怎么定?",
+        "gold_docs": [
+          "policies/HR制度/员工入职管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P003",
+        "question": "新员工入职需要办理哪些手续?",
+        "gold_docs": [
+          "policies/HR制度/员工入职管理制度.md"
+        ],
+        "hit_ranks": [
+          4
+        ],
+        "mrr": 0.25,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P004",
+        "question": "离职流程是什么?",
+        "gold_docs": [
+          "policies/HR制度/员工离职管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P005",
+        "question": "离职后公司多久内结清工资和办完手续?",
+        "gold_docs": [
+          "policies/HR制度/员工离职管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P006",
+        "question": "年假天数怎么算?",
+        "gold_docs": [
+          "policies/HR制度/年假管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P007",
+        "question": "未休年假怎么补偿?",
+        "gold_docs": [
+          "policies/HR制度/年假管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P008",
+        "question": "加班工资怎么算?",
+        "gold_docs": [
+          "policies/HR制度/加班管理制度.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P009",
+        "question": "每月加班时间有没有上限?",
+        "gold_docs": [
+          "policies/HR制度/加班管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P010",
+        "question": "考勤有什么要求?",
+        "gold_docs": [
+          "policies/HR制度/考勤管理制度.md"
+        ],
+        "hit_ranks": [
+          3
+        ],
+        "mrr": 0.3333333333333333,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P011",
+        "question": "出差住宿标准是多少?",
+        "gold_docs": [
+          "policies/财务制度/差旅费用标准.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P012",
+        "question": "出差餐补标准是多少?",
+        "gold_docs": [
+          "policies/财务制度/差旅费用标准.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P013",
+        "question": "出差乘坐交通工具有什么标准?",
+        "gold_docs": [
+          "policies/财务制度/差旅费用标准.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P014",
+        "question": "报销需要在多久内提交?",
+        "gold_docs": [
+          "policies/财务制度/报销管理办法.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P015",
+        "question": "报销发票有什么要求?",
+        "gold_docs": [
+          "policies/财务制度/发票管理制度.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P016",
+        "question": "超过多少金额需要审批?",
+        "gold_docs": [
+          "policies/采购管理/采购审批流程.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P017",
+        "question": "采购供应商如何选择和管理?",
+        "gold_docs": [
+          "policies/采购管理/供应商管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P018",
+        "question": "采购合同签订要经过哪些环节?",
+        "gold_docs": [
+          "policies/采购管理/采购合同管理办法.md",
+          "policies/合同管理/合同审批流程.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P019",
+        "question": "公司印章怎么保管?",
+        "gold_docs": [
+          "policies/公司治理/公司印章管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P020",
+        "question": "用印有什么要求?",
+        "gold_docs": [
+          "policies/公司治理/公司印章管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P021",
+        "question": "密码设置有什么要求?",
+        "gold_docs": [
+          "policies/信息安全/密码管理规范.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P022",
+        "question": "普通员工可以访问客户数据吗?",
+        "gold_docs": [
+          "policies/信息安全/数据访问管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P023",
+        "question": "公司数据分几个级别?",
+        "gold_docs": [
+          "policies/信息安全/数据访问管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P024",
+        "question": "对外提供或展示数据前要做什么?",
+        "gold_docs": [
+          "policies/信息安全/数据脱敏管理办法.md"
+        ],
+        "hit_ranks": [
+          3
+        ],
+        "mrr": 0.3333333333333333,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P025",
+        "question": "系统账号权限怎么管理?",
+        "gold_docs": [
+          "policies/信息安全/账号权限管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P026",
+        "question": "软件著作权去哪里申请?",
+        "gold_docs": [
+          "policies/知识产权/软件著作权申请流程.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P027",
+        "question": "商业秘密保护有哪些措施?",
+        "gold_docs": [
+          "policies/知识产权/商业秘密保护规定.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P028",
+        "question": "职务技术成果归谁所有?",
+        "gold_docs": [
+          "policies/知识产权/技术成果管理制度.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P029",
+        "question": "合同签订后怎么归档?",
+        "gold_docs": [
+          "policies/合同管理/合同归档管理办法.md"
+        ],
+        "hit_ranks": [
+          4
+        ],
+        "mrr": 0.25,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "P030",
+        "question": "合同风险审查主要看哪些要点?",
+        "gold_docs": [
+          "policies/合同管理/合同风险控制指南.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C001",
+        "question": "劳动合同里有哪些常见风险点?",
+        "gold_docs": [
+          "contracts/劳动合同.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C002",
+        "question": "保密协议需要注意什么?",
+        "gold_docs": [
+          "contracts/保密协议.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C003",
+        "question": "采购合同付款条款有什么风险?",
+        "gold_docs": [
+          "policies/合同管理/合同风险控制指南.md",
+          "policies/合同管理/采购合同管理制度.md",
+          "contracts/软件采购合同.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C004",
+        "question": "服务合同验收条款有什么风险?",
+        "gold_docs": [
+          "contracts/服务合同.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C005",
+        "question": "技术开发合同知识产权归属条款有哪些风险?",
+        "gold_docs": [
+          "contracts/技术开发合同.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C006",
+        "question": "销售合同回款条款有什么风险?",
+        "gold_docs": [
+          "contracts/销售合同.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C007",
+        "question": "租赁合同有哪些风险?",
+        "gold_docs": [
+          "contracts/租赁合同.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C008",
+        "question": "这个合同有哪些风险?",
+        "gold_docs": [
+          "policies/合同管理/合同风险控制指南.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "C009",
+        "question": "违约责任在哪里?",
+        "gold_docs": [
+          "policies/合同管理/合同风险控制指南.md"
+        ],
+        "hit_ranks": [
+          5
+        ],
+        "mrr": 0.2,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C010",
+        "question": "违约金条款怎么约定才有效?",
+        "gold_docs": [
+          "policies/合同管理/合同风险控制指南.md"
+        ],
+        "hit_ranks": [
+          3
+        ],
+        "mrr": 0.3333333333333333,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C011",
+        "question": "采购合同付款与验收如何衔接?",
+        "gold_docs": [
+          "policies/合同管理/采购合同管理制度.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C012",
+        "question": "合同审批流程是什么?",
+        "gold_docs": [
+          "policies/合同管理/合同审批流程.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C013",
+        "question": "合同怎么归档管理?",
+        "gold_docs": [
+          "policies/合同管理/合同归档管理办法.md"
+        ],
+        "hit_ranks": [
+          4
+        ],
+        "mrr": 0.25,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C014",
+        "question": "劳动合同试用期条款有什么风险?",
+        "gold_docs": [
+          "contracts/劳动合同.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C015",
+        "question": "保密协议中竞业限制条款有什么风险?",
+        "gold_docs": [
+          "contracts/保密协议.md"
+        ],
+        "hit_ranks": [
+          3
+        ],
+        "mrr": 0.3333333333333333,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C016",
+        "question": "软件采购合同授权范围条款有什么风险?",
+        "gold_docs": [
+          "contracts/软件采购合同.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C017",
+        "question": "销售合同质量保证条款有什么风险?",
+        "gold_docs": [
+          "contracts/销售合同.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C018",
+        "question": "合同签订前需要审查哪些要点?",
+        "gold_docs": [
+          "policies/合同管理/合同风险控制指南.md"
+        ],
+        "hit_ranks": [
+          3
+        ],
+        "mrr": 0.3333333333333333,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C019",
+        "question": "服务合同服务等级与赔偿条款有什么风险?",
+        "gold_docs": [
+          "contracts/服务合同.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "C020",
+        "question": "技术开发合同交付与验收节点有什么风险?",
+        "gold_docs": [
+          "contracts/技术开发合同.md"
+        ],
+        "hit_ranks": [
+          3
+        ],
+        "mrr": 0.3333333333333333,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L001",
+        "question": "员工试用期被辞退,公司要付补偿吗?",
+        "gold_docs": [
+          "cases/劳动纠纷案例.md"
+        ],
+        "hit_ranks": [
+          6
+        ],
+        "mrr": 0.16666666666666666,
+        "recall@5": false,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L002",
+        "question": "公司拖欠加班费,员工如何维权?",
+        "gold_docs": [
+          "cases/劳动纠纷案例.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L003",
+        "question": "员工离职后主张未休年假补偿可以吗?",
+        "gold_docs": [
+          "cases/劳动纠纷案例.md"
+        ],
+        "hit_ranks": [
+          2
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L004",
+        "question": "违法解除劳动合同法院会怎么判?",
+        "gold_docs": [
+          "cases/劳动纠纷案例.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "L005",
+        "question": "竞业限制纠纷一般如何处理?",
+        "gold_docs": [
+          "cases/劳动纠纷案例.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "L006",
+        "question": "合同对方违约不付款怎么办?",
+        "gold_docs": [
+          "cases/合同违约案例.md"
+        ],
+        "hit_ranks": [
+          4
+        ],
+        "mrr": 0.25,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L007",
+        "question": "定金纠纷怎么处理?",
+        "gold_docs": [
+          "cases/合同违约案例.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "L008",
+        "question": "违约金过高法院如何调减?",
+        "gold_docs": [
+          "cases/合同违约案例.md"
+        ],
+        "hit_ranks": [
+          7
+        ],
+        "mrr": 0.14285714285714285,
+        "recall@5": false,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L009",
+        "question": "合同解除后损失怎么赔?",
+        "gold_docs": [
+          "cases/合同违约案例.md"
+        ],
+        "hit_ranks": [
+          4
+        ],
+        "mrr": 0.25,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L010",
+        "question": "软件著作权侵权如何认定?",
+        "gold_docs": [
+          "cases/知识产权纠纷案例.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "L011",
+        "question": "专利侵权如何判断?",
+        "gold_docs": [
+          "cases/知识产权纠纷案例.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "L012",
+        "question": "商标被抢注怎么办?",
+        "gold_docs": [
+          "cases/知识产权纠纷案例.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "L013",
+        "question": "商业秘密泄露如何赔偿?",
+        "gold_docs": [
+          "cases/知识产权纠纷案例.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      },
+      {
+        "id": "L014",
+        "question": "客户数据泄露公司要承担什么责任?",
+        "gold_docs": [
+          "cases/数据泄露案例.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L015",
+        "question": "员工泄露客户信息怎么处理?",
+        "gold_docs": [
+          "cases/数据泄露案例.md"
+        ],
+        "hit_ranks": [
+          1
+        ],
+        "mrr": 1.0,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L016",
+        "question": "类似情况历史如何处理?",
+        "gold_docs": [
+          "cases/劳动纠纷案例.md",
+          "cases/合同违约案例.md",
+          "cases/数据泄露案例.md"
+        ],
+        "hit_ranks": [
+          2,
+          4
+        ],
+        "mrr": 0.5,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L017",
+        "question": "经济补偿金的N怎么算?",
+        "gold_docs": [
+          "cases/劳动纠纷案例.md"
+        ],
+        "hit_ranks": [
+          5
+        ],
+        "mrr": 0.2,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L018",
+        "question": "合同履行中遭遇不可抗力怎么办?",
+        "gold_docs": [
+          "cases/合同违约案例.md"
+        ],
+        "hit_ranks": [
+          3
+        ],
+        "mrr": 0.3333333333333333,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L019",
+        "question": "因钓鱼邮件导致数据泄露谁承担责任?",
+        "gold_docs": [
+          "cases/数据泄露案例.md"
+        ],
+        "hit_ranks": [
+          4
+        ],
+        "mrr": 0.25,
+        "recall@5": true,
+        "recall@10": true,
+        "recall@20": true
+      },
+      {
+        "id": "L020",
+        "question": "外包开发的软件著作权归谁?",
+        "gold_docs": [
+          "cases/知识产权纠纷案例.md"
+        ],
+        "hit_ranks": [],
+        "mrr": 0.0,
+        "recall@5": false,
+        "recall@10": false,
+        "recall@20": false
+      }
+    ],
+    "generation": [
+      {
+        "id": "R001",
+        "question": "试用期最长多久?",
+        "gold_answer": "六个月。依《劳动合同法》第十九条,三年以上固定期限和无固定期限劳动合同,试用期不得超过六个月,且同一用人单位与同一劳动者只能约定一次试用期。",
+        "pred_answer": "A1:三年以上固定期限和无固定期限劳动合同,试用期最长不超过6个月(见本制度4.2.3条;[1]同一用人单位与同一劳动者只能约定一次试用期,试用期包含在劳动合同期限内。[2]已履行的超过法定试用期部分应承担何种责任?2. 同一用人单位与同一劳动者只能约定一次试用期;[3]",
+        "em": 0.0,
+        "f1": 0.4545,
+        "rouge1": 0.5,
+        "rouge2": 0.4211,
+        "rougeL": 0.4545,
+        "citations": [
+          "员工入职管理制度.md · 4. 试用期内员工主动辞职的,须提前3日书面通知公司。",
+          "劳动合同.md · 1.2 试用期约定(依照《劳动合同法》第十九条):",
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R002",
+        "question": "加班工资如何计算?",
+        "gold_answer": "依《劳动法》第四十四条,安排延长工作时间的支付不低于工资的150%;休息日安排工作又不能安排补休的支付不低于200%;法定休假日安排工作的支付不低于300%。",
+        "pred_answer": "工作日、休息日、法定节假日的加班工资分别如何计算?考勤记录由谁掌握、举证责任如何分配?[1]书面劳动合同，应当支付劳动者的二倍工资 按月计算；[4]A4:每满一年一个月工资,六个月以上不满一年按一年计算,不满六个月半个月;[5]",
+        "em": 0.0,
+        "f1": 0.1463,
+        "rouge1": 0.1786,
+        "rouge2": 0.0,
+        "rougeL": 0.0976,
+        "citations": [
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。",
+          "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第六条用人单位未依法与劳动者订立",
+          "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R003",
+        "question": "法定节假日加班能拿几倍工资?",
+        "gold_answer": "300%。依《劳动法》第四十四条第三项,法定休假日安排劳动者工作的,支付不低于工资的百分之三百的工资报酬。",
+        "pred_answer": "工作日、休息日、法定节假日的加班工资分别如何计算?2022年3月至2023年2月期间,C公司安排王某工作日延时加班120小时、休息日加班16天(未安排补休)、法定节假日加班3天,均未支付加班费。法定休假日安排劳动者工作的,支付不低于工资的百分之三百的工资报酬。[1]3.2 甲方因生产经营需要延长工作时间的,应按法律法规规定安排补休或支付加班工资。[6]",
+        "em": 0.0,
+        "f1": 0.3077,
+        "rouge1": 0.3562,
+        "rouge2": 0.303,
+        "rougeL": 0.3077,
+        "citations": [
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。",
+          "劳动合同.md · 3.1 乙方实行下列第【 】种工时制度:"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R004",
+        "question": "年假如何计算?",
+        "gold_answer": "依《劳动法》第四十五条及国务院《职工带薪年休假条例》,连续工作满一年以上享受带薪年休假:累计工作满1年不满10年的5天;满10年不满20年的10天;满20年的15天。",
+        "pred_answer": "不满一个月的，按该月实际工作日 计算。书面劳动合同，应当支付劳动者的二倍工资 按月计算；[7]工作日、休息日、法定节假日的加班工资分别如何计算?考勤记录由谁掌握、举证责任如何分配?[8]",
+        "em": 0.0,
+        "f1": 0.0988,
+        "rouge1": 0.0727,
+        "rouge2": 0.0,
+        "rougeL": 0.0988,
+        "citations": [
+          "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第六条用人单位未依法与劳动者订立",
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R005",
+        "question": "经济补偿金如何计算?",
+        "gold_answer": "依《劳动合同法》第四十七条,按劳动者在本单位工作年限每满一年支付一个月工资;六个月以上不满一年的按一年计算;不满六个月的支付半个月工资。月工资高于当地社平工资三倍的,按三倍封顶,支付年限最高不超过十二年。",
+        "pred_answer": "A5:按经济补偿标准的2倍支付赔偿金(见本制度4.4.4条;A4:每满一年一个月工资,六个月以上不满一年按一年计算,不满六个月半个月;[1]不满一个月的，按该月实际工作日 计算。书面劳动合同，应当支付劳动者的二倍工资 按月计算；[2]",
+        "em": 0.0,
+        "f1": 0.4694,
+        "rouge1": 0.3881,
+        "rouge2": 0.2105,
+        "rougeL": 0.3673,
+        "citations": [
+          "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。",
+          "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第六条用人单位未依法与劳动者订立"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R006",
+        "question": "公司解除合同需要支付赔偿吗?",
+        "gold_answer": "视解除原因而定:因劳动者过错(如严重违纪)解除的无需补偿;无过失性辞退或经济性裁员需支付经济补偿(每满一年一个月工资);违法解除则需支付二倍经济补偿标准的赔偿金。",
+        "pred_answer": "A5:按经济补偿标准的2倍支付赔偿金(见本制度4.4.4条;[1]",
+        "em": 0.0,
+        "f1": 0.2143,
+        "rouge1": 0.25,
+        "rouge2": 0.1154,
+        "rougeL": 0.1786,
+        "citations": [
+          "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R007",
+        "question": "试用期工资最低能发多少?",
+        "gold_answer": "依《劳动合同法》第二十条,试用期工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十,并不得低于用人单位所在地的最低工资标准。",
+        "pred_answer": "3. 试用期工资不得低于本单位相同岗位最低档工资或劳动合同约定工资的百分之八十,并不得低于用人单位所在地最低工资标准。5. 建立劳动合同条款合规清单,由人力资源或法务部门对试用期、工资等条款进行签订前复核。违法约定的试用期已经履行的,由用人单位以劳动者试用期满月工资为标准,按已经履行的超过法定试用期的期间向劳动者支付赔偿金。[2]A3:不得低于本单位相同岗位最低档工资的80%或合同约定工资的80%,且不得低于当地最低工资标准(见本制度4.3条;[4]",
+        "em": 0.0,
+        "f1": 0.3759,
+        "rouge1": 0.4598,
+        "rouge2": 0.3393,
+        "rougeL": 0.3609,
+        "citations": [
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。",
+          "员工入职管理制度.md · 4. 试用期内员工主动辞职的,须提前3日书面通知公司。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R008",
+        "question": "同一单位能约定几次试用期?",
+        "gold_answer": "只能约定一次。依《劳动合同法》第十九条,同一用人单位与同一劳动者只能约定一次试用期。",
+        "pred_answer": "同一用人单位与同一劳动者只能约定一次试用期,试用期包含在劳动合同期限内。[1]2. 同一用人单位与同一劳动者只能约定一次试用期;3. 试用期工资不得低于本单位相同岗位最低档工资或劳动合同约定工资的百分之八十,并不得低于用人单位所在地最低工资标准。劳动合同期限不满三个月或已完成一定工作任务为期限的合同,不得约定试用期。[2]",
+        "em": 0.0,
+        "f1": 0.2824,
+        "rouge1": 0.2963,
+        "rouge2": 0.2222,
+        "rougeL": 0.2824,
+        "citations": [
+          "劳动合同.md · 1.2 试用期约定(依照《劳动合同法》第十九条):",
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R009",
+        "question": "劳动合同应当包含哪些条款?",
+        "gold_answer": "依《劳动合同法》第十七条,应包含:用人单位与劳动者信息、劳动合同期限、工作内容和工作地点、工作时间和休息休假、劳动报酬、社会保险、劳动保护与职业危害防护等必备条款。",
+        "pred_answer": "建立劳动关系应当订立劳动合同。并具备以下条款： （一）劳动合同期限；劳动合同除前款规定的必备条款外，当事人 可以协商约定其他内容。解除劳动合同或者违反劳动合同中约定的保密事 项，对用人单位造成经济损失的，应当依法承担 赔偿责任。[1]",
+        "em": 0.0,
+        "f1": 0.1728,
+        "rouge1": 0.2059,
+        "rouge2": 0.0506,
+        "rougeL": 0.1235,
+        "citations": [
+          "中华人民共和国劳动法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R010",
+        "question": "用人单位在什么情形下可以即时解除劳动合同?",
+        "gold_answer": "依《劳动合同法》第三十九条,包括:试用期内被证明不符合录用条件;严重违反规章制度;严重失职营私舞弊造成重大损害;同时与其他单位建立劳动关系影响本职工作且拒不改正;以欺诈胁迫手段订立合同致合同无效;被依法追究刑事责任。",
+        "pred_answer": "可以解除劳动合同，但是应当提前三十日以书面 形式通知劳动者本人： （一）劳动者患病或者非因工负伤，医疗期 满后，不能从事原工作也不能从事由用人单位另 行安排的工作的；以随时通知用人单位解除劳动合同： （一）在试用期内的；人单位可以解除劳动合同： （一）在试用期间被证明不符合录用条件的；解除劳动合同或者违反劳动合同中约定的保密事 项，对用人单位造成经济损失的，应当依法承担 赔偿责任。[1]",
+        "em": 0.0,
+        "f1": 0.1818,
+        "rouge1": 0.2376,
+        "rouge2": 0.0976,
+        "rougeL": 0.1515,
+        "citations": [
+          "中华人民共和国劳动法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R011",
+        "question": "用人单位提前三十日通知解除劳动合同的情形有哪些?",
+        "gold_answer": "依《劳动合同法》第四十条,包括:劳动者患病或非因工负伤医疗期满后不能从事原工作也不能从事另行安排的工作;不能胜任工作经培训或调岗后仍不能胜任;客观情况发生重大变化致合同无法履行且协商变更未成。",
+        "pred_answer": "7.2 乙方提前三十日以书面形式通知甲方,可以解除劳动合同;乙方在试用期内提前三日通知甲方,可以解除劳动合同。7.3 甲方存在未及时足额支付劳动报酬、未依法为乙方缴纳社会保险费等法定情形的,乙方可以依法解除劳动合同。7.4 乙方存在严重违反甲方规章制度、严重失职营私舞弊给甲方造成重大损害等法定情形的,甲方可以依法解除劳动合同。[1]",
+        "em": 0.0,
+        "f1": 0.0517,
+        "rouge1": 0.0759,
+        "rouge2": 0.0,
+        "rougeL": 0.0345,
+        "citations": [
+          "劳动合同.md · 7.1 经双方协商一致,本合同可以解除。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R012",
+        "question": "劳动者辞职要提前多久通知?",
+        "gold_answer": "依《劳动合同法》第三十七条,劳动者提前三十日以书面形式通知用人单位可以解除劳动合同;试用期内提前三日通知即可。",
+        "pred_answer": "A1:提前30日书面通知(见本制度4.2.1条;A2:提前3日书面通知(见本制度4.2.2条)。[1]",
+        "em": 0.0,
+        "f1": 0.0976,
+        "rouge1": 0.0645,
+        "rouge2": 0.0,
+        "rougeL": 0.0976,
+        "citations": [
+          "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R013",
+        "question": "竞业限制期限最长是多久?",
+        "gold_answer": "二年。依《劳动合同法》第二十四条,竞业限制期限不得超过二年,且用人单位应依法给予经济补偿。",
+        "pred_answer": "竞业限制期限不得超过二年。乙方违反竞业限制约定的,应当按照约定向甲方支付违约金。8.2 经双方协商一致,对负有保密义务的乙方,甲方可以在劳动合同中约定竞业限制条款,并在解除或者终止劳动合同后,在竞业限制期限内按月给予乙方经济补偿。7.5 本合同期限届满、约定的终止条件出现或法律法规规定的其他终止情形出现时,本合同终止。[2]",
+        "em": 0.0,
+        "f1": 0.1915,
+        "rouge1": 0.2609,
+        "rouge2": 0.1364,
+        "rougeL": 0.1915,
+        "citations": [
+          "劳动合同.md · 7.1 经双方协商一致,本合同可以解除。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R014",
+        "question": "社保包括哪些险种?",
+        "gold_answer": "依《社会保险法》第二条,包括基本养老保险、基本医疗保险、工伤保险、失业保险、生育保险等五险。",
+        "pred_answer": "生育保险待遇包括生育医疗费用和生育津 贴。除基本医疗保险基 金与生育保险基金合并建账及核算外，其他各项 社会保险基金按照社会保险险种分别建账，分账 核算。[1]",
+        "em": 0.0,
+        "f1": 0.2642,
+        "rouge1": 0.2791,
+        "rouge2": 0.08,
+        "rougeL": 0.1887,
+        "citations": [
+          "中华人民共和国社会保险法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R015",
+        "question": "劳动仲裁的申请时效是多久?",
+        "gold_answer": "一年。依《劳动争议调解仲裁法》第二十七条,劳动争议申请仲裁的时效期间为一年,自当事人知道或应当知道权利被侵害之日起计算。",
+        "pred_answer": "6. **劳动争议处理机制风险**:未明确劳动仲裁前置程序、忽略劳动仲裁时效(一年),可能导致权利主张超过时效而无法获得支持。4. **解除终止条款不规范风险**:解除、终止条件约定与《劳动合同法》规定不符的条款可能被认定无效;7. **合同文本与规章制度脱节风险**:合同未明示引用的规章制度内容,或规章制度未经民主程序公示告知,相关条款难以作为处理劳动争议的依据。[1]",
+        "em": 0.0,
+        "f1": 0.188,
+        "rouge1": 0.2222,
+        "rouge2": 0.0194,
+        "rougeL": 0.1368,
+        "citations": [
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R016",
+        "question": "劳动仲裁多长时间内审结?",
+        "gold_answer": "依《劳动争议调解仲裁法》第四十三条,仲裁庭应当自受理之日起四十五日内结束;案情复杂需要延期的,经批准可延长十五日。",
+        "pred_answer": "劳动争议仲裁委员会主任由劳动行政部 门代表担任。劳动合同的无效，由劳动争议仲裁委员会或 者人民法院确认。动争议发生之日起六十日内向劳动争议仲裁委员 会提出书面申请。调解不 成，当事人一方要求仲裁的，可以向劳动争议仲 裁委员会申请仲裁。[1]",
+        "em": 0.0,
+        "f1": 0.1266,
+        "rouge1": 0.1639,
+        "rouge2": 0.0286,
+        "rougeL": 0.1013,
+        "citations": [
+          "中华人民共和国劳动法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R017",
+        "question": "哪些劳动争议属于一裁终局?",
+        "gold_answer": "依《劳动争议调解仲裁法》第四十七条,包括:追索劳动报酬、工伤医疗费、经济补偿或赔偿金且金额不超过当地月最低工资标准十二个月金额的争议;以及因执行国家劳动标准在工作时间、休息休假、社会保险等方面发生的争议。",
+        "pred_answer": "向本单位劳动争议调解委员会申请调解；劳动争议调 解委员会主任由工会代表担任。劳动争议经调解达成协议的，当事人应当履 行。劳动争议仲裁委员会主任由劳动行政部 门代表担任。[1]",
+        "em": 0.0,
+        "f1": 0.1647,
+        "rouge1": 0.127,
+        "rouge2": 0.0526,
+        "rougeL": 0.1647,
+        "citations": [
+          "中华人民共和国劳动法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R018",
+        "question": "工资能低于当地最低工资标准吗?",
+        "gold_answer": "不能。依《劳动法》第四十八条,用人单位支付劳动者的工资不得低于当地最低工资标准。",
+        "pred_answer": "A3:不得低于本单位相同岗位最低档工资的80%或合同约定工资的80%,且不得低于当地最低工资标准(见本制度4.3条;[1]2. **工资条款风险**:试用期工资低于约定工资的80%或低于当地最低工资标准、不明确工资构成(基本工资/绩效/加班费基数不清),易引发劳动报酬争议及补差、赔偿风险。[2]",
+        "em": 0.0,
+        "f1": 0.1667,
+        "rouge1": 0.2333,
+        "rouge2": 0.1127,
+        "rougeL": 0.1667,
+        "citations": [
+          "员工入职管理制度.md · 4. 试用期内员工主动辞职的,须提前3日书面通知公司。",
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R019",
+        "question": "定金数额最高能约定多少?",
+        "gold_answer": "依《民法典》第五百八十六条,定金不得超过主合同标的额的百分之二十,超过部分不产生定金的效力。",
+        "pred_answer": "2. 违约金数额应合理,一般不超过合同金额的 30%,防止约定过高被依法调减(参照《民法典》第五百八十五条);供应商首次合作或资信不足时,预付款不超过 20% 或争取货到付款 | | 付款与验收脱钩 | 约定付款在先、验收在后,或\"付款即视为验收合格\" | 付款节点必须与交付、验收挂钩;验收合格前不得付清全款 | | 无质保金 | 无质保条款或质保金安排,质保期内质量问题无约束 | 重要采购/工程项目应约定不低于合同金额 5% 的质保金,质保期满且无质量问题后支付 | | 逾期付款责任不对等 | 我方逾期付款责任较重,相对方逾期交付责任较轻 | 双方逾期责任应基本对等,罚则比例相当,避免单方高额违约金 | ### 4.2 违约责任对等性审查 1. 违约金比例、赔偿范围、责任上限应对等设定,避免出现\"我方高额赔偿、对方象征性赔偿\"的不对等条款;[2]",
+        "em": 0.0,
+        "f1": 0.07,
+        "rouge1": 0.084,
+        "rouge2": 0.0,
+        "rougeL": 0.05,
+        "citations": [
+          "合同风险控制指南.md · 4. 《中华人民共和国个人信息保护法》;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R020",
+        "question": "违约金约定过高能请求减少吗?",
+        "gold_answer": "可以。依《民法典》第五百八十五条,约定的违约金过分高于造成的损失的,当事人可以请求人民法院或仲裁机构予以适当减少。",
+        "pred_answer": "约定的违约金过分高于造成的损失的，人民法院或者仲 裁机构可以根据当事人的请求予以适当减少。约定的违约金低于造成的损失的，人民法院或者仲裁机构可以根据当事 人的请求予以增加；对违约责任没有约定或者约定不明确，依据本法第五百一十条的 规定仍不能确定的，受损害方根据标的的性质以及损失的大小，可以合理 选择请求对方承担修理、重作、更换、退货、减少价款或者报酬等违约责 任。用电人逾期不支付电费的，应当按照约定支付违约金。[1]",
+        "em": 0.0,
+        "f1": 0.3101,
+        "rouge1": 0.382,
+        "rouge2": 0.1913,
+        "rougeL": 0.2481,
+        "citations": [
+          "中华人民共和国民法典.pdf · 第二节　权利质权"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R021",
+        "question": "电子合同具有法律效力吗?",
+        "gold_answer": "具有。依《民法典》第四百六十九条,能够有形地表现所载内容并可以随时调取查用的数据电文视为书面形式;依《电子签名法》,可靠的电子签名与手写签名或者盖章具有同等法律效力。",
+        "pred_answer": "可靠电子签名是否具有与手写签名同等的法律效力?根据《电子签名法》第十四条,可靠的电子签名与手写签名或者盖章具有同等的法律效力。法院认定,戊经实名认证、人脸识别后点击确认并使用可靠电子签名签署的电子合同合法有效,合同已成立并生效。后戊以\"未签订书面合同、协议条款未经本人签字确认\"为由,主张合同不成立,要求全额退款。[1]",
+        "em": 0.0,
+        "f1": 0.2909,
+        "rouge1": 0.3059,
+        "rouge2": 0.1942,
+        "rougeL": 0.2727,
+        "citations": [
+          "合同违约案例.md · 4. 付款义务方可援引违约金过高规则主动申请酌减,并提交证明损失较小的证据。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R022",
+        "question": "违规处理个人信息最高可罚多少?",
+        "gold_answer": "依《个人信息保护法》第六十六条,情节严重的,处五千万元以下或上一年度营业额百分之五以下罚款,并可以责令暂停相关业务、吊销许可证等。",
+        "pred_answer": "处理相关服务应当取得行政许可的，服务提供者 应当依法取得许可。重要数据的处理者应当明确数据安全负责人 和管理机构，落实数据安全保护责任。在统计、档案工作中开展数据处理活动，开 展涉及个人信息的数据处理活动，还应当遵守有 关法律、行政法规的规定。风险评估报告应当包括处理的重要数据的种 类、数量，开展数据处理活动的情况，面临的数 据安全风险及其应对措施等。[1]",
+        "em": 0.0,
+        "f1": 0.0741,
+        "rouge1": 0.0952,
+        "rouge2": 0.0,
+        "rougeL": 0.0556,
+        "citations": [
+          "中华人民共和国数据安全法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R023",
+        "question": "处理敏感个人信息有哪些要求?",
+        "gold_answer": "依《个人信息保护法》第二十八条,处理敏感个人信息须具有特定目的和充分必要性,并取得个人的单独同意,同时应告知处理必要性以及对个人权益的影响。",
+        "pred_answer": "4. 处理敏感个人信息的,应取得用户**单独同意**,并告知必要性及对用户的影响。[1]只有在具有特定的目的和充分的必要性，并 采取严格保护措施的情形下，个人信息处理者方 可处理敏感个人信息。息的，除本法第十七条第一款规定的事项外，还 应当向个人告知处理敏感个人信息的必要性以及 对个人权益的影响；法律、行政法规规定处理敏感个 人信息应当取得书面同意的，从其规定。[2]",
+        "em": 0.0,
+        "f1": 0.4228,
+        "rouge1": 0.5,
+        "rouge2": 0.25,
+        "rougeL": 0.3415,
+        "citations": [
+          "用户信息保护规范.md · 3. 处理目的、方式或信息种类发生变化的,应重新取得同意;",
+          "中华人民共和国个人信息保护法.pdf · 第二节　敏感个人信息的处理规则"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R024",
+        "question": "专利保护期限是多久?",
+        "gold_answer": "依《专利法》第四十二条,发明专利保护期二十年,实用新型专利十年,外观设计专利十五年,均自申请日起计算。",
+        "pred_answer": "（四）该商标作为驰名商标受保护的记录；人认为其权利受到侵害时，可以依照本法规定请 求驰名商标保护。第七章 注册商标专用权的保护 册的商标和核定使用的商品为限。第一章 总 则 第二章 商标注册的申请 第三章 商标注册的审查和核准 第四章 注册商标的续展、变更、转让和使 用许可 第五章 注册商标的无效宣告 第六章 商标使用的管理 第七章 注册商标专用权的保护 第八章 附 则 第一章 总 则 权，促使生产、经营者保证商品和服务质量，维 护商标信誉，以保障消费者和生产、经营者的利 益，促进社会主义市场经济的发展，特制定本 法。[1]",
+        "em": 0.0,
+        "f1": 0.0154,
+        "rouge1": 0.0215,
+        "rouge2": 0.0,
+        "rougeL": 0.0154,
+        "citations": [
+          "中华人民共和国商标法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R025",
+        "question": "注册商标的有效期是多长?",
+        "gold_answer": "依《商标法》第三十九条、第四十条,注册商标有效期为十年,自核准注册之日起计算;期满可以办理续展,每次续展有效期十年。",
+        "pred_answer": "转让注册商标经核准后，予以公告。使用许可合同，许可他人使用其注册商标。（三）销售侵犯注册商标专用权的商品的；期 满未办理续展手续的，注销其注册商标。[1]",
+        "em": 0.0,
+        "f1": 0.1111,
+        "rouge1": 0.1395,
+        "rouge2": 0.0,
+        "rougeL": 0.1111,
+        "citations": [
+          "中华人民共和国商标法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R026",
+        "question": "著作权保护期是多久?",
+        "gold_answer": "依《著作权法》第二十三条,自然人的作品,其发表权及著作权财产权的保护期为作者终生及其死亡后五十年。",
+        "pred_answer": "未能在当前知识库中找到与「著作权保护期是多久?」直接相关的条文。建议补充检索关键词或咨询专业人士。",
+        "em": 0.0,
+        "f1": 0.1364,
+        "rouge1": 0.1395,
+        "rouge2": 0.0,
+        "rougeL": 0.0909,
+        "citations": [],
+        "groundedness": 0.3333,
+        "unsupported": [
+          "未能在当前知识库中找到与「著作权保护期是多久?",
+          "建议补充检索关键词或咨询专业人士。"
+        ]
+      },
+      {
+        "id": "R027",
+        "question": "商业秘密需要满足哪些构成要件?",
+        "gold_answer": "依《反不正当竞争法》第九条,商业秘密是指不为公众所知悉、具有商业价值并经权利人采取相应保密措施的技术信息、经营信息等商业信息。",
+        "pred_answer": "未能在当前知识库中找到与「商业秘密需要满足哪些构成要件?」直接相关的条文。建议补充检索关键词或咨询专业人士。",
+        "em": 0.0,
+        "f1": 0.0741,
+        "rouge1": 0.0755,
+        "rouge2": 0.0,
+        "rougeL": 0.0741,
+        "citations": [],
+        "groundedness": 0.0,
+        "unsupported": [
+          "未能在当前知识库中找到与「商业秘密需要满足哪些构成要件?",
+          "」直接相关的条文。",
+          "建议补充检索关键词或咨询专业人士。"
+        ]
+      },
+      {
+        "id": "R028",
+        "question": "数据安全法对数据如何分类分级?",
+        "gold_answer": "依《数据安全法》第二十一条,国家建立数据分类分级保护制度,根据数据在经济社会发展中的重要程度,以及一旦遭到篡改、破坏、泄露或者非法获取、非法利用对国家安全、公共利益或者个人、组织合法权益造成的危害程度,对数据实行分类分级保护。",
+        "pred_answer": "各地区、各部门应当按照数据分类分级保护 制度，确定本地区、本部门以及相关行业、领域 的重要数据具体目录，对列入目录的数据进行重 点保护。第三章 数据安全制度 度，根据数据在经济社会发展中的重要程度，以 及一旦遭到篡改、破坏、泄露或者非法获取、非 法利用，对国家安全、公共利益或者个人、组织 合法权益造成的危害程度，对数据实行分类分级 保护。关于《中华人民共和国 数据安全法（草案）》的说明 ———２０２０年６月２８日在第十三届全国人民代表大会常务委员会第二十次会议上 全国人大常委会法制工作委员会副主任 刘俊臣 全国人民代表大会常务委员会： 我受委员长会议的委托，作关于《中华人民 共和国数据安全法（草案）》的说明。工作中收集和产生的数据及数据安全负责。[1]",
+        "em": 0.0,
+        "f1": 0.4809,
+        "rouge1": 0.5354,
+        "rouge2": 0.426,
+        "rougeL": 0.4481,
+        "citations": [
+          "中华人民共和国数据安全法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R029",
+        "question": "处理个人信息需要什么前提?",
+        "gold_answer": "依《个人信息保护法》第十三条,需取得个人同意,或属于订立履行合同所必需、履行法定义务、应对突发公共卫生事件等法定情形。",
+        "pred_answer": "处理个人信息属于提供产品或者 服务所必需的除外。个人信息的保存期限应当为实现处理目的所必要 的最短时间。范围内处理个人自行公开或者其他已经合法公开 的个人信息；般 规定 处理者方可处理个人信息： （一）取得个人的同意；[1]",
+        "em": 0.0,
+        "f1": 0.1867,
+        "rouge1": 0.2373,
+        "rouge2": 0.0556,
+        "rougeL": 0.1067,
+        "citations": [
+          "中华人民共和国个人信息保护法.pdf · 第一节　一"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "R030",
+        "question": "招标有哪几种方式?",
+        "gold_answer": "依《招标投标法》第十条,招标分为公开招标和邀请招标两种方式。",
+        "pred_answer": "未能在当前知识库中找到与「招标有哪几种方式?」直接相关的条文。建议补充检索关键词或咨询专业人士。",
+        "em": 0.0,
+        "f1": 0.1111,
+        "rouge1": 0.1176,
+        "rouge2": 0.0,
+        "rougeL": 0.1111,
+        "citations": [],
+        "groundedness": 0.0,
+        "unsupported": [
+          "未能在当前知识库中找到与「招标有哪几种方式?」直接相关的条文。建议补充检索关键词或咨询专业人士。"
+        ]
+      },
+      {
+        "id": "P001",
+        "question": "试用期最长多久?",
+        "gold_answer": "公司规定试用期与合同期限匹配:合同期限三个月以上不满一年的不超过1个月;一年以上不满三年的不超过2个月;三年以上及无固定期限的不超过6个月,且同一员工只能约定一次试用期。",
+        "pred_answer": "A1:三年以上固定期限和无固定期限劳动合同,试用期最长不超过6个月(见本制度4.2.3条;[1]同一用人单位与同一劳动者只能约定一次试用期,试用期包含在劳动合同期限内。[2]已履行的超过法定试用期部分应承担何种责任?2. 同一用人单位与同一劳动者只能约定一次试用期;[3]",
+        "em": 0.0,
+        "f1": 0.4037,
+        "rouge1": 0.5429,
+        "rouge2": 0.2222,
+        "rougeL": 0.2752,
+        "citations": [
+          "员工入职管理制度.md · 4. 试用期内员工主动辞职的,须提前3日书面通知公司。",
+          "劳动合同.md · 1.2 试用期约定(依照《劳动合同法》第十九条):",
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P002",
+        "question": "试用期工资怎么定?",
+        "gold_answer": "试用期工资不得低于约定工资的80%,且不得低于当地最低工资标准。",
+        "pred_answer": "5. 建立劳动合同条款合规清单,由人力资源或法务部门对试用期、工资等条款进行签订前复核。3. 试用期工资不得低于本单位相同岗位最低档工资或劳动合同约定工资的百分之八十,并不得低于用人单位所在地最低工资标准。违法约定的试用期已经履行的,由用人单位以劳动者试用期满月工资为标准,按已经履行的超过法定试用期的期间向劳动者支付赔偿金。[2]2. **工资条款风险**:试用期工资低于约定工资的80%或低于当地最低工资标准、不明确工资构成(基本工资/绩效/加班费基数不清),易引发劳动报酬争议及补差、赔偿风险。[4]",
+        "em": 0.0,
+        "f1": 0.2016,
+        "rouge1": 0.2353,
+        "rouge2": 0.1709,
+        "rougeL": 0.186,
+        "citations": [
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。",
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P003",
+        "question": "新员工入职需要办理哪些手续?",
+        "gold_answer": "需提交入职材料、签订劳动合同、办理社保公积金、开通办公及系统账号等,并完成入职培训。",
+        "pred_answer": "因特殊原因需要延长工 作时间的，在保障劳动者身体健康的条件下延长 工作时间每日不得超过三小时，但是每月不得超 过三十六小时。时间不受本法第四十一条规定的限制： （一）发生自然灾害、事故或者因其他原因， 威胁劳动者生命健康和财产安全，需要紧急处理 的；[1]",
+        "em": 0.0,
+        "f1": 0.0,
+        "rouge1": 0.0,
+        "rouge2": 0.0,
+        "rougeL": 0.0,
+        "citations": [
+          "中华人民共和国劳动法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P004",
+        "question": "离职流程是什么?",
+        "gold_answer": "正式员工应提前30日书面通知公司,试用期员工提前3日通知;完成工作交接后,公司应在15日内办理档案和社保转移、出具离职证明并结清工资。",
+        "pred_answer": "A3:出具离职证明在解除或终止劳动合同时;[1]",
+        "em": 0.0,
+        "f1": 0.1778,
+        "rouge1": 0.2,
+        "rouge2": 0.093,
+        "rougeL": 0.1333,
+        "citations": [
+          "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P005",
+        "question": "离职后公司多久内结清工资和办完手续?",
+        "gold_answer": "员工办理完工作交接后,公司应在15日内出具离职证明、办理档案和社会保险转移,并结清工资。",
+        "pred_answer": "5. 出具离职证明:公司应当在解除或终止劳动合同时出具解除或终止劳动合同的证明,并在15日内为员工办理档案和社会保险关系转移手续;[2]同时,超出的期间应视为正式履行期间,B公司应补足该期间工资差额1600元(8000元-6400元)。李某后得知,一年期劳动合同试用期法定上限为2个月,遂申请仲裁,主张超出的1个月(2023年5月)试用期约定无效,要求B公司按试用期满月工资标准支付赔偿金,并补足该期间工资差额。B公司自愿履行,未提起诉讼。[5]",
+        "em": 0.0,
+        "f1": 0.2615,
+        "rouge1": 0.3696,
+        "rouge2": 0.1538,
+        "rougeL": 0.1692,
+        "citations": [
+          "员工离职管理制度.md · 4. 财务结算:财务部结清工资、报销及借款,确认无欠款;",
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P006",
+        "question": "年假天数怎么算?",
+        "gold_answer": "按公司年假制度,累计工作满1年不满10年的年休假5天;满10年不满20年的10天;满20年的15天。",
+        "pred_answer": "当年度年假=(当年度在本单位剩余日历天数÷365)×全年应享天数;[1]A3:有,按当年度剩余日历天数折算,折算不足1天的部分不享受(见本制度4.2条)。2. 对未休的年假天数,按员工日工资收入的300%支付报酬(含正常工作期间的工资)。[3]",
+        "em": 0.0,
+        "f1": 0.2391,
+        "rouge1": 0.2581,
+        "rouge2": 0.0247,
+        "rougeL": 0.1522,
+        "citations": [
+          "年假管理制度.md · 1. 新入职员工当年度年休假天数按剩余日历天数折算,公式为:",
+          "年假管理制度.md · 1. 公司确因工作需要不能安排年休假的,经员工本人同意,可不安排;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P007",
+        "question": "未休年假怎么补偿?",
+        "gold_answer": "对职工应休未休的年假天数,公司按该职工日工资收入的300%支付年休假工资报酬。",
+        "pred_answer": "2. 对未休的年假天数,按员工日工资收入的300%支付报酬(含正常工作期间的工资)。[1]",
+        "em": 0.0,
+        "f1": 0.6341,
+        "rouge1": 0.6486,
+        "rouge2": 0.4103,
+        "rougeL": 0.5854,
+        "citations": [
+          "年假管理制度.md · 1. 公司确因工作需要不能安排年休假的,经员工本人同意,可不安排;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P008",
+        "question": "加班工资怎么算?",
+        "gold_answer": "工作日加班支付150%工资;休息日加班且不能安排补休的支付200%工资;法定节假日加班支付300%工资。",
+        "pred_answer": "工作日、休息日、法定节假日的加班工资分别如何计算?3. 休息日安排加班的,应优先安排补休;不能安排补休的,依法支付不低于工资200%的报酬。[1]书面劳动合同，应当支付劳动者的二倍工资 按月计算；[3]",
+        "em": 0.0,
+        "f1": 0.4923,
+        "rouge1": 0.5333,
+        "rouge2": 0.1333,
+        "rougeL": 0.4,
+        "citations": [
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。",
+          "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第六条用人单位未依法与劳动者订立"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P009",
+        "question": "每月加班时间有没有上限?",
+        "gold_answer": "有。每月加班时间不得超过36小时,公司应合理安排并按规定支付加班费。",
+        "pred_answer": "A5:未经批准自行延长工作时间的不认定为加班,不支付加班费(见本制度4.1.3条)。A1:一般每日不超过1小时,特殊原因每日不超过3小时,每月累计不超过36小时(见本制度4.2条;[1]",
+        "em": 0.0,
+        "f1": 0.2667,
+        "rouge1": 0.3478,
+        "rouge2": 0.1111,
+        "rougeL": 0.1333,
+        "citations": [
+          "加班管理制度.md · 2. 人力资源部按月核对加班记录并核算加班费。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P010",
+        "question": "考勤有什么要求?",
+        "gold_answer": "员工应按公司考勤制度上下班打卡,迟到、早退、旷工按制度处理,出差、请假需提前报备审批。",
+        "pred_answer": "如果用人单位违反 法律、法规或者劳动合同，工会有权要求重新处 理；调解不 成，当事人一方要求仲裁的，可以向劳动争议仲 裁委员会申请仲裁。[1]",
+        "em": 0.0,
+        "f1": 0.0,
+        "rouge1": 0.0,
+        "rouge2": 0.0,
+        "rougeL": 0.0,
+        "citations": [
+          "中华人民共和国劳动法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P011",
+        "question": "出差住宿标准是多少?",
+        "gold_answer": "按公司差旅标准:一线城市500元/晚、省会城市400元/晚、其他城市350元/晚,超标准部分原则上自理。",
+        "pred_answer": "A3:100元/天,按出差自然天数计发(见本制度4.4.1条)。[1]",
+        "em": 0.0,
+        "f1": 0.1429,
+        "rouge1": 0.1818,
+        "rouge2": 0.0556,
+        "rougeL": 0.0952,
+        "citations": [
+          "差旅费用标准.md · 3. 未事前审批的超标部分,公司不予报销。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P012",
+        "question": "出差餐补标准是多少?",
+        "gold_answer": "出差餐补为每天100元,按实际出差天数发放。",
+        "pred_answer": "A3:100元/天,按出差自然天数计发(见本制度4.4.1条)。[2]A5:按经济补偿标准的2倍支付赔偿金(见本制度4.4.4条;[11]",
+        "em": 0.0,
+        "f1": 0.2381,
+        "rouge1": 0.2857,
+        "rouge2": 0.0526,
+        "rougeL": 0.2381,
+        "citations": [
+          "差旅费用标准.md · 3. 未事前审批的超标部分,公司不予报销。",
+          "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P013",
+        "question": "出差乘坐交通工具有什么标准?",
+        "gold_answer": "出差原则上乘坐高铁二等座、飞机经济舱;特殊情况超出标准的需提前审批。",
+        "pred_answer": "提高服务标准的，不得加收票款。旅客无票乘坐、超程乘坐、越级乘坐或者持不符合减价条件的优惠客票 乘坐的，应当补交票款，承运人可以按照规定加收票款；[2]A3:100元/天,按出差自然天数计发(见本制度4.4.1条)。A5:须乘坐经济舱,且须事前经分管副总审批(见本制度4.1条)。[4]",
+        "em": 0.0,
+        "f1": 0.1463,
+        "rouge1": 0.1739,
+        "rouge2": 0.0256,
+        "rougeL": 0.0976,
+        "citations": [
+          "中华人民共和国民法典.pdf · 第二节　客运合同",
+          "差旅费用标准.md · 3. 未事前审批的超标部分,公司不予报销。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P014",
+        "question": "报销需要在多久内提交?",
+        "gold_answer": "业务发生后30个工作日内提交报销申请,逾期需说明原因并经审批。",
+        "pred_answer": "A1:须在30个工作日内提交报销(见本制度4.1.1条)。[2]A4:经事前特批的可报销,未事前审批的超标部分公司不予报销(见本制度4.5条)。[3]A2:可以,与纸质发票同等效力,但不得重复报销(见本制度4.3条)。[7]",
+        "em": 0.0,
+        "f1": 0.209,
+        "rouge1": 0.25,
+        "rouge2": 0.1311,
+        "rougeL": 0.209,
+        "citations": [
+          "报销管理办法.md · 3. 涉嫌违法犯罪的,移交司法机关处理。",
+          "差旅费用标准.md · 3. 未事前审批的超标部分,公司不予报销。",
+          "发票管理制度.md · 3. 因个人原因丢失发票造成损失的,由责任人承担相应责任。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P015",
+        "question": "报销发票有什么要求?",
+        "gold_answer": "报销发票应真实、合规,抬头为公司全称,内容与实际业务一致,并附相关审批单和证明材料。",
+        "pred_answer": "A1:须在30个工作日内提交报销(见本制度4.1.1条)。[4]A4:经事前特批的可报销,未事前审批的超标部分公司不予报销(见本制度4.5条)。[7]A2:可以,与纸质发票同等效力,但不得重复报销(见本制度4.3条)。A5:取得发票后30个工作日内完成查验与入账(见本制度4.1.3条)。[10]",
+        "em": 0.0,
+        "f1": 0.1124,
+        "rouge1": 0.1449,
+        "rouge2": 0.0,
+        "rougeL": 0.0674,
+        "citations": [
+          "报销管理办法.md · 3. 涉嫌违法犯罪的,移交司法机关处理。",
+          "差旅费用标准.md · 3. 未事前审批的超标部分,公司不予报销。",
+          "发票管理制度.md · 3. 因个人原因丢失发票造成损失的,由责任人承担相应责任。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P016",
+        "question": "超过多少金额需要审批?",
+        "gold_answer": "5万元以下由部门负责人审批;5万至20万元由分管副总审批;20万元以上需提交总经理办公会或董事会审议。",
+        "pred_answer": "3. 采购审批金额分级(5 万元以下部门负责人、5 万元(含)至 20 万元分管副总、20 万元(含)以上总经理办公会或董事会)与本流程金额口径保持一致。[1]涉及金额等实质条款变更须重新履行审批程序;金额提升后达到上一审批级别的,按上一级别审批。[6]A4:原则上不超过合同金额的30%,超过须专项报总经理办公会审批(见本制度4.3.1条)。[7]",
+        "em": 0.0,
+        "f1": 0.3689,
+        "rouge1": 0.3733,
+        "rouge2": 0.1667,
+        "rougeL": 0.3301,
+        "citations": [
+          "合同审批流程.md · 1. 审批人须在授权范围内审批,不得越级或代为审批;",
+          "采购合同管理制度.md · 3. 本制度未尽事宜,按国家法律法规及公司其他制度执行。",
+          "付款审批流程.md · 3. 付款金额不得超过合同约定金额,超合同付款须另行审批。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P017",
+        "question": "采购供应商如何选择和管理?",
+        "gold_answer": "供应商需经过资质审查、准入评审和年度评价,重点考察质量、价格、交期和履约能力,并建立合格供应商名录。",
+        "pred_answer": "4. 签约前应尽调供应商资信(工商信息、涉诉记录、股权结构、经营状况),大额采购应实地考察。[3]2. **供应商审查**:对供应商主体资格、资质证照、信用状况、涉诉情况等进行审查,重要/重大合同应取得供应商营业执照、资质证书复印件并归档;3. **合同起草**:采购部门依据公司标准合同模板起草合同,明确标的、数量、质量标准、价格、交付时间、验收标准、付款方式、质保与违约责任等条款;[4]A3:要,须至少向3家供应商询比价并形成比价记录(见本制度4.1.2条)。[5]",
+        "em": 0.0,
+        "f1": 0.0645,
+        "rouge1": 0.0645,
+        "rouge2": 0.0,
+        "rougeL": 0.0484,
+        "citations": [
+          "合同违约案例.md · 4. 付款义务方可援引违约金过高规则主动申请酌减,并提交证明损失较小的证据。",
+          "采购合同管理制度.md · 1. **需求确认**:采购部门根据经批准的采购申请发起合同草拟;",
+          "采购审批流程.md · 3. 审计/监察部门对采购进行抽查监督。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P018",
+        "question": "采购合同签订要经过哪些环节?",
+        "gold_answer": "一般经供应商选定、合同草拟、法务及合规审核、按金额权限审批、用印签署并归档等环节。",
+        "pred_answer": "A2:是,所有采购合同签订前均须法务审查,20万元以上须出具书面审查意见(见本制度4.2条)。A5:保存期限不少于合同履行完毕后的3年(见本制度4.5.3条)。A4:不可以,须签订书面补充协议并按原审批权限审批(见本制度4.5.1条)。[2]后戊以\"未签订书面合同、协议条款未经本人签字确认\"为由,主张合同不成立,要求全额退款。[5]",
+        "em": 0.0,
+        "f1": 0.1,
+        "rouge1": 0.1266,
+        "rouge2": 0.0213,
+        "rougeL": 0.08,
+        "citations": [
+          "采购合同管理办法.md · 4. 合同信息按保密制度管理,不得擅自泄露。",
+          "合同违约案例.md · 4. 付款义务方可援引违约金过高规则主动申请酌减,并提交证明损失较小的证据。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P019",
+        "question": "公司印章怎么保管?",
+        "gold_answer": "公章、合同章、财务章、法人章分开保管,由专人分别保管,严禁一人兼管全部印章。",
+        "pred_answer": "3. 《国务院关于国家行政机关和企业事业单位社会团体印章管理的规定》及地方有关印章管理规定;[1]印章一律不得出借给任何单位或个人。[2]2. 公司应在发现后第一时间在公开发行的报纸上刊登遗失声明,并立即向公安机关报案备案;[3]2. 停用印章须按规定程序销毁,销毁由综合管理部、法务与风控部双人监销,制作销毁记录。[6]",
+        "em": 0.0,
+        "f1": 0.0421,
+        "rouge1": 0.05,
+        "rouge2": 0.0,
+        "rougeL": 0.0211,
+        "citations": [
+          "公司印章管理制度.md · 2. 《中华人民共和国公司法》;",
+          "公司印章管理制度.md · 3. 本制度未尽事宜,按国家法律法规及公司其他制度执行。",
+          "公司印章管理制度.md · 3. 外出用印须如实登记用途,返回后 1 个工作日内交回审批部门核验。",
+          "公司印章管理制度.md · 1. 机构撤销、名称变更等需停用印章的,由综合管理部收缴封存;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P020",
+        "question": "用印有什么要求?",
+        "gold_answer": "用印须履行审批手续并登记用印台账,严禁在空白纸张、空白合同上盖章。",
+        "pred_answer": "范围和要求，履行的计划、地点和方式，技术信息和资料的保密，技术成果 的归属和收益的分配办法，验收标准和方法，名词和术语的解释等条款。[10]",
+        "em": 0.0,
+        "f1": 0.0377,
+        "rouge1": 0.0488,
+        "rouge2": 0.0,
+        "rougeL": 0.0377,
+        "citations": [
+          "中华人民共和国民法典.pdf · 第一节　一般规定"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P021",
+        "question": "密码设置有什么要求?",
+        "gold_answer": "密码长度不少于8位,须包含大小写字母、数字、特殊字符四类中的组合,每90天更换一次,禁止共享密码。",
+        "pred_answer": "贯彻落实党的二十届三中全会关于 加强网络空间法治建设的重要部署,适应网络安 全新形势新要求,加强与网络领域相关立法的衔 接协调,对网络安全法法律责任制度作出修改完 善,加大对部分违法行为的处罚力度,推动形成 良好网络生态是必要的。[1]严禁共享密码、共用账号,严禁以明文邮件或微信等方式传递密码。[2]",
+        "em": 0.0,
+        "f1": 0.0833,
+        "rouge1": 0.0706,
+        "rouge2": 0.0213,
+        "rougeL": 0.0625,
+        "citations": [
+          "中华人民共和国网络安全法.pdf · 一、关于修改的背景和工作情况",
+          "密码管理规范.md · 3. 本规范未尽事宜,按《网络安全法》及公司相关制度执行。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P022",
+        "question": "普通员工可以访问客户数据吗?",
+        "gold_answer": "不可以。客户个人信息属于机密级数据,普通员工不得访问,须按最小授权原则申请并经审批,访问全程留痕审计。",
+        "pred_answer": "4. **普通员工不得访问客户个人数据**;3. 机密级数据访问:由部门负责人初审、数据主管及法务与风控部审批,必要时报分管副总;[1]客户个人信息属机密级,普通员工不得访问;[2]客户个人信息属机密级,普通员工不得访问;[6]",
+        "em": 0.0,
+        "f1": 0.2667,
+        "rouge1": 0.3333,
+        "rouge2": 0.1613,
+        "rougeL": 0.2133,
+        "citations": [
+          "数据访问管理制度.md · 2. 内部级数据访问:由部门负责人审批;",
+          "账号权限管理制度.md · 3. 本制度未尽事宜,按国家法律法规及公司其他制度执行。",
+          "商业秘密保护规定.md · 2. 本规定自生效之日起施行;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P023",
+        "question": "公司数据分几个级别?",
+        "gold_answer": "公司数据实行三级分级管理,其中客户个人信息列为机密级,采取最高级别保护。",
+        "pred_answer": "6. 《华创智联科技有限公司数据脱敏管理办法》(HZ-XX-TM-2026-005)。[1]4. **普通员工不得访问客户个人数据**;3. 机密级数据访问:由部门负责人初审、数据主管及法务与风控部审批,必要时报分管副总;[3]",
+        "em": 0.0,
+        "f1": 0.1212,
+        "rouge1": 0.1455,
+        "rouge2": 0.0317,
+        "rougeL": 0.1212,
+        "citations": [
+          "数据访问管理制度.md · 3. 《中华人民共和国网络安全法》;",
+          "数据访问管理制度.md · 2. 内部级数据访问:由部门负责人审批;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P024",
+        "question": "对外提供或展示数据前要做什么?",
+        "gold_answer": "对外提供、展示或用于测试的数据须先进行脱敏处理,去除可识别个人信息。",
+        "pred_answer": "2. 建立数据对外提供审批机制,明确数据范围、字段清单、提供方式与用途限制,并签署数据安全协议。监管部门调查认定,政通公司作为数据处理者未履行数据安全保护义务,未对对外提供的数据进行脱敏处理,未对合作方进行必要的数据安全监督。政通公司被责令暂停相关数据业务进行整改,并与合作机构终止数据合作。本案中,政通公司对外提供数据未脱敏,造成大量个人信息泄露,属于造成严重后果的情形。[1]",
+        "em": 0.0,
+        "f1": 0.1553,
+        "rouge1": 0.2078,
+        "rouge2": 0.0825,
+        "rougeL": 0.1553,
+        "citations": [
+          "数据泄露案例.md · 5. 发生泄露后及时向监管部门报告并配合调查,依法整改,以争取从轻或减轻处罚。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P025",
+        "question": "系统账号权限怎么管理?",
+        "gold_answer": "遵循最小授权原则,按岗位需要申请权限,定期复核权限清单,人员调岗或离职时及时回收账号。",
+        "pred_answer": "4. 高权限账号(系统管理员、数据库管理员)应单独管理、定期复核,账号使用人不得以管理员权限访问业务数据(运维必需且留痕的除外)。[1]4. 《华创智联科技有限公司账号权限管理制度》(HZ-XX-ZH-2026-001)。[2]2. 经部门负责人审批后,由信息技术部开通账号;[3]5. **人员管理**:员工入职签署保密协议,离职办理保密与权限回收手续,离职即时回收账号权限。[4]",
+        "em": 0.0,
+        "f1": 0.1538,
+        "rouge1": 0.1707,
+        "rouge2": 0.04,
+        "rougeL": 0.1538,
+        "citations": [
+          "账号权限管理制度.md · 3. 权限授予与岗位职责匹配,杜绝\"全权账号\"\"超级账号\"非必要存在;",
+          "密码管理规范.md · 3. 《中华人民共和国个人信息保护法》;",
+          "账号权限管理制度.md · 3. 《中华人民共和国网络安全法》;",
+          "商业秘密保护规定.md · 4. **标识管理**:涉密文件、载体标注\"机密\"字样;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P026",
+        "question": "软件著作权去哪里申请?",
+        "gold_answer": "向中国版权保护中心申请,需提交源代码、文档和申请表等材料,办理周期约60日。",
+        "pred_answer": "2. **在线填报**:进入\"计算机软件著作权登记\"栏目,填写软件登记申请表并上传相关材料;[1]2. 申请登记的软件应已完成开发并通过验收,源代码与文档齐备,具备登记的实质性要件;[2]6. 《华创智联科技有限公司软件著作权申请流程》(HZ-ZS-RJZZ-2026-001);[5]4. 员工在职期间开发的与公司业务相关软件,应在申请前向知识产权部申报权属,避免归属纠纷;[6]",
+        "em": 0.0,
+        "f1": 0.0971,
+        "rouge1": 0.1282,
+        "rouge2": 0.0,
+        "rougeL": 0.0583,
+        "citations": [
+          "软件著作权申请流程.md · 5. 委托他人开发的,还需提供委托开发合同及权利归属约定。",
+          "软件著作权申请流程.md · 1. 凡属于职务技术成果、由公司主导开发的软件,均应申请软件著作权登记;",
+          "技术成果管理制度.md · 5. 《中华人民共和国促进科技成果转化法》;",
+          "软件著作权申请流程.md · 3. 合作开发的软件,著作权归属按合作协议约定;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P027",
+        "question": "商业秘密保护有哪些措施?",
+        "gold_answer": "明确商业秘密范围、采取相应保密措施(保密协议、权限控制等);竞业限制期限不超过2年且需支付经济补偿。",
+        "pred_answer": "本法所称的商业秘密，是指不为公众所知 悉、具有商业价值并经权利人采取相应保密措施 的技术信息、经营信息等商业信息。序中，商业秘密权利人提供初步证据，证明其已 经对所主张的商业秘密采取保密措施，且合理表 明商业秘密被侵犯，涉嫌侵权人应当证明权利人 所主张的商业秘密不属于本法规定的商业秘密。（三）有其他证据表明商业秘密被涉嫌侵权 人侵犯。查过程中知悉的商业秘密、个人隐私和个人信息 依法负有保密义务。[1]",
+        "em": 0.0,
+        "f1": 0.1239,
+        "rouge1": 0.1446,
+        "rouge2": 0.0396,
+        "rougeL": 0.1062,
+        "citations": [
+          "中华人民共和国反不正当竞争法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P028",
+        "question": "职务技术成果归谁所有?",
+        "gold_answer": "员工执行工作任务或主要利用公司物质技术条件形成的职务技术成果,知识产权归公司所有。",
+        "pred_answer": "2. 员工离职后 1 年内作出与其在公司承担的本职工作或原任务有关的发明创造,依法仍属职务技术成果,归公司所有;[2]组织的，法人或者非法人组织可以就该项职务技术成果订立技术合同。的个人，完成技术成果的个人可以就该项非职务技术成果订立技术合同。[4]5. 员工隐匿、私自处置职务技术成果或违反保密义务的,依《商业秘密保护规定》及公司制度追责。[7]",
+        "em": 0.0,
+        "f1": 0.2353,
+        "rouge1": 0.2817,
+        "rouge2": 0.092,
+        "rougeL": 0.1765,
+        "citations": [
+          "技术成果管理制度.md · 5. 《中华人民共和国促进科技成果转化法》;",
+          "中华人民共和国民法典.pdf · 第一节　一般规定",
+          "技术成果管理制度.md · 4. **审计部**:每年度核查技术成果台账、申报与奖励发放情况;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P029",
+        "question": "合同签订后怎么归档?",
+        "gold_answer": "合同签订后应按归档管理办法及时归档、统一编号,原件由档案管理部门保存,借阅需登记。",
+        "pred_answer": "拆分合同规避审批权限属于违规行为,一经查实将追究相关人员责任。[2]",
+        "em": 0.0,
+        "f1": 0.0588,
+        "rouge1": 0.0606,
+        "rouge2": 0.0,
+        "rougeL": 0.0588,
+        "citations": [
+          "采购合同管理制度.md · 3. 本制度未尽事宜,按国家法律法规及公司其他制度执行。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "P030",
+        "question": "合同风险审查主要看哪些要点?",
+        "gold_answer": "主要审查主体资格、标的与价款、履约期限、验收与付款衔接、违约责任、保密与知识产权、争议解决等条款是否完备合理。",
+        "pred_answer": "2. **法务/风控审查**:法务与风控部对合同合法性、条款完备性、风险控制措施进行审查,出具审查意见;审查中发现重大风险的,退回业务部门修改;3. **财务审查**:财务部对合同金额、付款条件、发票约定、税务与预算合规性进行审查;[6]4. **审计部**:对合同审查执行情况进行抽查,对未按清单审查导致损失的情形提出追责建议;[7]",
+        "em": 0.0,
+        "f1": 0.0952,
+        "rouge1": 0.1081,
+        "rouge2": 0.0,
+        "rougeL": 0.0762,
+        "citations": [
+          "合同审批流程.md · 2. 《中华人民共和国公司法》;",
+          "合同风险控制指南.md · 3. **财务部**:对付款安排与预算合规性把关;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C001",
+        "question": "劳动合同里有哪些常见风险点?",
+        "gold_answer": "常见风险包括:试用期约定过长或重复约定、工资构成不明确、违约金条款不符合法律规定、缺失必备条款、未明确工作地点等。",
+        "pred_answer": "3. **未缴社保与公积金风险**:未依法缴纳社会保险和住房公积金,劳动者可据此解除劳动合同并要求支付经济补偿金,还可能面临社保稽核与行政处罚。4. **解除终止条款不规范风险**:解除、终止条件约定与《劳动合同法》规定不符的条款可能被认定无效;[1]7. **与关联协议衔接风险**:未与劳动合同、合作合同中的保密条款有效衔接,不同文件规定不一致时,易产生解释争议和举证困难。3. **违约责任约定风险**:违约金过高可能被法院/仲裁庭依法调低(以实际损失为基准);[2]",
+        "em": 0.0,
+        "f1": 0.1379,
+        "rouge1": 0.1414,
+        "rouge2": 0.0156,
+        "rougeL": 0.0828,
+        "citations": [
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。",
+          "保密协议.md · 5.2 争议解决期间,除争议事项外,双方仍应继续履行本协议其他条款。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C002",
+        "question": "保密协议需要注意什么?",
+        "gold_answer": "需注意保密范围是否明确、保密期限是否合理、违约责任是否适当,以及竞业限制条款是否符合期限不超过2年并支付经济补偿的规定。",
+        "pred_answer": "定数据电文需要确认收讫的，应当确认收讫。据有关协议或者对等原则核准后，中华人民共和 国境外的电子认证服务提供者在境外签发的电子 签名认证证书与依照本法设立的电子认证服务提 供者签发的电子签名认证证书具有同等的法律效 力。[1]",
+        "em": 0.0,
+        "f1": 0.0233,
+        "rouge1": 0.0303,
+        "rouge2": 0.0,
+        "rougeL": 0.0233,
+        "citations": [
+          "中华人民共和国电子签名法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C003",
+        "question": "采购合同付款条款有什么风险?",
+        "gold_answer": "主要风险包括:预付款比例过高造成资金风险、付款节点与验收/交付脱节、缺少逾期付款违约责任。建议将付款与验收合格挂钩并设置合理付款比例和质保金。",
+        "pred_answer": "3. **违约责任不对等风险**:仅约定买方逾期付款责任或仅约定卖方逾期交货责任,责任条款失衡,弱势一方违约救济不足。6. **退货条款不规范风险**:退货条件、退货程序、退款时限及退货费用承担未明确,退货纠纷处理缺乏依据。[1]验收合格前不得付清全款 | | 无质保金 | 无质保条款或质保金安排,质保期内质量问题无约束 | 重要采购/工程项目应约定不低于合同金额 5% 的质保金,质保期满且无质量问题后支付 | | 逾期付款责任不对等 | 我方逾期付款责任较重,相对方逾期交付责任较轻 | 双方逾期责任应基本对等,罚则比例相当,避免单方高额违约金 | ### 4.2 违约责任对等性审查 1. 违约金比例、赔偿范围、责任上限应对等设定,避免出现\"我方高额赔偿、对方象征性赔偿\"的不对等条款;5. 《华创智联科技有限公司采购合同管理制度》(HZ-HT-BZ-2026-001);[2]",
+        "em": 0.0,
+        "f1": 0.1256,
+        "rouge1": 0.1449,
+        "rouge2": 0.0199,
+        "rougeL": 0.0717,
+        "citations": [
+          "销售合同.md · 7.1.2 向【 \\_\\_\\_\\_ 】人民法院提起诉讼。",
+          "合同风险控制指南.md · 4. 《中华人民共和国个人信息保护法》;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C004",
+        "question": "服务合同验收条款有什么风险?",
+        "gold_answer": "验收标准不明确、验收时限缺失或验收流程不清,容易在交付后产生争议,应明确量化验收标准、期限和程序。",
+        "pred_answer": "2. **付款条款风险**:预付款比例过高、付款节点与服务进度脱钩、无验收后付款安排,甲方可能面临款项已付而服务质量差、无法追回的风险;5. **保密条款不足风险**:保密信息范围界定不清、未约定保密期限与违约责任,服务过程中知悉的商业秘密存在泄露风险且难以追责。3. **验收机制缺失风险**:未约定验收期限、验收程序、整改次数及\"视为验收\"规则,可能陷入服务成果是否交付、是否验收合格长期悬而未决的局面。[1]2. **验收缺失风险**:未约定异议期限或约定过短,买方错过质量异议期后,质量争议难以获得支持;[3]",
+        "em": 0.0,
+        "f1": 0.1558,
+        "rouge1": 0.1837,
+        "rouge2": 0.0,
+        "rougeL": 0.0909,
+        "citations": [
+          "服务合同.md · 10.2 本合同附件为本合同不可分割的组成部分,与本合同具有同等法律效力。",
+          "销售合同.md · 7.1.2 向【 \\_\\_\\_\\_ 】人民法院提起诉讼。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C005",
+        "question": "技术开发合同知识产权归属条款有哪些风险?",
+        "gold_answer": "开发成果、背景知识产权的归属以及使用和后续改进权利若不明确,极易产生纠纷,应明确成果归谁、双方各自背景技术如何使用。",
+        "pred_answer": "4. **知识产权归属不明风险**:服务成果(文案、设计、软件、数据等)知识产权归属未明确或约定模糊,易引发归属争议,甚至影响成果后续使用与转让。[1]2. **知识产权归属不明风险**:未明确源代码及开发成果的归属方案,约定模糊(如仅写\"共同拥有\"),后续甲方使用、二次开发、对外授权及更换供应商时将陷入权属纠纷。[2]3. **源代码归属风险**:合同未明确源代码及定制开发成果的知识产权归属,仅笼统约定\"软件归乙方所有\",甲方后续二次开发、维护升级、更换供应商时将受制于人,甚至被迫重复采购。[4]2. 合同应包含知识产权保证条款,即相对方保证其交付成果不侵犯第三方知识产权,并承担由此产生的侵权责任;[5]",
+        "em": 0.0,
+        "f1": 0.1618,
+        "rouge1": 0.2056,
+        "rouge2": 0.027,
+        "rougeL": 0.0925,
+        "citations": [
+          "服务合同.md · 10.2 本合同附件为本合同不可分割的组成部分,与本合同具有同等法律效力。",
+          "技术开发合同.md · 11.2 本合同附件为本合同不可分割的组成部分。",
+          "软件采购合同.md · 9.2 本合同附件为本合同不可分割的组成部分。",
+          "合同风险控制指南.md · 1. 采购、定制开发、委托设计类合同中,应明确约定成果的知识产权归属:"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C006",
+        "question": "销售合同回款条款有什么风险?",
+        "gold_answer": "付款周期过长、未约定逾期付款违约金、付款前提不明确等,会加大回款风险,应明确付款节点、账期和逾期责任。",
+        "pred_answer": "6. **退货条款不规范风险**:退货条件、退货程序、退款时限及退货费用承担未明确,退货纠纷处理缺乏依据。3. **违约责任不对等风险**:仅约定买方逾期付款责任或仅约定卖方逾期交货责任,责任条款失衡,弱势一方违约救济不足。[1]7. **合同文本与规章制度脱节风险**:合同未明示引用的规章制度内容,或规章制度未经民主程序公示告知,相关条款难以作为处理劳动争议的依据。4. **解除终止条款不规范风险**:解除、终止条件约定与《劳动合同法》规定不符的条款可能被认定无效;[2]",
+        "em": 0.0,
+        "f1": 0.1399,
+        "rouge1": 0.1978,
+        "rouge2": 0.016,
+        "rougeL": 0.0979,
+        "citations": [
+          "销售合同.md · 7.1.2 向【 \\_\\_\\_\\_ 】人民法院提起诉讼。",
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C007",
+        "question": "租赁合同有哪些风险?",
+        "gold_answer": "常见风险包括押金退还条件不清、租金调整机制缺失、维修责任划分不明、提前解约条款不公平等。",
+        "pred_answer": "5. **转租限制与次承租人风险**:未经同意擅自转租,出租方可解除合同,次承租人的租赁权缺乏保障;6. **解除与腾退纠纷风险**:解除条件、腾退期限、物品处理约定不清,合同解除后拒不腾退或物品被处置,易引发纠纷与损失。8. **争议解决约定不清风险**:管辖法院或仲裁机构约定不明,可能影响争议解决效率与成本。3. **租金支付条款风险**:租金支付节点模糊、未约定逾期租金处理及调整机制,可能产生欠租催缴困难或随意涨租争议;[1]",
+        "em": 0.0,
+        "f1": 0.1212,
+        "rouge1": 0.1818,
+        "rouge2": 0.0,
+        "rougeL": 0.0758,
+        "citations": [
+          "租赁合同.md · 11.2 本合同附件为本合同不可分割的组成部分。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C008",
+        "question": "这个合同有哪些风险?",
+        "gold_answer": "需从合同主体、标的、价款、履约期限、验收与付款、违约责任、争议解决等条款全面审查,重点关注权责不对等、违约责任缺失或模糊、付款与履约脱节等风险。",
+        "pred_answer": "有约定外，毁损、灭失的风险自合同成立时起由买受人承担。买受人拒绝接受标的物或者解除 合同的，标的物毁损、灭失的风险由出卖人承担。合同时无法预见的、不属于商业风险的重大变化，继续履行合同对于当事 人一方明显不公平的，受不利影响的当事人可以与对方重新协商；盖章或者按指印时合同成立。[1]",
+        "em": 0.0,
+        "f1": 0.0777,
+        "rouge1": 0.1067,
+        "rouge2": 0.0,
+        "rougeL": 0.0583,
+        "citations": [
+          "中华人民共和国民法典.pdf · 第二节　权利质权"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C009",
+        "question": "违约责任在哪里?",
+        "gold_answer": "违约责任条款通常位于合同正文的违约责任章节,应重点审查违约情形、违约金计算方式、赔偿范围以及争议解决条款是否完备。",
+        "pred_answer": "未能在当前知识库中找到与「违约责任在哪里?」直接相关的条文。建议补充检索关键词或咨询专业人士。",
+        "em": 0.0,
+        "f1": 0.0833,
+        "rouge1": 0.0889,
+        "rouge2": 0.0,
+        "rougeL": 0.0833,
+        "citations": [],
+        "groundedness": 0.3333,
+        "unsupported": [
+          "未能在当前知识库中找到与「违约责任在哪里?",
+          "建议补充检索关键词或咨询专业人士。"
+        ]
+      },
+      {
+        "id": "C010",
+        "question": "违约金条款怎么约定才有效?",
+        "gold_answer": "违约金数额应合理,与可能造成的损失相当;约定过高时对方可依据《民法典》第五百八十五条请求酌减,过低时可请求增加。",
+        "pred_answer": "约定，用人单位请求劳动者按照约定返还已 经支付的经济补偿并支付违约金的，人民法 院依法予以支持。[1]",
+        "em": 0.0,
+        "f1": 0.16,
+        "rouge1": 0.1778,
+        "rouge2": 0.0,
+        "rougeL": 0.08,
+        "citations": [
+          "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第十五条劳动者违反有效的竞业限制"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C011",
+        "question": "采购合同付款与验收如何衔接?",
+        "gold_answer": "应将付款节点与验收合格相挂钩,可设置预付款、进度款、尾款及质保金,避免提前付款后对方不履约。",
+        "pred_answer": "3. **付款**:付款须与验收挂钩,严格执行合同约定;2. **验收**:货物或服务到达后应组织验收,验收合格后方可办理付款;[2]验收合格前不得付清全款 | | 无质保金 | 无质保条款或质保金安排,质保期内质量问题无约束 | 重要采购/工程项目应约定不低于合同金额 5% 的质保金,质保期满且无质量问题后支付 | | 逾期付款责任不对等 | 我方逾期付款责任较重,相对方逾期交付责任较轻 | 双方逾期责任应基本对等,罚则比例相当,避免单方高额违约金 | ### 4.2 违约责任对等性审查 1. 违约金比例、赔偿范围、责任上限应对等设定,避免出现\"我方高额赔偿、对方象征性赔偿\"的不对等条款;[3]A4:合同、发票、验收单,按《付款审批流程》办理(见本制度4.1.6条)。[4]",
+        "em": 0.0,
+        "f1": 0.1497,
+        "rouge1": 0.2203,
+        "rouge2": 0.0235,
+        "rougeL": 0.0963,
+        "citations": [
+          "采购合同管理制度.md · 5. **用印签署**:经审批同意后,凭《用印审批单》加盖合同专用章;",
+          "合同风险控制指南.md · 4. 《中华人民共和国个人信息保护法》;",
+          "采购审批流程.md · 3. 审计/监察部门对采购进行抽查监督。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C012",
+        "question": "合同审批流程是什么?",
+        "gold_answer": "一般流程为:业务部门拟稿、法务或合规审核、按合同金额和权限逐级审批、用印签署、归档登记。",
+        "pred_answer": "预付款原则上不得超过合同金额的 30%,不得为规避审批权限而分笔支付;[3]4. 《华创智联科技有限公司合同审批流程》(HZ-HT-SP-2026-002)。[6]2. 未经审批或超越审批权限签署的合同,公司有权不予认可;[7]A4:合同、发票、验收单,按《付款审批流程》办理(见本制度4.1.6条)。[8]",
+        "em": 0.0,
+        "f1": 0.2118,
+        "rouge1": 0.2571,
+        "rouge2": 0.0247,
+        "rougeL": 0.1176,
+        "citations": [
+          "采购合同管理制度.md · 5. **用印签署**:经审批同意后,凭《用印审批单》加盖合同专用章;",
+          "合同归档管理办法.md · 2. 《中华人民共和国档案法》;",
+          "合同审批流程.md · 1. 审批人须在授权范围内审批,不得越级或代为审批;",
+          "采购审批流程.md · 3. 审计/监察部门对采购进行抽查监督。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C013",
+        "question": "合同怎么归档管理?",
+        "gold_answer": "合同签署后应及时归档、统一编号,原件交由档案部门保管,电子扫描件留存,借阅调阅须登记审批。",
+        "pred_answer": "编号由合同管理部门统一编制,确保唯一性,未编号合同不得归档。6. **登记归档**:合同签署后 5 个工作日内由合同管理部门归档,并录入电子合同台账。3. **付款**:付款须与验收挂钩,严格执行合同约定;[1]A5:保存期限不少于合同履行完毕后的3年(见本制度4.5.3条)。[2]",
+        "em": 0.0,
+        "f1": 0.1778,
+        "rouge1": 0.2388,
+        "rouge2": 0.0247,
+        "rougeL": 0.1111,
+        "citations": [
+          "采购合同管理制度.md · 5. **用印签署**:经审批同意后,凭《用印审批单》加盖合同专用章;",
+          "采购合同管理办法.md · 4. 合同信息按保密制度管理,不得擅自泄露。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C014",
+        "question": "劳动合同试用期条款有什么风险?",
+        "gold_answer": "试用期约定超过法定期限、同一员工重复约定试用期等违反《劳动合同法》第十九条,可能被认定无效并承担赔偿责任。",
+        "pred_answer": "2. **工资条款风险**:试用期工资低于约定工资的80%或低于当地最低工资标准、不明确工资构成(基本工资/绩效/加班费基数不清),易引发劳动报酬争议及补差、赔偿风险。[1]7. **与关联协议衔接风险**:未与劳动合同、合作合同中的保密条款有效衔接,不同文件规定不一致时,易产生解释争议和举证困难。[2]6. 试用期包含在劳动合同期限内。劳动合同仅约定试用期的,试用期不成立,该期限为劳动合同期限。[4]",
+        "em": 0.0,
+        "f1": 0.0855,
+        "rouge1": 0.0723,
+        "rouge2": 0.018,
+        "rougeL": 0.0684,
+        "citations": [
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。",
+          "保密协议.md · 5.2 争议解决期间,除争议事项外,双方仍应继续履行本协议其他条款。",
+          "员工入职管理制度.md · 4. 同一用人单位与同一劳动者只能约定一次试用期;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C015",
+        "question": "保密协议中竞业限制条款有什么风险?",
+        "gold_answer": "竞业限制期限超过2年或未约定经济补偿的条款存在无效风险;约定范围过宽也可能无法执行。",
+        "pred_answer": "5. **保密与竞业限制不对等风险**:竞业限制未约定经济补偿或补偿过低,劳动者可请求解除竞业限制约定;[1]的商业秘密和与知识产权相关的保密事项， 劳动者请求确认竞业限制条款不生效的，人 民法院依法予以支持。[2]7. **与关联协议衔接风险**:未与劳动合同、合作合同中的保密条款有效衔接,不同文件规定不一致时,易产生解释争议和举证困难。[3]8.2 经双方协商一致,对负有保密义务的乙方,甲方可以在劳动合同中约定竞业限制条款,并在解除或者终止劳动合同后,在竞业限制期限内按月给予乙方经济补偿。[6]",
+        "em": 0.0,
+        "f1": 0.1589,
+        "rouge1": 0.22,
+        "rouge2": 0.0584,
+        "rougeL": 0.1325,
+        "citations": [
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。",
+          "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第十三条劳动者未知悉、接触用人单位",
+          "保密协议.md · 5.2 争议解决期间,除争议事项外,双方仍应继续履行本协议其他条款。",
+          "劳动合同.md · 7.1 经双方协商一致,本合同可以解除。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C016",
+        "question": "软件采购合同授权范围条款有什么风险?",
+        "gold_answer": "授权范围、用户数量、使用期限、是否含源代码、后续升级维护等不明确,会导致使用超范围或费用争议。",
+        "pred_answer": "3. **源代码归属风险**:合同未明确源代码及定制开发成果的知识产权归属,仅笼统约定\"软件归乙方所有\",甲方后续二次开发、维护升级、更换供应商时将受制于人,甚至被迫重复采购。4. **授权范围不明确风险**:授权方式(独占/非独占)、期限、用户数/节点数、地域范围约定不清,可能导致甲方超范围使用构成侵权,或授权不足影响业务开展。[1]7. **与关联协议衔接风险**:未与劳动合同、合作合同中的保密条款有效衔接,不同文件规定不一致时,易产生解释争议和举证困难。[3]5. **保密条款不足风险**:保密信息范围界定不清、未约定保密期限与违约责任,服务过程中知悉的商业秘密存在泄露风险且难以追责。[4]",
+        "em": 0.0,
+        "f1": 0.1647,
+        "rouge1": 0.2393,
+        "rouge2": 0.0258,
+        "rougeL": 0.1059,
+        "citations": [
+          "软件采购合同.md · 9.2 本合同附件为本合同不可分割的组成部分。",
+          "保密协议.md · 5.2 争议解决期间,除争议事项外,双方仍应继续履行本协议其他条款。",
+          "服务合同.md · 10.2 本合同附件为本合同不可分割的组成部分,与本合同具有同等法律效力。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C017",
+        "question": "销售合同质量保证条款有什么风险?",
+        "gold_answer": "质保期长短、退换货条件、责任上限、质保金扣除情形等约定不清,会造成售后争议和成本失控。",
+        "pred_answer": "6. **退货条款不规范风险**:退货条件、退货程序、退款时限及退货费用承担未明确,退货纠纷处理缺乏依据。3. **违约责任不对等风险**:仅约定买方逾期付款责任或仅约定卖方逾期交货责任,责任条款失衡,弱势一方违约救济不足。[1]7. **合同文本与规章制度脱节风险**:合同未明示引用的规章制度内容,或规章制度未经民主程序公示告知,相关条款难以作为处理劳动争议的依据。4. **解除终止条款不规范风险**:解除、终止条件约定与《劳动合同法》规定不符的条款可能被认定无效;[2]",
+        "em": 0.0,
+        "f1": 0.0725,
+        "rouge1": 0.1099,
+        "rouge2": 0.0,
+        "rougeL": 0.058,
+        "citations": [
+          "销售合同.md · 7.1.2 向【 \\_\\_\\_\\_ 】人民法院提起诉讼。",
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C018",
+        "question": "合同签订前需要审查哪些要点?",
+        "gold_answer": "审查对方主体资格和履约能力、合同标的与价款、条款完备性、违约责任与争议解决,并履行内部审批和用印手续。",
+        "pred_answer": "5. 定期对电子签约系统进行合规审计,同步关注《电子签名法》《民法典》合同编及网络安全相关要求。[2]定数据电文需要确认收讫的，应当确认收讫。电子认证服务提供者收到电子签名认证证书 申请后，应当对申请人的身份进行查验，并对有 关材料进行审查。院信息产业主管部门提出申请，并提交符合本法 主管部门接到申请后经依法审查，征求国务院商 务主管部门等有关部门的意见后，自接到申请之 日起四十五日内作出许可或者不予许可的决定。[4]",
+        "em": 0.0,
+        "f1": 0.0508,
+        "rouge1": 0.0638,
+        "rouge2": 0.0,
+        "rougeL": 0.0339,
+        "citations": [
+          "合同违约案例.md · 4. 对\"点击即同意\"流程留存操作记录,确保用户\"同意\"的意思表示真实、可追溯。",
+          "中华人民共和国电子签名法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C019",
+        "question": "服务合同服务等级与赔偿条款有什么风险?",
+        "gold_answer": "服务等级指标(SLA)、赔偿上限、免责条款约定不清,会在服务未达标时难以主张赔偿,应明确指标和补偿标准。",
+        "pred_answer": "5. **保密条款不足风险**:保密信息范围界定不清、未约定保密期限与违约责任,服务过程中知悉的商业秘密存在泄露风险且难以追责。2. **付款条款风险**:预付款比例过高、付款节点与服务进度脱钩、无验收后付款安排,甲方可能面临款项已付而服务质量差、无法追回的风险;[1]7. **合同文本与规章制度脱节风险**:合同未明示引用的规章制度内容,或规章制度未经民主程序公示告知,相关条款难以作为处理劳动争议的依据。2. **工资条款风险**:试用期工资低于约定工资的80%或低于当地最低工资标准、不明确工资构成(基本工资/绩效/加班费基数不清),易引发劳动报酬争议及补差、赔偿风险。[2]",
+        "em": 0.0,
+        "f1": 0.1098,
+        "rouge1": 0.1441,
+        "rouge2": 0.0,
+        "rougeL": 0.061,
+        "citations": [
+          "服务合同.md · 10.2 本合同附件为本合同不可分割的组成部分,与本合同具有同等法律效力。",
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "C020",
+        "question": "技术开发合同交付与验收节点有什么风险?",
+        "gold_answer": "里程碑交付节点、验收标准和期限不明确,以及逾期交付处理缺失,会导致项目延期且责任难定,应约定节点及对应款项。",
+        "pred_answer": "7. **付款与验收脱钩风险**:付款节点未与验收合格挂钩或尾款比例过低,甲方失去对乙方履约的有效约束,难以保障软件交付质量。[1]2. **付款条款风险**:预付款比例过高、付款节点与服务进度脱钩、无验收后付款安排,甲方可能面临款项已付而服务质量差、无法追回的风险;3. **验收机制缺失风险**:未约定验收期限、验收程序、整改次数及\"视为验收\"规则,可能陷入服务成果是否交付、是否验收合格长期悬而未决的局面。[2]4. **验收标准缺失风险**:无明确的验收标准、测试场景与整改次数上限,乙方可能以\"已交付\"为由要求付款,甲方验收被无限拖延或标准被单方解释。[3]",
+        "em": 0.0,
+        "f1": 0.1371,
+        "rouge1": 0.1887,
+        "rouge2": 0.013,
+        "rougeL": 0.0686,
+        "citations": [
+          "软件采购合同.md · 9.2 本合同附件为本合同不可分割的组成部分。",
+          "服务合同.md · 10.2 本合同附件为本合同不可分割的组成部分,与本合同具有同等法律效力。",
+          "技术开发合同.md · 11.2 本合同附件为本合同不可分割的组成部分。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L001",
+        "question": "员工试用期被辞退,公司要付补偿吗?",
+        "gold_answer": "若公司能证明员工在试用期内不符合录用条件,可依法解除且无需支付经济补偿;否则属于违法解除,需支付二倍经济补偿标准的赔偿金。",
+        "pred_answer": "A5:按经济补偿标准的2倍支付赔偿金(见本制度4.4.4条;[1]5. **保密与竞业限制不对等风险**:竞业限制未约定经济补偿或补偿过低,劳动者可请求解除竞业限制约定;2. **工资条款风险**:试用期工资低于约定工资的80%或低于当地最低工资标准、不明确工资构成(基本工资/绩效/加班费基数不清),易引发劳动报酬争议及补差、赔偿风险。[2]3. 本规定未尽事宜,按《反不正当竞争法》《劳动合同法》等法律法规及公司其他制度执行。[4]",
+        "em": 0.0,
+        "f1": 0.1912,
+        "rouge1": 0.2268,
+        "rouge2": 0.0476,
+        "rougeL": 0.0882,
+        "citations": [
+          "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。",
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。",
+          "商业秘密保护规定.md · 2. 本规定自生效之日起施行;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L002",
+        "question": "公司拖欠加班费,员工如何维权?",
+        "gold_answer": "员工可向劳动仲裁机构申请仲裁,仲裁时效为一年,主张加班工资差额及相应赔偿,注意保留考勤和加班证据。",
+        "pred_answer": "2022年3月至2023年2月期间,C公司安排王某工作日延时加班120小时、休息日加班16天(未安排补休)、法定节假日加班3天,均未支付加班费。B公司自愿履行,未提起诉讼。B公司辩称双方自愿约定,应属有效。考勤记录由谁掌握、举证责任如何分配?[1]",
+        "em": 0.0,
+        "f1": 0.0476,
+        "rouge1": 0.0294,
+        "rouge2": 0.0,
+        "rougeL": 0.0476,
+        "citations": [
+          "劳动纠纷案例.md · 5. 规模性裁员应严格履行《劳动合同法》第四十一条经济性裁员的预告与报告程序。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L003",
+        "question": "员工离职后主张未休年假补偿可以吗?",
+        "gold_answer": "可以。对未休的年假天数,公司应按员工日工资的300%支付年休假工资报酬。",
+        "pred_answer": "法权益情形之一的，由劳动行政部门责令支付劳 动者的工资报酬、经济补偿，并可以责令支付赔 偿金： （一）克扣或者无故拖欠劳动者工资的；逾期不缴 的，可以加收滞纳金。门批准，可以实行其他工作和休息办法。对仲裁裁决不服 的，可以向人民法院提起诉讼。[1]",
+        "em": 0.0,
+        "f1": 0.2105,
+        "rouge1": 0.1875,
+        "rouge2": 0.0556,
+        "rougeL": 0.1053,
+        "citations": [
+          "中华人民共和国劳动法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L004",
+        "question": "违法解除劳动合同法院会怎么判?",
+        "gold_answer": "一般判决用人单位支付二倍经济补偿标准的赔偿金;劳动者要求继续履行合同的,法院可支持继续履行。",
+        "pred_answer": "酬外，用人单位与劳动者约定服务期限并提 供特殊待遇，劳动者违反约定提前解除劳动 合同且不符合劳动合同法第三十八条规定的 单方解除劳动合同情形时，用人单位请求劳 动者承担赔偿损失责任的，人民法院可以综 合考虑实际损失、当事人的过错程度、已经 履行的年限等因素确定劳动者应当承担的赔 偿责任。[1]继续履行的劳动合同，劳动者请求用人单位 支付违法解除、终止决定作出后至劳动合同 继续履行前一日工资的，用人单位应当按照 劳动者提供正常劳动时的工资标准向劳动者 支付上述期间的工资。用人单位、劳动者对于劳动合同解除、终 止都有过错的，应当各自承担相应的责任。[2]",
+        "em": 0.0,
+        "f1": 0.1127,
+        "rouge1": 0.1237,
+        "rouge2": 0.029,
+        "rougeL": 0.0986,
+        "citations": [
+          "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第十二条除向劳动者支付正常劳动报",
+          "最高人民法院关于审理劳动争议案件适用法律问题的解释（二）.pdf · 第十八条用人单位违法解除、终止可以"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L005",
+        "question": "竞业限制纠纷一般如何处理?",
+        "gold_answer": "用人单位未支付经济补偿的,劳动者可主张解除竞业限制;期限超过2年或范围过宽的条款部分无效。",
+        "pred_answer": "竞业限制期限不得超过二年。乙方违反竞业限制约定的,应当按照约定向甲方支付违约金。[2]5. 竞业限制期间,公司可解除竞业限制;[3]竞业限制范围过宽、期限超过二年,亦可能被认定无效。[6]",
+        "em": 0.0,
+        "f1": 0.3824,
+        "rouge1": 0.4727,
+        "rouge2": 0.1967,
+        "rougeL": 0.2647,
+        "citations": [
+          "劳动合同.md · 7.1 经双方协商一致,本合同可以解除。",
+          "商业秘密保护规定.md · 4. 被限制人员不得入职与公司有竞争关系的单位,不得自营同类业务;",
+          "劳动合同.md · 10.2 对仲裁裁决不服的,可自收到仲裁裁决书之日起十五日内向人民法院提起诉讼。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L006",
+        "question": "合同对方违约不付款怎么办?",
+        "gold_answer": "可依据合同主张违约金或逾期利息,催告后仍不履行的可解除合同并要求赔偿损失,必要时提起诉讼或仲裁。",
+        "pred_answer": "— ６ ８ — 约定，造成对方损失的，损失赔偿额应当相当于因违约所造成的损失，包括 合同履行后可以获得的利益；立合同时未与对方协商的条款。（四）当事人一方迟延履行债务或者有其他违约行为致使不能实现合同 目的；定金不足以弥补一方违约造成的损失的，对方可以请求赔偿超过定金数 额的损失。[1]",
+        "em": 0.0,
+        "f1": 0.0833,
+        "rouge1": 0.1127,
+        "rouge2": 0.0,
+        "rougeL": 0.0833,
+        "citations": [
+          "中华人民共和国民法典.pdf · 第二节　权利质权"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L007",
+        "question": "定金纠纷怎么处理?",
+        "gold_answer": "适用定金罚则:给付定金一方违约的无权要求返还,收受定金一方违约的应双倍返还;定金数额超过主合同标的额20%的部分不产生定金效力。",
+        "pred_answer": "当事人一方和第三人之间的纠纷，依照法律规定或者按 照约定处理。定金的数额由当事人约定；定金合同自实际交付定金时成立。对方可以选择适用违约金或者定金条款。[1]",
+        "em": 0.0,
+        "f1": 0.2571,
+        "rouge1": 0.1818,
+        "rouge2": 0.0,
+        "rougeL": 0.1714,
+        "citations": [
+          "中华人民共和国民法典.pdf · 第二节　权利质权"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L008",
+        "question": "违约金过高法院如何调减?",
+        "gold_answer": "法院以实际损失为基础,兼顾合同履行情况、当事人过错程度及预期利益等,依据《民法典》第五百八十五条适当减少。",
+        "pred_answer": "2. 违约金数额应合理,一般不超过合同金额的 30%,防止约定过高被依法调减(参照《民法典》第五百八十五条);验收合格前不得付清全款 | | 无质保金 | 无质保条款或质保金安排,质保期内质量问题无约束 | 重要采购/工程项目应约定不低于合同金额 5% 的质保金,质保期满且无质量问题后支付 | | 逾期付款责任不对等 | 我方逾期付款责任较重,相对方逾期交付责任较轻 | 双方逾期责任应基本对等,罚则比例相当,避免单方高额违约金 | ### 4.2 违约责任对等性审查 1. 违约金比例、赔偿范围、责任上限应对等设定,避免出现\"我方高额赔偿、对方象征性赔偿\"的不对等条款;[1]",
+        "em": 0.0,
+        "f1": 0.075,
+        "rouge1": 0.1121,
+        "rouge2": 0.0408,
+        "rougeL": 0.0625,
+        "citations": [
+          "合同风险控制指南.md · 4. 《中华人民共和国个人信息保护法》;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L009",
+        "question": "合同解除后损失怎么赔?",
+        "gold_answer": "赔偿范围包括实际损失和合同履行后可以获得的利益,但不得超过违约方订立合同时预见到或应当预见到的损失。",
+        "pred_answer": "合同解除的，该合同的权利义务关系终止。买受人拒绝接受标的物或者解除 合同的，标的物毁损、灭失的风险由出卖人承担。但是，不得超过违约一方订立合同时预见到或 者应当预见到的因违约可能造成的损失。在合理 期限内协商不成的，当事人可以请求人民法院或者仲裁机构变更或者解除 合同。[1]",
+        "em": 0.0,
+        "f1": 0.3146,
+        "rouge1": 0.3235,
+        "rouge2": 0.1905,
+        "rougeL": 0.2921,
+        "citations": [
+          "中华人民共和国民法典.pdf · 第二节　权利质权"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L010",
+        "question": "软件著作权侵权如何认定?",
+        "gold_answer": "一般按接触加实质性相似原则认定,即侵权人接触过作品且被诉内容与作品构成实质性相似。",
+        "pred_answer": "3. **商务运用**:登记是软件产品入市、招投标、高新技术企业认定、软件企业资质申报、价值评估与许可转让的重要材料;2. **资产保护**:明确软件资产权属,防止核心技术被抄袭或主张权利时陷入被动;4. 员工在职期间开发的与公司业务相关软件,应在申请前向知识产权部申报权属,避免归属纠纷;5. 涉及客户个人信息的软件,登记及后续使用须遵守《个人信息保护法》及《用户信息保护规范》。[1]",
+        "em": 0.0,
+        "f1": 0.0364,
+        "rouge1": 0.0465,
+        "rouge2": 0.0,
+        "rougeL": 0.0364,
+        "citations": [
+          "软件著作权申请流程.md · 3. 合作开发的软件,著作权归属按合作协议约定;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L011",
+        "question": "专利侵权如何判断?",
+        "gold_answer": "采用全面覆盖原则,将被诉侵权技术方案的技术特征与专利权利要求记载的技术特征逐一比对,全部相同或等同即构成侵权。",
+        "pred_answer": "（四）检查与侵权活动有关的物品；按照权利人因被侵权所受到的实际损失确定；实 际损失难以确定的，可以按照侵权人因侵权所获 得的利益确定；（二）查阅、复制当事人与侵权活动有关的 合同、发票、账簿以及其他有关资料；[1]",
+        "em": 0.0,
+        "f1": 0.1481,
+        "rouge1": 0.129,
+        "rouge2": 0.0,
+        "rougeL": 0.1235,
+        "citations": [
+          "中华人民共和国商标法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L012",
+        "question": "商标被抢注怎么办?",
+        "gold_answer": "可在商标公告期内提出异议;已注册的可在法定期限内请求宣告无效,并可主张对方恶意抢注的相关证据。",
+        "pred_answer": "（二）该商标使用的持续时间；（五）该商标驰名的其他因素。已经注册的使用地名的商标继续有效。本法施行前已经注册的商标继续有效。[1]",
+        "em": 0.0,
+        "f1": 0.1429,
+        "rouge1": 0.1538,
+        "rouge2": 0.0426,
+        "rougeL": 0.1429,
+        "citations": [
+          "中华人民共和国商标法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L013",
+        "question": "商业秘密泄露如何赔偿?",
+        "gold_answer": "按权利人实际损失或侵权人获利计算赔偿,难以确定的可参照许可使用费合理确定;恶意侵权情节严重的可适用惩罚性赔偿。",
+        "pred_answer": "职权、玩忽职守、徇私舞弊或者泄露调查过程中 知悉的商业秘密、个人隐私或者个人信息的，依 法给予处分。经营者故意实施 侵犯商业秘密行为，情节严重的，可以在按照上 述方法确定数额的一倍以上五倍以下确定赔偿数 额。（三）有其他证据表明商业秘密被涉嫌侵权 人侵犯。赔偿数额还应当包括经营者为制止侵权行为 所支付的合理开支。[1]",
+        "em": 0.0,
+        "f1": 0.1895,
+        "rouge1": 0.175,
+        "rouge2": 0.0217,
+        "rougeL": 0.0842,
+        "citations": [
+          "中华人民共和国反不正当竞争法.pdf · 目　　录"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L014",
+        "question": "客户数据泄露公司要承担什么责任?",
+        "gold_answer": "公司可能面临监管行政处罚(最高5000万元或上一年度营业额5%罚款)、对受害人的民事赔偿,情节严重的还可能涉及刑事责任。",
+        "pred_answer": "3. 对合作方、受托方进行数据安全能力评估并持续监督,约定数据泄露时的责任承担与赔偿条款。[1]2. 造成数据泄露、侵犯个人信息权益的,依《个人信息保护法》《数据安全法》承担法律责任,涉嫌犯罪的移送司法机关;[2]依《反不正当竞争法》第九条、第十七条承担赔偿责任;[4]本案电商公司未履行报告义务,且未及时告知用户,应承担相应责任。[5]",
+        "em": 0.0,
+        "f1": 0.1031,
+        "rouge1": 0.1,
+        "rouge2": 0.0,
+        "rougeL": 0.0825,
+        "citations": [
+          "数据泄露案例.md · 5. 发生泄露后及时向监管部门报告并配合调查,依法整改,以争取从轻或减轻处罚。",
+          "数据访问管理制度.md · 3. 外包项目结束后,即时回收账号与权限,并核查数据是否已归还或销毁。",
+          "商业秘密保护规定.md · 2. 本规定自生效之日起施行;",
+          "数据泄露案例.md · 4. 依据《数据安全法》建立数据分类分级制度与数据全生命周期安全管理制度。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L015",
+        "question": "员工泄露客户信息怎么处理?",
+        "gold_answer": "公司可依规章制度对员工进行纪律处分、追偿损失,情节严重或构成犯罪的移送司法机关追究法律责任。",
+        "pred_answer": "客户个人信息属机密级,普通员工不得访问;[2]造成的泄露后果应如何量罚?[4]4. **客户个人信息**:客户个人信息依据《个人信息保护法》及公司《用户信息保护规范》另行管理,同时按本规定作为机密级信息保护。[6]员工仅可在授权范围内处理信息,私自复制、下载、外发属违规行为。[7]",
+        "em": 0.0,
+        "f1": 0.0769,
+        "rouge1": 0.0909,
+        "rouge2": 0.0,
+        "rougeL": 0.0513,
+        "citations": [
+          "商业秘密保护规定.md · 2. 本规定自生效之日起施行;",
+          "数据泄露案例.md · 5. 发生泄露后及时向监管部门报告并配合调查,依法整改,以争取从轻或减轻处罚。",
+          "商业秘密保护规定.md · 3. **管理信息**:公司内部管理流程、薪酬体系、投资计划、并购方案等;",
+          "用户信息保护规范.md · 3. 本规范未尽事宜,按《个人信息保护法》及国家有关规定执行。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L016",
+        "question": "类似情况历史如何处理?",
+        "gold_answer": "可参考既往案例:劳动争议类多通过仲裁并按《劳动合同法》计算经济补偿或赔偿;合同纠纷类按合同约定主张违约责任并依据《民法典》维权;数据泄露类一般追究泄露责任人并启动整改、报告和赔偿。",
+        "pred_answer": "处理个人信息遵守法律、行政法规的情况进行合 规审计。个人信息保护影响评估报告和处理情况记录应 当至少保存三年。处理者应当事前进行个人信息保护影响评估，并 对处理情况进行记录： （一）处理敏感个人信息；（三）去标识化，是指个人信息经过处理， 使其在不借助额外信息的情况下无法识别特定自 然人的过程。[1]",
+        "em": 0.0,
+        "f1": 0.0526,
+        "rouge1": 0.069,
+        "rouge2": 0.0189,
+        "rougeL": 0.0351,
+        "citations": [
+          "中华人民共和国个人信息保护法.pdf · 第三节　国家机关处理个人信息的特别规定"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L017",
+        "question": "经济补偿金的N怎么算?",
+        "gold_answer": "每满一年支付一个月工资;六个月以上不满一年的按一年计算;不满六个月的支付半个月工资。月工资高于社平工资三倍的按三倍封顶且年限不超过十二年。",
+        "pred_answer": "A5:按经济补偿标准的2倍支付赔偿金(见本制度4.4.4条;[1]",
+        "em": 0.0,
+        "f1": 0.1224,
+        "rouge1": 0.1579,
+        "rouge2": 0.0,
+        "rougeL": 0.1224,
+        "citations": [
+          "员工离职管理制度.md · 4. 违法解除:公司违法解除或者终止劳动合同的,按经济补偿标准的2倍支付赔偿金。"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L018",
+        "question": "合同履行中遭遇不可抗力怎么办?",
+        "gold_answer": "可依据不可抗力主张部分或全部免责,但应及时通知对方并采取减损措施,同时留存不可抗力发生的证据。",
+        "pred_answer": "（三）不履行赠与合同约定的义务。（一）因不可抗力致使不能实现合同目的；第七章 合同的权利义务终止 （一）债务已经履行；当事人迟延履行后发生不可抗力的，不免除其违约责任。[1]",
+        "em": 0.0,
+        "f1": 0.1356,
+        "rouge1": 0.1224,
+        "rouge2": 0.0,
+        "rougeL": 0.1017,
+        "citations": [
+          "中华人民共和国民法典.pdf · 第二节　权利质权"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L019",
+        "question": "因钓鱼邮件导致数据泄露谁承担责任?",
+        "gold_answer": "需结合公司是否尽到安全管理和培训义务判断;未采取必要安全措施的,公司及相关责任人应承担相应行政、民事乃至刑事责任。",
+        "pred_answer": "有前两款行为,造成大量数据泄露、关键信 息基础设施丧失局部功能等严重危害网络安全后 果的,由有关主管部门处五十万元以上二百万元 以下罚款,对直接负责的主管人员和其他直接责 任人员处五万元以上二十万元以下罚款;能源、交通、水利、金融、公共服务、电子政务 等重要行业和领域,以及其他一旦遭到破坏、丧 失功能或者数据泄露,可能严重危害国家安全、 国计民生、公共利益的关键信息基础设施,在网 络安全等级保护制度的基础上,实行重点保护。中华人民共和国境内运营中收集和产生的个人信 息和重要数据应当在境内存储。(四)网络数据,是指通过网络收集、存储、 传输、处理和产生的各种电子数据。[1]",
+        "em": 0.0,
+        "f1": 0.0392,
+        "rouge1": 0.0508,
+        "rouge2": 0.0,
+        "rougeL": 0.0392,
+        "citations": [
+          "中华人民共和国网络安全法.pdf · 第二节 关键信息基础设施的运行安全"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      },
+      {
+        "id": "L020",
+        "question": "外包开发的软件著作权归谁?",
+        "gold_answer": "依合同约定确定归属;合同没有约定的,著作权属于受托人(开发者),因此签约时应明确约定成果归属。",
+        "pred_answer": "委托开发的还需委托合同。[2]4. 员工在职期间开发的与公司业务相关软件,应在申请前向知识产权部申报权属,避免归属纠纷;[6]5.2 如双方约定软件为定制开发或源代码随附交付的,源代码及相应知识产权的归属按双方另行签订的补充协议约定执行。[7]2. 申请登记的软件应已完成开发并通过验收,源代码与文档齐备,具备登记的实质性要件;[9]",
+        "em": 0.0,
+        "f1": 0.101,
+        "rouge1": 0.0811,
+        "rouge2": 0.0,
+        "rougeL": 0.0808,
+        "citations": [
+          "软件著作权申请流程.md · 3. 本流程未尽事宜,按《计算机软件著作权登记办法》及国家有关规定执行。",
+          "软件著作权申请流程.md · 3. 合作开发的软件,著作权归属按合作协议约定;",
+          "软件采购合同.md · 4.1 质保期自验收合格之日起【 \\_\\_\\_\\_ 】个月。",
+          "软件著作权申请流程.md · 1. 凡属于职务技术成果、由公司主导开发的软件,均应申请软件著作权登记;"
+        ],
+        "groundedness": 1.0,
+        "unsupported": []
+      }
+    ]
+  }
+}

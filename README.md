@@ -2,31 +2,44 @@
 
 基于 **RAG（检索增强生成）** 架构的法律知识问答系统。面向法律条文、案例、合同模板等专业文档，提供**语义检索**与 **AI 智能问答**能力，帮助用户快速定位法律依据并生成专业回答。
 
-> ✅ **项目状态**：演示数据集层已完成。当前聚焦把数据资产做成一条**可验证、可解释、可评估**的 RAG 纵向管线（Roadmap V1），应用层（FastAPI / Vue3 / Docker）按战略暂缓（见「原计划功能处置」）。本文档的架构描述为目标形态。
+> ✅ **项目状态**：**V1 Knowledge RAG Core 已完成并跑通评估**（数据 → 解析/OCR → Document Tree → Parent/Child Chunk → BGE Embedding → Dense/BM25/Hybrid 检索 → RRF → BGE Reranker → Context → 生成 → Citation 校验 → 分层评估，100 条 QA 评估集出报告）。下一步聚焦 V1.5 工程化与评估深化；应用层（FastAPI / Vue3 / Docker）按战略暂缓（见 Roadmap）。
 
 ---
 
 ## 核心功能
 
 - 📚 **文档知识库**：导入/管理法律条文、司法解释、裁判文书、合同模板等文档，自动切片、向量化入库
-- 🔍 **语义检索**：基于向量相似度检索，摆脱关键词匹配的局限，支持自然语言查询
-- 💬 **AI 智能问答**：结合检索结果与大模型生成带法律依据的引用式回答，可溯源
-- 📎 **引用溯源**：回答附注来源文档与条款位置，支持人工核验
-- 🔐 **权限管理**：多用户体系，知识库按角色隔离（规划中）
+- 🔍 **语义检索**：Dense（BGE）+ Sparse（BM25）+ Hybrid（RRF）多路检索，BGE Reranker 精排
+- 💬 **AI 智能问答**：结合检索结果生成带法律依据的引用式回答，可溯源
+- 📎 **引用溯源**：回答附注来源文档与条款位置，Groundedness 逐句校验，无支撑句自动标记
+- 🔐 **权限管理**：多用户体系，知识库按角色隔离（规划中，V2）
 
 ---
 
-## 当前进度（2026-08-08）
+## 当前进度（2026-08-20）
 
 | 模块 | 状态 | 说明 |
 | --- | --- | --- |
-| 演示数据集 `data/` | ✅ 已完成 | 17 部官方法律 PDF、28 份企业制度、7 份合同模板、4 份模拟案例、100 条 QA 评估集（详见 [data/README.md](data/README.md)） |
-| 法律下载工具 `tools/download_laws.py` | ✅ 已完成 | 从国家法律法规数据库（flk.npc.gov.cn）幂等下载官方 PDF，可断点重跑 |
-| RAG 管线（解析 → 检索 → 生成 → 评估） | 🚧 V1 开发中 | 能力链各环节待实现，见下方 Roadmap V1 |
-| 工程化与评估 | ⏳ V1.5 重点推进 | 分层评估、错误案例回归、Citation/Evidence |
+| 演示数据集 `data/` | ✅ 已完成 | 17 部官方法律 PDF（含 5 部扫描件 OCR）、28 份企业制度、7 份合同模板、4 份模拟案例、100 条 QA 评估集 |
+| 法律下载工具 `tools/download_laws.py` | ✅ 已完成 | 从国家法律法规数据库（flk.npc.gov.cn）幂等下载官方 PDF |
+| **V1 Knowledge RAG Core** `rag/` | ✅ **已完成** | 全链路 18 个环节实现并跑通，见下方「V1 交付」与评估报告 |
+| 工程化与评估 | 🚧 V1.5 重点推进 | 评估集扩充、错误案例回归、Query Rewrite 优化、真实 LLM Adapter 调优 |
 | 应用层（FastAPI / Vue3 / Docker Compose） | ⏸ 暂缓 | 不增强 RAG 纵向能力，见「原计划功能处置」 |
 
 ---
+
+## 快速使用
+
+```bash
+pip install -r requirements.txt          # 首次安装依赖
+python -m rag.cli index                   # 构建索引（解析/OCR -> Chunk -> Embedding -> 入库）
+python -m rag.cli query "试用期最长多久?"  # 命令行问答（交互模式不带参数）
+python -m rag.cli evaluate --tag v1       # 100 条 QA 全量评估，产出报告
+```
+
+- 默认本地 numpy 向量库（零依赖服务）；接 Milvus 用 `--vector-backend milvus`
+- 未配置 `OPENAI_API_KEY` 时自动使用**本地抽取式生成兜底**（离线可复现）；配置后走 gpt-4o-mini 结构化生成
+- 模型（bge-base-zh-v1.5 / bge-reranker-base）首次运行时自动下载至 `data/models/`
 
 ## 能力链（项目主线）
 
@@ -39,6 +52,47 @@
 ```
 
 每到一个环节，README 与评估报告都会给出**可验证的证据**（跑通日志、指标对比、错误案例分析），而不是「看起来能跑」。
+
+---
+
+## V1 交付与评估结果
+
+### 已实现模块（rag/ 包，18 环节全链路）
+
+```
+loader(56 篇文档) → parser(PDF/DOCX + RapidOCR 扫描件兜底) → doc_tree(标题层级)
+→ chunking(Parent/Child: 649 parents / 1724 children) → embedding(BGE 768 维)
+→ retrievers(Dense / BM25 / Hybrid+RRF) → reranker(BGE CrossEncoder)
+→ query(法律主题词典 + 可选 LLM Rewrite) → context(证据组装 + [n] 引用)
+→ generation(OpenAI 结构化生成 / 本地抽取式兜底) → citation(逐句 Groundedness 校验)
+→ evaluation(Retrieval / Generation 分层评估)
+```
+
+### Retrieval 层评估（100 条 QA，文档级）
+
+| 阶段 | Recall@5 | Recall@10 | Recall@20 | MRR | NDCG@10 |
+| --- | --- | --- | --- | --- | --- |
+| Dense（BGE） | 0.72 | 0.75 | 0.75 | 0.519 | 0.631 |
+| BM25（jieba） | 0.58 | 0.72 | 0.72 | 0.369 | 0.530 |
+| **Hybrid（RRF）** | **0.72** | **0.77** | **0.77** | **0.530** | **0.641** |
+| + Rerank | 0.70 | 0.73 | 0.73 | 0.500 | 0.606 |
+
+**结论与发现**（详见 [data/evaluation/reports/report_v1.md](data/evaluation/reports/report_v1.md)）：
+- 语义检索（Dense）显著优于纯关键词（BM25），符合中文法律长尾表述场景
+- **Hybrid+RRF 综合最优**：召回与排序均小幅领先，说明 Dense/BM25 互补
+- Rerank 在**文档级**指标略降（其优化目标是 chunk 级相关性，且 top-k 从 20 收窄到 12）——这本身就是一个有价值的工程发现，V1.5 将针对性调优
+
+### Generation 层评估（本地抽取式兜底，未接 LLM API）
+
+| EM | F1 | ROUGE-1 | ROUGE-2 | ROUGE-L | 引用率 | 平均接地性 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0.0 | 0.171 | 0.197 | 0.065 | 0.136 | **0.96** | **0.967** |
+
+- 本地兜底为**抽取式**：直接引证据原文，语法粗糙导致文本相似度类指标偏低（预期内）
+- **引用率 96% / 接地性 0.967** 证明检索→生成链路可溯源、无凭空编造
+- 配置 `OPENAI_API_KEY` 后自动切换 gpt-4o-mini 结构化生成，质量指标将显著提升（V1.5 待跑）
+
+---
 
 ## 技术栈
 
@@ -91,27 +145,48 @@
 
 ```
 legal-ai-assistant/
-├── data/                    # 演示数据集(RAG 数据管线)
-│   ├── raw/                 # 原始文档:laws(17 部官方 PDF)/policies(28)/contracts(7)/cases(4)
-│   ├── parsed/              # 解析结果(管线输出,当前为空)
-│   ├── chunks/              # 切块结果(管线输出,当前为空)
-│   └── evaluation/qa.json   # 问答评估集(100 条)
+├── rag/                     # V1 Knowledge RAG Core（核心交付）
+│   ├── config.py            # 全局配置（路径/模型/参数，可用环境变量覆盖）
+│   ├── models.py            # Document / Chunk / RetrievalResult / Answer
+│   ├── loader.py            # Document Loader（56 篇文档发现与去重）
+│   ├── parser.py            # PDF/DOCX 解析 + RapidOCR 扫描件兜底
+│   ├── doc_tree.py          # Document Tree（标题层级）
+│   ├── chunking.py          # Parent/Child Chunk
+│   ├── embedding.py         # BGE Embedding（bge-base-zh-v1.5）
+│   ├── vector_store.py      # 向量库抽象：Milvus / 本地 numpy 回退
+│   ├── retrievers.py        # Dense / BM25 / Hybrid(RRF)
+│   ├── reranker.py          # BGE Reranker（CrossEncoder）
+│   ├── query.py             # Query Understanding / Rewrite
+│   ├── context.py           # Enterprise Context Builder
+│   ├── generation.py        # LLM 结构化生成（OpenAI + 本地兜底）
+│   ├── citation.py          # Citation / Groundedness 校验
+│   ├── evaluation.py        # Retrieval / Generation 分层评估
+│   ├── pipeline.py          # 编排：index / query / evaluate
+│   └── cli.py               # python -m rag.cli
+├── data/                    # 数据集与管线产物
+│   ├── raw/                 # 原始文档:laws(17 PDF)/policies(28)/contracts(7)/cases(4)
+│   ├── parsed/              # 解析结果（管线缓存）
+│   ├── chunks/              # Parent/Child 缓存 + index_manifest
+│   ├── index/               # 本地向量索引（生成物）
+│   ├── models/              # 模型缓存（生成物）
+│   └── evaluation/          # qa.json(100 条) + reports/（评估报告）
 ├── tools/                   # 数据工具
 │   └── download_laws.py     # 国家法律法规数据库官方 PDF 下载脚本
-├── backend/                 # FastAPI 后端(占位,开发中)
+├── backend/                 # 应用层（V1.5 规划，暂缓）
 │   └── README.md
+├── requirements.txt         # 依赖清单
 ├── main.py                  # 示例脚本(占位)
 ├── .gitignore
 └── README.md
 ```
 
-> 应用层（backend/frontend/docker-compose）规划结构见下方「架构」与 Roadmap，开发中。
+> `data/parsed|chunks|index|models` 为管线生成物（gitignore 已排除，可一键重建）。
 
 ---
 
 ## 快速开始
 
-> ⚠️ 当前仓库处于**数据层阶段**，以下「后端 / 前端 / Docker」启动步骤为目标形态，待 V1 管线落地（见 Roadmap）后生效。
+> ⚠️ 当前为**数据层 + V1 管线**阶段：以下「后端 / 前端 / Docker」启动步骤属应用层（V1.5 规划，暂缓）。V1 管线的使用方式见上文「快速使用」。
 
 ### 环境要求
 
@@ -225,32 +300,35 @@ docker compose up -d
 
 > 战略：**做深不做大**。V1 打通并验证 RAG 纵向链路，V1.5 做成可评估、可解释的工程案例，V2 保留演进方向但当前不投入。
 
-### V1 — Core RAG Pipeline（纵向核心链路）
+### V1 — Knowledge RAG Core（✅ 已完成，2026-08-20）
 
 - [x] 技术选型与 RAG 架构设计
-- [x] 多源法律文档数据集构建（17 部法律 + 28 制度 + 7 合同 + 4 案例 + 100 条评估集）
+- [x] 法律法规 / 企业制度 / 合同 / 案例数据集构建
 - [x] 官方法律下载工具（tools/download_laws.py）
-- [ ] PDF / DOCX 文档解析与 OCR
-- [ ] 文档清洗、结构化与层级 Chunk
-- [ ] BGE Embedding（bge-base-zh-v1.5）
-- [ ] Milvus 向量检索（Dense）
-- [ ] BM25 Sparse Retrieval
-- [ ] Hybrid Retrieval + RRF Fusion
-- [ ] BGE Reranker
-- [ ] Context Builder
-- [ ] LLM Generation
-- [ ] Citation Validation / Groundedness
-- [ ] RAG Evaluation
+- [x] Document Loader（56 篇文档，md 优先去重）
+- [x] PDF / DOCX 文档解析 + RapidOCR 扫描件兜底（5 部扫描版法律）
+- [x] Document Tree 构建（标题层级）
+- [x] Parent / Child Chunk（649 parents / 1724 children）
+- [x] BGE Embedding（bge-base-zh-v1.5，768 维）
+- [x] Milvus 向量检索（Dense，含本地 numpy 回退）
+- [x] Query Understanding / Query Rewrite（法律主题词典 + 可选 LLM）
+- [x] BM25 Sparse Retrieval（jieba + rank_bm25）
+- [x] Dense + Sparse Hybrid Retrieval + RRF Fusion
+- [x] BGE Reranker（bge-reranker-base CrossEncoder）
+- [x] Enterprise Context Builder（parent 回溯 + [n] 引用）
+- [x] LLM Structured Generation（OpenAI Adapter + 本地抽取式兜底）
+- [x] Citation / Groundedness Validation（逐句校验 + 无支撑句标记）
+- [x] Retrieval / Generation Evaluation（100 条 QA，四阶段对比报告）
 
 ### V1.5 — Engineering & Evaluation（当前重点推进方向）
 
-- [ ] 完善 50～100 条真实评估集
-- [ ] 建立 Retrieval / Rerank / Generation 分层评估
-- [ ] 对比 Dense / BM25 / Hybrid / Reranker 效果
-- [ ] 完善错误案例分析与回归测试
-- [ ] 优化 Query Rewrite / Query Understanding
+- [ ] 完善 50～100 条真实评估集（当前 100 条为模拟口径一致集）
+- [ ] 建立 Retrieval / Rerank / Generation 分层评估（V1 已搭框架 ✅）
+- [ ] 对比 Dense / BM25 / Hybrid / Reranker 效果（V1 已出首版报告 ✅）
+- [ ] 完善错误案例分析与回归测试（V1 报告已含错误案例分析 ✅）
+- [ ] 优化 Query Rewrite / Query Understanding（LLM 版本调优）
 - [ ] 完善 Citation 与 Evidence Traceability
-- [ ] 增加真实 LLM API Adapter
+- [ ] 真实 LLM API Adapter 效果对比（本地兜底 vs gpt-4o-mini）
 - [ ] 完善 README / Architecture / Technical Design 文档
 
 ### V2 — Future Evolution（保留在 Roadmap，当前不做）
@@ -288,4 +366,4 @@ docker compose up -d
 
 ---
 
-*文档最后更新：2026-08-08 · 法律知识助手 · 数据层 ✅ / V1 RAG 管线开发中*
+*文档最后更新：2026-08-20 · 法律知识助手 · V1 Knowledge RAG Core ✅（含评估报告）*

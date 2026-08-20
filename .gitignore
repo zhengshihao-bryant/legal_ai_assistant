@@ -27,3 +27,11 @@ data/parsed/*
 data/chunks/*
 !data/parsed/README.md
 !data/chunks/README.md
+
+# ---- 向量索引 / 模型缓存（本地生成，勿提交）----
+data/index/
+data/models/
+
+# ---- 本地依赖 / 临时目录 ----
+deps/
+.tmp/
