@@ -92,6 +92,19 @@ loader(56 篇文档) → parser(PDF/DOCX + RapidOCR 扫描件兜底) → doc_tre
 - **引用率 96% / 接地性 0.967** 证明检索→生成链路可溯源、无凭空编造
 - 配置 `OPENAI_API_KEY` 后自动切换 gpt-4o-mini 结构化生成，质量指标将显著提升（V1.5 待跑）
 
+### V1.5 ① Rerank Ablation（Hybrid vs Hybrid+Rerank × Top-K，chunk/doc 双层）
+
+| 配置 | chunk R@5 | chunk R@10 | chunk MRR | doc R@5 | doc R@10 | doc MRR | NDCG@10 | 延迟/query |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| Hybrid（RRF） | 0.66 | 0.71 | 0.527 | 0.73 | 0.75 | 0.564 | 0.654 | 442ms |
+| + Rerank | 0.65 | 0.69 | 0.525 | 0.72 | 0.76 | 0.570 | 0.661 | 2.4s（+5x） |
+
+**结论**（完整报告：[ablation_rerank_v1.md](data/evaluation/reports/ablation_rerank_v1.md)）：
+- Rerank 改善**文档级排序**（MRR 0.570 vs 0.564、NDCG@10 0.661 vs 0.654），但**不扩大候选集**：Recall@20 两者完全一致（0.76）——Rerank 的价值在精排而非召回
+- chunk 级 Recall@5/10 略降（0.65/0.69 vs 0.66/0.71）：chunk 级 gold 用「词汇重叠」代理，而 CrossEncoder 擅长**语义匹配**（字面不同但相关），代理指标会低估其收益
+- **延迟代价显著**：CPU 上 Rerank 单查询 +2s（约 5 倍），工程取舍清晰
+- **分域差异是最大发现**：法规 Recall@10 仅 0.50，制度 0.974、合同 1.0、案例 0.55——法律条文检索是短板，指向 ③ 的错误归因
+
 ---
 
 ## 技术栈

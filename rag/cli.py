@@ -73,6 +73,27 @@ def cmd_all(args) -> None:
     cmd_evaluate(args)
 
 
+def cmd_ablate(args) -> None:
+    """消融实验：--exp rerank（后续扩展 query-rewrite / qa-class）。"""
+    import json as _json
+    from . import config as _cfg
+    from .ablation import run_rerank_ablation, write_ablation_report
+
+    p = _pipeline(args)
+    p.build_index()
+    data = _json.loads((_cfg.EVAL_DIR / "qa.json").read_text(encoding="utf-8"))
+    questions = data["questions"]
+
+    if args.exp == "rerank":
+        result = run_rerank_ablation(p, questions)
+        path = write_ablation_report(result, "rerank", args.tag)
+        print(_json.dumps({"configs": result["configs"], "by_kind": result["by_kind"],
+                           "latency_ms": result["latency_ms"], "report": str(path)},
+                          ensure_ascii=False, indent=2))
+    else:
+        raise SystemExit(f"未知实验: {args.exp}")
+
+
 def cmd_stats(args) -> None:
     from .loader import discover_files
     files = discover_files()
@@ -104,11 +125,15 @@ def main() -> None:
     ep = sub.add_parser("evaluate", help="跑评估")
     ep.add_argument("--tag", default="default")
 
+    ap = sub.add_parser("ablate", help="消融实验")
+    ap.add_argument("--exp", choices=["rerank"], default="rerank")
+    ap.add_argument("--tag", default="v1")
+
     sub.add_parser("all", help="index + evaluate")
 
     args = parser.parse_args()
     {"index": cmd_index, "query": cmd_query, "evaluate": cmd_evaluate,
-     "all": cmd_all, "stats": cmd_stats}[args.command](args)
+     "all": cmd_all, "stats": cmd_stats, "ablate": cmd_ablate}[args.command](args)
 
 
 if __name__ == "__main__":

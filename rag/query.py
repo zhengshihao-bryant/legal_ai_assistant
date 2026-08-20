@@ -78,10 +78,10 @@ def expand_query(query: str) -> str:
     return f"{query}（{ ' '.join(extra)}）"
 
 
-def _llm_rewrite(query: str, api_key: str | None, model: str) -> str:
+def _llm_rewrite(query: str, api_key: str | None, model: str, base_url: str | None = None) -> str:
     from openai import OpenAI
 
-    client = OpenAI(api_key=api_key)
+    client = OpenAI(api_key=api_key, base_url=base_url or None)
     resp = client.chat.completions.create(
         model=model,
         temperature=0.0,
@@ -103,9 +103,9 @@ def understand_query(query: str, allow_llm: bool = True) -> QueryPlan:
 
     api_key = os.environ.get("OPENAI_API_KEY")
     if allow_llm and api_key:
-        from .config import OPENAI_MODEL
+        from .config import LLM_BASE_URL, LLM_MODEL
         try:
-            plan.rewritten = _llm_rewrite(query, api_key, OPENAI_MODEL)
+            plan.rewritten = _llm_rewrite(query, api_key, LLM_MODEL, LLM_BASE_URL)
             plan.used_llm = True
             logger.info("LLM 查询重写: %s -> %s", query, plan.rewritten)
         except Exception as e:  # noqa: BLE001

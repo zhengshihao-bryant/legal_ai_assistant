@@ -61,6 +61,10 @@ MAX_CONTEXT_CHARS = int(os.environ.get("LEGAL_MAX_CONTEXT", "4000"))
 # ---------------------------------------------------------------- LLM
 OPENAI_MODEL = os.environ.get("LEGAL_OPENAI_MODEL", "gpt-4o-mini")
 OPENAI_TEMPERATURE = float(os.environ.get("LEGAL_OPENAI_TEMPERATURE", "0.2"))
+# OpenAI 兼容接口适配（DeepSeek 等）：
+#   LEGAL_LLM_BASE_URL=https://api.deepseek.com  LEGAL_LLM_MODEL=deepseek-chat
+LLM_BASE_URL = os.environ.get("LEGAL_LLM_BASE_URL") or None
+LLM_MODEL = os.environ.get("LEGAL_LLM_MODEL", OPENAI_MODEL)
 USE_LOCAL_GENERATOR_FALLBACK = True   # 无 API Key 时用本地抽取式生成兜底
 
 # ---------------------------------------------------------------- 评估

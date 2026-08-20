@@ -25,18 +25,21 @@ _REF_RE = re.compile(r"\[(\d+)\]")
 
 
 class OpenAIGenerator:
-    """真实 LLM API Adapter（结构化生成）。"""
+    """真实 LLM API Adapter（结构化生成，支持 OpenAI 兼容接口：DeepSeek 等）。"""
 
-    def __init__(self, model: str | None = None, temperature: float = 0.2):
-        from .config import OPENAI_MODEL, OPENAI_TEMPERATURE
-        self.model = model or OPENAI_MODEL
-        self.temperature = temperature if temperature != 0.2 else OPENAI_TEMPERATURE
+    def __init__(self, model: str | None = None, temperature: float | None = None,
+                 base_url: str | None = None):
+        from .config import LLM_BASE_URL, LLM_MODEL, OPENAI_TEMPERATURE
+        self.model = model or LLM_MODEL
+        self.temperature = temperature if temperature is not None else OPENAI_TEMPERATURE
+        self.base_url = base_url if base_url is not None else LLM_BASE_URL
 
     def generate(self, question: str, ctx: BuiltContext) -> tuple[str, list[str]]:
         from openai import OpenAI
 
         refs_desc = "\n".join(f"[{i}] {ctx.refs[i]}" for i in sorted(ctx.refs))
-        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+        client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"),
+                        base_url=self.base_url or None)
         prompt = (
             "你是企业法律知识助手。基于【参考资料】回答用户问题，要求：\n"
             "1) 只使用参考资料中的信息，不要编造；\n"
