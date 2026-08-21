@@ -102,6 +102,22 @@ def cmd_ablate(args) -> None:
         raise SystemExit(f"未知实验: {args.exp}")
 
 
+def cmd_qa_class(args) -> None:
+    """③ QA 分类 + Error Analysis。"""
+    import json as _json
+    from . import config as _cfg
+    from .qa_analysis import run_qa_class_analysis, write_qa_class_report
+
+    p = _pipeline(args)
+    p.build_index()
+    data = _json.loads((_cfg.EVAL_DIR / "qa.json").read_text(encoding="utf-8"))
+    result = run_qa_class_analysis(p, data["questions"])
+    path = write_qa_class_report(result, args.tag)
+    print(_json.dumps({"domain_metrics": result["domain_metrics"],
+                       "bucket_summary": result["bucket_summary"],
+                       "report": str(path)}, ensure_ascii=False, indent=2))
+
+
 def cmd_stats(args) -> None:
     from .loader import discover_files
     files = discover_files()
@@ -139,11 +155,15 @@ def main() -> None:
     ap.add_argument("--no-llm", action="store_true",
                     help="query-rewrite 时禁用 LLM 改写（无 Key 时自动回退规则，无需本参数）")
 
+    qp = sub.add_parser("qa-class", help="③ QA 分类 + Error Analysis")
+    qp.add_argument("--tag", default="v1")
+
     sub.add_parser("all", help="index + evaluate")
 
     args = parser.parse_args()
     {"index": cmd_index, "query": cmd_query, "evaluate": cmd_evaluate,
-     "all": cmd_all, "stats": cmd_stats, "ablate": cmd_ablate}[args.command](args)
+     "all": cmd_all, "stats": cmd_stats, "ablate": cmd_ablate,
+     "qa-class": cmd_qa_class}[args.command](args)
 
 
 if __name__ == "__main__":
