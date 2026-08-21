@@ -40,7 +40,13 @@ def build_tree(doc: Document, blocks: list[ParsedBlock]) -> TreeNode:
 
 
 def collapse_to_sections(tree: TreeNode) -> list[TreeNode]:
-    """把树拍平为"章节级"节点列表（含子树文本），用于 Parent Chunk。"""
+    """把树拍平为"章节级"节点列表（含子树文本），用于 Parent Chunk。
+
+    若文档没有任何标题（如 OCR 密文墙导致标题检测失败），
+    回退为整篇一个 section，保证文档一定可入库检索。
+    """
+    if not tree.children and tree.text.strip():
+        return [tree]
     sections: list[TreeNode] = []
     for node in tree.children:
         sections.append(node)

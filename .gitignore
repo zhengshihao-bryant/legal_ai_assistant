@@ -35,3 +35,6 @@ data/models/
 # ---- 本地依赖 / 临时目录 ----
 deps/
 .tmp/
+
+# ---- bench 检查点缓存（LLM 结果可再生成，勿提交）----
+data/evaluation/reports/bench_checkpoint_*.json

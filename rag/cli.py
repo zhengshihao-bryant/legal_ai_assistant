@@ -133,6 +133,22 @@ def cmd_data_quality(args) -> None:
                        "report": str(path)}, ensure_ascii=False, indent=2))
 
 
+def cmd_bench(args) -> None:
+    """统一基准：一次加载模型，共享检索，产出全部报告（含 LLM 对比）。"""
+    import json as _json
+    from . import config as _cfg
+    from .bench import run_bench
+
+    p = _pipeline(args)
+    p.build_index()
+    data = _json.loads((_cfg.EVAL_DIR / "qa.json").read_text(encoding="utf-8"))
+    result = run_bench(p, data["questions"], tag=args.tag,
+                       use_llm_rewrite=not args.no_llm_rewrite,
+                       use_llm_generation=not args.no_llm_generation,
+                       use_checkpoint=not args.no_checkpoint)
+    print(_json.dumps(result, ensure_ascii=False, indent=2))
+
+
 def cmd_stats(args) -> None:
     from .loader import discover_files
     files = discover_files()
@@ -176,12 +192,20 @@ def main() -> None:
     dqp = sub.add_parser("data-quality", help="④ OCR / Chunking 数据质量审计")
     dqp.add_argument("--tag", default="v1")
 
+    bp = sub.add_parser("bench", help="统一基准：一次产出全部报告")
+    bp.add_argument("--tag", default="v1")
+    bp.add_argument("--no-llm-rewrite", action="store_true")
+    bp.add_argument("--no-llm-generation", action="store_true")
+    bp.add_argument("--no-checkpoint", action="store_true",
+                    help="不使用检查点（改代码后全量重跑 LLM）")
+
     sub.add_parser("all", help="index + evaluate")
 
     args = parser.parse_args()
     {"index": cmd_index, "query": cmd_query, "evaluate": cmd_evaluate,
      "all": cmd_all, "stats": cmd_stats, "ablate": cmd_ablate,
-     "qa-class": cmd_qa_class, "data-quality": cmd_data_quality}[args.command](args)
+     "qa-class": cmd_qa_class, "data-quality": cmd_data_quality,
+     "bench": cmd_bench}[args.command](args)
 
 
 if __name__ == "__main__":

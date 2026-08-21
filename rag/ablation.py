@@ -79,8 +79,13 @@ def _doc_metrics(doc_order: list[str], gold_docs: set[str], top_ks: tuple[int, .
 # ================================================================ Rerank Ablation
 def run_rerank_ablation(p: Pipeline, questions: list[dict],
                         top_ks: tuple[int, ...] = (5, 10, 20),
-                        min_overlap: int = 2) -> dict:
-    """Hybrid vs Hybrid+Rerank × Top-K 对比，chunk/doc 双层指标 + 延迟 + 分域。"""
+                        min_overlap: int = 2,
+                        cache: Optional[dict] = None) -> dict:
+    """Hybrid vs Hybrid+Rerank × Top-K 对比，chunk/doc 双层指标 + 延迟 + 分域。
+
+    cache: bench 共享缓存（question -> 含 raw.hybrid / raw.rerank / latency），
+           提供时跳过检索只算指标。
+    """
     loaded_ids = [d.doc_id for d in p._docs]
     chunk_gold = build_chunk_gold(questions, p.index, loaded_ids, min_overlap)
     doc_gold = {qa["id"]: set(gold_doc_ids(qa, loaded_ids)) for qa in questions}
@@ -112,11 +117,19 @@ def run_rerank_ablation(p: Pipeline, questions: list[dict],
     max_k = max(top_ks)
     for qa in questions:
         q = qa["question"]
-        t0 = time.perf_counter()
-        q_vec = embed_query(q)
-        hybrid = p.hybrid.retrieve(q, q_vec)
-        t1 = time.perf_counter()
-        lat_hybrid.append((t1 - t0) * 1000)
+        if cache and q in cache:
+            hybrid = cache[q]["raw"]["hybrid"]
+            reranked = cache[q]["raw"]["rerank"]
+            lat_hybrid.append(cache[q]["raw"].get("hybrid_ms", 0))
+            lat_rerank.append(cache[q]["raw"].get("rerank_ms", 0))
+        else:
+            t0 = time.perf_counter()
+            q_vec = embed_query(q)
+            hybrid = p.hybrid.retrieve(q, q_vec)
+            t1 = time.perf_counter()
+            lat_hybrid.append((t1 - t0) * 1000)
+            reranked = rerank(q, hybrid, top_k=max_k)
+            lat_rerank.append((time.perf_counter() - t1) * 1000)
 
         # Hybrid（无 Rerank）
         chunk_ranks_h = [i + 1 for i, r in enumerate(hybrid[:max_k])
@@ -128,10 +141,7 @@ def run_rerank_ablation(p: Pipeline, questions: list[dict],
                 doc_order_h.append(d)
         bucket("hybrid", qa, chunk_ranks_h, doc_order_h, doc_gold[qa["id"]])
 
-        # Hybrid + Rerank
-        reranked = rerank(q, hybrid, top_k=max_k)
-        t2 = time.perf_counter()
-        lat_rerank.append((t2 - t1) * 1000)
+        # Hybrid + Rerank（非缓存路径已在上面算好 reranked）
         chunk_ranks_r = [i + 1 for i, r in enumerate(reranked)
                          if r.chunk_id in chunk_gold[qa["id"]]]
         doc_order_r: list[str] = []
@@ -178,11 +188,13 @@ def _kind_of_doc(doc_id: str) -> str:
 def run_query_rewrite_ablation(p: Pipeline, questions: list[dict],
                                top_ks: tuple[int, ...] = (5, 10, 20),
                                sample_examples: int = 8,
-                               allow_llm: bool = True) -> dict:
+                               allow_llm: bool = True,
+                               cache: Optional[dict] = None) -> dict:
     """无改写 / 规则扩展 / LLM 改写 三组，下游统一走 Hybrid 检索。
 
     LLM 组依赖 OPENAI_API_KEY（兼容 DeepSeek：LEGAL_LLM_BASE_URL / LEGAL_LLM_MODEL）。
     无 Key 时 LLM 组自动回退为规则扩展（组内 used_llm 计数会标明）。
+    cache: bench 共享缓存（question -> raw/rule/llm.hybrid + plans）。
     """
     from .query import understand_query
 
@@ -215,25 +227,34 @@ def run_query_rewrite_ablation(p: Pipeline, questions: list[dict],
 
     for qa in questions:
         q = qa["question"]
+        if cache and q in cache:
+            c = cache[q]
+            hybrid_raw = c["raw"]["hybrid"]
+            hybrid_rule = c["rule"]["hybrid"]
+            hybrid_llm = c["llm"]["hybrid"]
+            plan_rule, plan_llm = c["rule"]["plan"], c["llm"]["plan"]
+            lat["raw"].append(c["raw"].get("hybrid_ms", 0))
+            lat["rule"].append(c["rule"].get("hybrid_ms", 0))
+            lat["llm"].append(c["llm"].get("hybrid_ms", 0))
+        else:
+            # raw：不做任何改写
+            t0 = time.perf_counter()
+            hybrid_raw = p.hybrid.retrieve(q, embed_query(q))
+            lat["raw"].append((time.perf_counter() - t0) * 1000)
 
-        # raw：不做任何改写
-        t0 = time.perf_counter()
-        hybrid_raw = p.hybrid.retrieve(q, embed_query(q))
-        lat["raw"].append((time.perf_counter() - t0) * 1000)
+            # rule：规则扩展
+            plan_rule = understand_query(q, allow_llm=False)
+            q_rule = plan_rule.effective_query
+            t1 = time.perf_counter()
+            hybrid_rule = p.hybrid.retrieve(q_rule, embed_query(q_rule))
+            lat["rule"].append((time.perf_counter() - t1) * 1000)
 
-        # rule：规则扩展
-        plan_rule = understand_query(q, allow_llm=False)
-        q_rule = plan_rule.effective_query
-        t1 = time.perf_counter()
-        hybrid_rule = p.hybrid.retrieve(q_rule, embed_query(q_rule))
-        lat["rule"].append((time.perf_counter() - t1) * 1000)
-
-        # llm：LLM 改写（无 Key 回退规则）
-        plan_llm = understand_query(q, allow_llm=allow_llm)
-        q_llm = plan_llm.effective_query
-        t2 = time.perf_counter()
-        hybrid_llm = p.hybrid.retrieve(q_llm, embed_query(q_llm))
-        lat["llm"].append((time.perf_counter() - t2) * 1000)
+            # llm：LLM 改写（无 Key 回退规则）
+            plan_llm = understand_query(q, allow_llm=allow_llm)
+            q_llm = plan_llm.effective_query
+            t2 = time.perf_counter()
+            hybrid_llm = p.hybrid.retrieve(q_llm, embed_query(q_llm))
+            lat["llm"].append((time.perf_counter() - t2) * 1000)
         llm_used += 1 if plan_llm.used_llm else 0
 
         for group, hybrid in (("raw", hybrid_raw), ("rule", hybrid_rule),
@@ -248,6 +269,9 @@ def run_query_rewrite_ablation(p: Pipeline, questions: list[dict],
             bucket(group, qa, chunk_ranks, doc_order, doc_gold[qa["id"]])
 
         if len(examples) < sample_examples:
+            if cache and q in cache:
+                q_rule = cache[q]["rule"]["query"]
+                q_llm = cache[q]["llm"]["query"]
             examples.append({
                 "question": q,
                 "raw": q,

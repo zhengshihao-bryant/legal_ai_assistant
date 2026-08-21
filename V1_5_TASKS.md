@@ -57,25 +57,25 @@
   ```
 - 产出：覆盖 `ablation_query_rewrite_v1.md`，得到真实三组对比（回答「什么情况下规则已够、什么情况下需要 LLM」）
 
-### ④ OCR / Chunking 数据质量审计
-- 状态：**代码已写完（`rag/data_quality.py` + `python -m rag.cli data-quality`），尚未运行、未出报告、未提交**
-- 待运行（模型已缓存，`LEGAL_OFFLINE=1` 可跳过联网）：
-  ```powershell
-  $env:LEGAL_OFFLINE = "1"
-  python -m rag.cli data-quality --tag v1
-  ```
-- 产出：`data/evaluation/reports/data_quality_v1.{json,md}`
-- 指标设计：
-  - OCR：页面完整率 / qa.json 引用条款命中率（扫描件代理）/ 关键术语可达率
-  - Chunk：Parent→Child 关联率 / 跨条款错误率 / 标题保留率 / 法规第X条标题行保留
-  - 《劳动合同法》人工抽样基准（OCR 行 + chunk 抽样）
-- 目的：回答「RAG 的问题是检索算法，还是数据根本没进来」
+### ②-LLM：Query Rewrite 的 LLM 变体（DeepSeek）✅ 已完成（2026-08-21）
+- 结果：LLM 改写 99/100 生效；chunk MRR 0.562（vs 规则 0.515 / 原始 0.527）、NDCG@10 0.693 —— **LLM 综合最优**
+- 结论：常规制度/合同查询规则够用；法规术语稀疏查询 LLM 更稳
+
+### ④ OCR / Chunking 数据质量审计 ✅ 已完成（2026-08-21），且发现并修复一个重大 bug
+- **Bug 故事**：OCR 扫描件（劳动合同法等 5 部）文本是无换行密文墙 → 标题检测失败 → 文档树无章节 → chunk=0 → **从未入库**
+- 修复：`collapse_to_sections` 无标题时整篇回退为 section
+- 效果：索引 1849→2115 chunks；**法规 Recall@10 0.433→0.933**；整体 Recall@10 0.79→0.86、MRR 0.549→0.652
+- 数据质量基线：19 部法律全部入库、条款命中 10/10、Parent→Child 关联率 1.0
+- 已知限制：扫描件为整篇单 section，Parent 过大时 Context 截断（后续做 OCR 感知结构化解析）
 
 ### ⑤ Technical Whitepaper + Demo Guide
-- 状态：**未开始**
-- 产出建议：
-  - `docs/whitepaper.md`：以「为什么」为主线（为什么 Dense+BM25 / 为什么 RRF / 为什么 Rerank 未提升最终 Recall / 为什么需要 Query Rewrite / 为什么 OCR 重要）——把 ①②③④ 的实验结论写成设计论证，而非说明书
-  - `docs/demo_guide.md`：一键复现指南（index → query → evaluate → ablate → qa-class → data-quality）
+- Demo Guide ✅ 已写（docs/demo_guide.md，含 bench 统一基准命令）
+- Generation 对比 ✅ 已完成（F1 0.174→0.284 +63%，见 generation_compare_v1.md）
+- **Whitepaper 未写**（docs/whitepaper.md）：以「为什么」为主线，把 ①②③④⑤ 的结论写成设计论证
+
+### 新发现的下一步（来自修复后的 ③）
+- **案例域 Recall@10 = 0.45 是当前唯一检索短板**：模拟案例文档（案情/争议焦点/法律依据）的信息组织与问答表述差异大 → 需对案例文档做结构化解析或检索策略调整
+- 本地兜底生成器「词重叠为 0 时」降级返回最相关证据句（3 条「找不到」，待修）
 
 ---
 
@@ -83,15 +83,16 @@
 
 | 事项 | 状态 |
 | --- | --- |
-| `rag/data_quality.py` + `rag/cli.py`（④ 代码） | 未提交（本文档提交时一并处理） |
-| 本地 → GitHub 推送 | 本地领先 origin **5 个提交**（V1 实现、① ② ③、README 更新），用户终端执行 `git push origin main` |
+| bench 统一基准（rag/bench.py + cli bench）+ 修复 + 全部新报告 | 本次提交处理 |
+| 本地 → GitHub 推送 | 本地领先 origin 若干提交，用户终端执行 `git push origin main` |
 
 ---
 
 ## 📅 建议执行顺序（暂停点续跑）
 
-1. （用户）跑 ②-LLM DeepSeek 变体 → 2 分钟 + 100 次 API 调用
-2. （我）跑 ④ 数据质量审计 → 出报告、提交
+1. （已完成）②-LLM DeepSeek 变体 ✅
+2. （已完成）④ 数据质量审计 + 零 chunk bug 修复 ✅
+3. （我）案例域根因分析（检索失败 14 条中案例占多数）
 3. （我）根据 ④ 结论 + ③ 根因，修复两个已知问题：
    - ② 词典补充 lexical gap 映射（加班→延长工作时间 等）
    - 本地兜底生成器「词重叠为 0 时返回最相关证据句」

@@ -1,0 +1,20 @@
+{
+  "local": {
+    "em": 0.0,
+    "f1": 0.1723,
+    "rouge1": 0.2034,
+    "rouge2": 0.0688,
+    "rougeL": 0.1353,
+    "citation_rate": 0.97,
+    "avg_groundedness": 0.9767
+  },
+  "llm": {
+    "em": 0.0,
+    "f1": 0.2989,
+    "rouge1": 0.3397,
+    "rouge2": 0.1676,
+    "rougeL": 0.256,
+    "citation_rate": 1.0,
+    "avg_groundedness": 0.9364
+  }
+}

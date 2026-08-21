@@ -46,6 +46,7 @@ def run_data_quality(p: Pipeline, questions: list[dict],
 
     # ---------------- OCR / 解析层
     ocr_stats: dict[str, dict] = {}
+    chunk_counts: Counter = Counter(c.doc_id for c in p.index.children)
     for d in docs:
         if not d.path.endswith(".pdf"):
             continue
@@ -53,12 +54,14 @@ def run_data_quality(p: Pipeline, questions: list[dict],
         import fitz
         pdf = fitz.open(d.path)
         total_pages = pdf.page_count
+        raw_chars = sum(len(pg.get_text()) for pg in pdf)   # 原始 PDF 文本层
         pdf.close()
-        chars = len(text)
         ocr_stats[d.title] = {
             "pages": total_pages,
-            "chars": chars,
-            "is_scanned": chars < 2000,          # 文本层 < 2K 字符视为扫描件
+            "raw_chars": raw_chars,
+            "parsed_chars": len(text),
+            "is_scanned": raw_chars < 2000,          # 原始文本层 < 2K 视为扫描件（需 OCR）
+            "chunks": chunk_counts.get(d.doc_id, 0),  # 入库 chunk 数（0 = 未入库，严重问题）
             "articles_found": len(set(ARTICLE_RE.findall(text))),
         }
 
@@ -151,7 +154,7 @@ def run_data_quality(p: Pipeline, questions: list[dict],
 
     return {
         "ocr": {
-            "scanned_laws": {k: v for k, v in ocr_stats.items() if v["is_scanned"]},
+            "all_laws": ocr_stats,
             "cited_article_hit": {k: f"{cited_hit[k]}/{cited[k]}" for k in cited},
             "term_reach": {k: {"n": v["n"], "reach_ratio": round(v["reach"] / v["n"], 3),
                                "miss_questions": v["miss"][:5]} for k, v in term_reach.items()},
@@ -175,9 +178,14 @@ def write_data_quality_report(result: dict, tag: str = "v1") -> Path:
         json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
     lines = [f"# ④ OCR / Chunking 数据质量分析（{tag}）", ""]
-    lines += ["## OCR / 解析层（扫描件）", "", "| 法律 | 页数 | 字符数 | 识别条款数 |", "| --- | --- | --- | --- |"]
-    for k, v in result["ocr"]["scanned_laws"].items():
-        lines.append(f"| {k} | {v['pages']} | {v['chars']} | {v['articles_found']} |")
+    lines += ["## OCR / 解析层（全部法律 PDF）", "",
+              "| 法律 | 页数 | 原始文本字符 | 解析后字符 | 扫描件? | 入库chunk | 识别条款数 |",
+              "| --- | --- | --- | --- | --- | --- | --- |"]
+    for k, v in sorted(result["ocr"]["all_laws"].items()):
+        scanned = "✅是(OCR)" if v["is_scanned"] else "否"
+        flag = " ⚠️" if v["chunks"] == 0 else ""
+        lines.append(f"| {k} | {v['pages']} | {v['raw_chars']} | {v['parsed_chars']} "
+                     f"| {scanned} | {v['chunks']}{flag} | {v['articles_found']} |")
     lines += ["", "### qa.json 引用条款命中（gold 来源 第X条 是否在解析文本中）", "",
               "| 法律 | 命中 |", "| --- | --- |"]
     for k, v in result["ocr"]["cited_article_hit"].items():

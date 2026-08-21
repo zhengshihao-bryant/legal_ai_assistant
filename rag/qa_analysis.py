@@ -37,14 +37,18 @@ def _kind_of(doc_id: str) -> str:
 
 
 def run_qa_class_analysis(p: Pipeline, questions: list[dict],
-                          f1_threshold: float = F1_THRESHOLD) -> dict:
+                          f1_threshold: float = F1_THRESHOLD,
+                          cache: dict | None = None) -> dict:
     loaded_ids = [d.doc_id for d in p._docs]
 
     # 每题的检索细节（hybrid + rerank，top-10）
     qa_rows: list[dict] = []
     for qa in questions:
         q = qa["question"]
-        _, final = p.retrieve(q, top_k=10, use_rerank=True)
+        if cache and q in cache:
+            final = cache[q]["raw"]["rerank"]
+        else:
+            _, final = p.retrieve(q, top_k=10, use_rerank=True)
         doc_order: list[str] = []
         for r in final:
             d = r.chunk.doc_id if r.chunk else r.chunk_id
@@ -61,7 +65,10 @@ def run_qa_class_analysis(p: Pipeline, questions: list[dict],
     # 生成层（本地抽取式兜底）
     gen_rows: dict[str, dict] = {}
     for qa in questions:
-        _, _, ans = p.answer(qa["question"], use_rerank=True)
+        if cache and qa["question"] in cache:
+            ans = cache[qa["question"]]["ans_local"]
+        else:
+            _, _, ans = p.answer(qa["question"], use_rerank=True)
         pred = tokenize_zh(ans.answer)
         gold = tokenize_zh(qa.get("answer", ""))
         f1 = _f1(pred, gold)
