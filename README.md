@@ -163,6 +163,10 @@ loader(58 篇文档) → parser(PDF/DOCX + RapidOCR 扫描件兜底) → doc_tre
 
 **结论**（完整报告：[generation_compare_v1.md](data/evaluation/reports/generation_compare_v1.md)）：接真实 LLM 后生成质量**全面跳升**（F1 +63%），引用率保持 0.99；接地性略降（0.935）源于 LLM 用自己的表述而非直接引原文——这正说明 Groundedness 校验在 LLM 时代是**必需防线**而非可选项。
 
+### 📄 技术白皮书（设计论证 + 全部实验结论）
+
+每个设计决策（为什么 Dense+BM25 / 为什么 RRF / 为什么 Rerank 未提升召回 / 为什么需要 Query Rewrite / 为什么 OCR 重要 / 为什么接地性校验是防线）都基于实验证据：**[docs/whitepaper.md](docs/whitepaper.md)**。复现指南见 [docs/demo_guide.md](docs/demo_guide.md)。
+
 ---
 
 ## 技术栈
