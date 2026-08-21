@@ -74,10 +74,11 @@ def cmd_all(args) -> None:
 
 
 def cmd_ablate(args) -> None:
-    """消融实验：--exp rerank（后续扩展 query-rewrite / qa-class）。"""
+    """消融实验：--exp rerank | query-rewrite。"""
     import json as _json
     from . import config as _cfg
-    from .ablation import run_rerank_ablation, write_ablation_report
+    from .ablation import (run_query_rewrite_ablation, run_rerank_ablation,
+                           write_ablation_report)
 
     p = _pipeline(args)
     p.build_index()
@@ -88,6 +89,13 @@ def cmd_ablate(args) -> None:
         result = run_rerank_ablation(p, questions)
         path = write_ablation_report(result, "rerank", args.tag)
         print(_json.dumps({"configs": result["configs"], "by_kind": result["by_kind"],
+                           "latency_ms": result["latency_ms"], "report": str(path)},
+                          ensure_ascii=False, indent=2))
+    elif args.exp == "query-rewrite":
+        result = run_query_rewrite_ablation(p, questions, allow_llm=not args.no_llm)
+        path = write_ablation_report(result, "query_rewrite", args.tag)
+        print(_json.dumps({"groups": result["groups"], "by_kind": result["by_kind"],
+                           "llm_used_queries": result["llm_used_queries"],
                            "latency_ms": result["latency_ms"], "report": str(path)},
                           ensure_ascii=False, indent=2))
     else:
@@ -126,8 +134,10 @@ def main() -> None:
     ep.add_argument("--tag", default="default")
 
     ap = sub.add_parser("ablate", help="消融实验")
-    ap.add_argument("--exp", choices=["rerank"], default="rerank")
+    ap.add_argument("--exp", choices=["rerank", "query-rewrite"], default="rerank")
     ap.add_argument("--tag", default="v1")
+    ap.add_argument("--no-llm", action="store_true",
+                    help="query-rewrite 时禁用 LLM 改写（无 Key 时自动回退规则，无需本参数）")
 
     sub.add_parser("all", help="index + evaluate")
 

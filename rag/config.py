@@ -23,6 +23,10 @@ MODELS_DIR = DATA_DIR / "models"
 # 若 huggingface.co 直连慢，可自行 export HF_ENDPOINT=https://hf-mirror.com
 os.environ.setdefault("HF_HOME", str(MODELS_DIR / "hf_cache"))
 os.environ.setdefault("HF_HUB_CACHE", str(MODELS_DIR / "hf_cache" / "hub"))
+# 模型已缓存、网络不稳时：LEGAL_OFFLINE=1 跳过 HF 联网检查（本地离线运行）
+if os.environ.get("LEGAL_OFFLINE", "0") == "1":
+    os.environ.setdefault("HF_HUB_OFFLINE", "1")
+    os.environ.setdefault("TRANSFORMERS_OFFLINE", "1")
 
 for _d in (PARSED_DIR, CHUNKS_DIR, INDEX_DIR, REPORT_DIR, MODELS_DIR):
     _d.mkdir(parents=True, exist_ok=True)

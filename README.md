@@ -105,6 +105,19 @@ loader(56 篇文档) → parser(PDF/DOCX + RapidOCR 扫描件兜底) → doc_tre
 - **延迟代价显著**：CPU 上 Rerank 单查询 +2s（约 5 倍），工程取舍清晰
 - **分域差异是最大发现**：法规 Recall@10 仅 0.50，制度 0.974、合同 1.0、案例 0.55——法律条文检索是短板，指向 ③ 的错误归因
 
+### V1.5 ② Query Rewrite Ablation（无改写 / 规则 / LLM，下游统一 Hybrid）
+
+| 组 | doc R@5 | doc R@10 | doc R@20 | doc MRR | NDCG@10 |
+| --- | --- | --- | --- | --- | --- |
+| 原始 | 0.73 | 0.75 | 0.76 | 0.564 | 0.654 |
+| 规则扩展 | 0.74 | **0.79** | 0.79 | 0.549 | 0.661 |
+| LLM 改写 | ⏳ 待跑（DeepSeek） | | | | |
+
+**结论**（完整报告：[ablation_query_rewrite_v1.md](data/evaluation/reports/ablation_query_rewrite_v1.md)）：
+- **规则改写显著提升 Recall@10/20（0.75→0.79）**，且**精准补强短板域**：法规 +3.3pp（0.50→0.533）、案例 +10pp（0.55→0.65）、制度 →1.0——正是法律口语与法条术语 lexical gap 的体现
+- 代价：top-5 精度略降（0.73→0.74 基本持平，chunk R@5 0.66→0.61），追加的领域词对短候选取舍有稀释
+- LLM 组已接入 DeepSeek（OpenAI 兼容），配置 `OPENAI_API_KEY` + `LEGAL_LLM_BASE_URL=https://api.deepseek.com` + `LEGAL_LLM_MODEL=deepseek-chat` 后重跑命令见报告
+
 ---
 
 ## 技术栈

@@ -174,29 +174,164 @@ def _kind_of_doc(doc_id: str) -> str:
     return d.split("/", 1)[0]
 
 
+# ================================================================ Query Rewrite Ablation
+def run_query_rewrite_ablation(p: Pipeline, questions: list[dict],
+                               top_ks: tuple[int, ...] = (5, 10, 20),
+                               sample_examples: int = 8,
+                               allow_llm: bool = True) -> dict:
+    """无改写 / 规则扩展 / LLM 改写 三组，下游统一走 Hybrid 检索。
+
+    LLM 组依赖 OPENAI_API_KEY（兼容 DeepSeek：LEGAL_LLM_BASE_URL / LEGAL_LLM_MODEL）。
+    无 Key 时 LLM 组自动回退为规则扩展（组内 used_llm 计数会标明）。
+    """
+    from .query import understand_query
+
+    loaded_ids = [d.doc_id for d in p._docs]
+    chunk_gold = build_chunk_gold(questions, p.index, loaded_ids)
+    doc_gold = {qa["id"]: set(gold_doc_ids(qa, loaded_ids)) for qa in questions}
+
+    groups = ("raw", "rule", "llm")
+    agg: dict[str, dict] = {}
+    kind_recall10: dict[str, dict[str, list[float]]] = defaultdict(lambda: defaultdict(list))
+    lat: dict[str, list[float]] = defaultdict(list)
+    examples: list[dict] = []
+    llm_used = 0
+
+    for g in groups:
+        agg[g] = {"chunk_recall": [], "chunk_mrr": [], "doc_recall": [],
+                  "doc_mrr": [], "doc_ndcg": []}
+
+    def bucket(group: str, qa: dict, chunk_ranks: list[int], doc_order: list[str],
+               doc_gold_set: set[str]):
+        cm = _chunk_metrics(chunk_ranks, len(chunk_gold[qa["id"]]), top_ks)
+        dm = _doc_metrics(doc_order, doc_gold_set, top_ks)
+        agg[group]["chunk_recall"].append(cm["recall"])
+        agg[group]["chunk_mrr"].append(cm["mrr"])
+        agg[group]["doc_recall"].append(dm["recall"])
+        agg[group]["doc_mrr"].append(dm["mrr"])
+        agg[group]["doc_ndcg"].append(dm["ndcg"])
+        for k in {_kind_of_doc(d) for d in doc_gold_set} or {"misc"}:
+            kind_recall10[k][group].append(dm["recall"][10])
+
+    for qa in questions:
+        q = qa["question"]
+
+        # raw：不做任何改写
+        t0 = time.perf_counter()
+        hybrid_raw = p.hybrid.retrieve(q, embed_query(q))
+        lat["raw"].append((time.perf_counter() - t0) * 1000)
+
+        # rule：规则扩展
+        plan_rule = understand_query(q, allow_llm=False)
+        q_rule = plan_rule.effective_query
+        t1 = time.perf_counter()
+        hybrid_rule = p.hybrid.retrieve(q_rule, embed_query(q_rule))
+        lat["rule"].append((time.perf_counter() - t1) * 1000)
+
+        # llm：LLM 改写（无 Key 回退规则）
+        plan_llm = understand_query(q, allow_llm=allow_llm)
+        q_llm = plan_llm.effective_query
+        t2 = time.perf_counter()
+        hybrid_llm = p.hybrid.retrieve(q_llm, embed_query(q_llm))
+        lat["llm"].append((time.perf_counter() - t2) * 1000)
+        llm_used += 1 if plan_llm.used_llm else 0
+
+        for group, hybrid in (("raw", hybrid_raw), ("rule", hybrid_rule),
+                              ("llm", hybrid_llm)):
+            chunk_ranks = [i + 1 for i, r in enumerate(hybrid[:max(top_ks)])
+                           if r.chunk_id in chunk_gold[qa["id"]]]
+            doc_order: list[str] = []
+            for r in hybrid[:max(top_ks)]:
+                d = r.chunk.doc_id if r.chunk else r.chunk_id
+                if d not in doc_order:
+                    doc_order.append(d)
+            bucket(group, qa, chunk_ranks, doc_order, doc_gold[qa["id"]])
+
+        if len(examples) < sample_examples:
+            examples.append({
+                "question": q,
+                "raw": q,
+                "rule": q_rule,
+                "llm": q_llm,
+                "llm_used": plan_llm.used_llm,
+            })
+
+    summary: dict = {"top_ks": list(top_ks), "groups": {}, "by_kind": {},
+                     "llm_used_queries": llm_used, "examples": examples,
+                     "latency_ms": {g: round(sum(v) / len(v), 1) for g, v in lat.items()}}
+    for g in groups:
+        n = len(agg[g]["doc_recall"])
+        summary["groups"][g] = {
+            "chunk_recall": {str(k): round(sum(v[k] for v in agg[g]["chunk_recall"]) / n, 4)
+                             for k in top_ks},
+            "chunk_mrr": round(sum(agg[g]["chunk_mrr"]) / n, 4),
+            "doc_recall": {str(k): round(sum(v[k] for v in agg[g]["doc_recall"]) / n, 4)
+                           for k in top_ks},
+            "doc_mrr": round(sum(agg[g]["doc_mrr"]) / n, 4),
+            "doc_ndcg": {str(k): round(sum(v[k] for v in agg[g]["doc_ndcg"]) / n, 4)
+                         for k in top_ks},
+        }
+    for kind, vals in kind_recall10.items():
+        summary["by_kind"][DOC_KIND_LABEL.get(kind, kind)] = {
+            g: round(sum(v) / len(v), 4) for g, v in vals.items()}
+    return summary
+
+
 # ================================================================ 报告输出
 def write_ablation_report(result: dict, name: str, tag: str = "v1") -> Path:
     REPORT_DIR.mkdir(parents=True, exist_ok=True)
     json_path = REPORT_DIR / f"ablation_{name}_{tag}.json"
     json_path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
 
+    rows = result.get("configs") or result.get("groups") or {}
     lines = [f"# Ablation: {name}（{tag}）", "", f"- Top-K 档位：{result['top_ks']}", ""]
     lines += ["## 总表", "",
               "| 配置 | chunk R@5 | chunk R@10 | chunk R@20 | chunk MRR | doc R@5 | doc R@10 | doc R@20 | doc MRR | NDCG@10 |",
               "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"]
-    for config, m in result["configs"].items():
+    for config, m in rows.items():
         cr, dr = m["chunk_recall"], m["doc_recall"]
         lines.append(
             f"| {config} | {cr['5']} | {cr['10']} | {cr['20']} | {m['chunk_mrr']} | "
             f"{dr['5']} | {dr['10']} | {dr['20']} | {m['doc_mrr']} | {m['doc_ndcg']['10']} |")
-    lines += ["", "## 延迟分解（ms/query）", "",
-              f"- Hybrid（embedding + dense + bm25 + rrf）：{result['latency_ms']['hybrid_mean']}",
-              f"- Rerank（CrossEncoder 12→20 对）：{result['latency_ms']['rerank_mean']}", ""]
-    lines += ["## 按文档类型 Recall@10（doc 级）", "", "| 类型 | Hybrid | Rerank |", "| --- | --- | --- |"]
-    kinds = result["by_kind"]
-    for kind in ("法规", "制度", "合同", "案例"):
-        row = kinds.get(kind, {})
-        lines.append(f"| {kind} | {row.get('hybrid', '-')} | {row.get('rerank', '-')} |")
+    lines += ["", "## 延迟分解（ms/query）", ""]
+    lat_labels = {"hybrid_mean": "Hybrid（embedding+dense+bm25+rrf）",
+                  "rerank_mean": "Rerank（CrossEncoder）",
+                  "raw": "原始查询", "rule": "规则扩展", "llm": "LLM 改写"}
+    for k, v in (result.get("latency_ms") or {}).items():
+        lines.append(f"- {lat_labels.get(k, k)}：{v}")
+    lines.append("")
+
+    by_kind = result.get("by_kind", {})
+    if by_kind:
+        col_labels = {"hybrid": "Hybrid", "rerank": "Rerank",
+                      "raw": "原始", "rule": "规则", "llm": "LLM"}
+        cols = list(next(iter(by_kind.values())).keys())
+        lines += ["## 按文档类型 Recall@10（doc 级）", "",
+                  "| 类型 | " + " | ".join(col_labels.get(c, c) for c in cols) + " |",
+                  "| --- | " + " | ".join(["---"] * len(cols)) + " |"]
+        for kind in ("法规", "制度", "合同", "案例"):
+            row = by_kind.get(kind, {})
+            lines.append(f"| {kind} | " + " | ".join(str(row.get(c, "-")) for c in cols) + " |")
+        lines.append("")
+
+    examples = result.get("examples")
+    if examples:
+        lines += ["## 改写示例（Query Rewrite）", "",
+                  "| 问题 | 原始 | 规则 | LLM |", "| --- | --- | --- | --- |"]
+        for ex in examples:
+            lines.append(f"| {ex['question']} | {ex['raw']} | {ex['rule']} | {ex['llm']} |")
+        lines.append("")
+
+    n_llm = result.get("llm_used_queries")
+    if n_llm is not None:
+        total = len(result.get("examples", []))
+        if n_llm == 0:
+            lines += ["> ⚠️ **LLM 组未使用真实 LLM**：未检测到 OPENAI_API_KEY，结果与规则组相同。",
+                      "> 配置后重跑：`$env:OPENAI_API_KEY=...; $env:LEGAL_LLM_BASE_URL=https://api.deepseek.com;",
+                      "> $env:LEGAL_LLM_MODEL=deepseek-chat; python -m rag.cli ablate --exp query-rewrite --tag v1`", ""]
+        else:
+            lines.append(f"> LLM 组实际改写 {n_llm}/{total} 条查询。{''}")
+
     lines.append("")
     lines.append("*由 Ablation Harness 生成，完整明细见同名 JSON。*")
     md_path = REPORT_DIR / f"ablation_{name}_{tag}.md"
