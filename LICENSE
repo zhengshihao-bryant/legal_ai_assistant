@@ -1,0 +1,36 @@
+MIT License
+
+Copyright (c) 2026 郑世豪 (Zheng Shihao)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## 数据许可说明（Data License）
+
+本仓库的数据分为两类，许可不同：
+
+1. **法律法规原文**（`data/raw/laws/*.pdf`）：来源于国家法律法规数据库
+   （flk.npc.gov.cn）的官方公版文本，可自由获取与再分发，保留原始来源标注即可。
+2. **企业制度 / 合同模板 / 案例（`data/raw/policies|contracts|cases`）**：
+   演示用模拟内容（虚构公司「华创智联」），依据本 MIT 许可授权使用，
+   但**不构成法律意见**，不得用于真实业务场景。
+
+模型权重（BGE Embedding / BGE Reranker）使用需遵守其各自开源许可
+（MIT/Apache-2.0，见模型官方仓库）。
