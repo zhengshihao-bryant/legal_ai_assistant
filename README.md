@@ -1,8 +1,17 @@
-# 法律知识助手 (Legal Knowledge Assistant) V1
+# 法律知识助手 (Legal Knowledge Assistant)
 
 基于 **RAG（检索增强生成）** 架构的法律知识问答系统。面向法律条文、案例、合同模板等专业文档，提供**语义检索**与 **AI 智能问答**能力，帮助用户快速定位法律依据并生成专业回答。
 
-> ✅ **项目状态**：**V1 Knowledge RAG Core 已完成并跑通评估**（数据 → 解析/OCR → Document Tree → Parent/Child Chunk → BGE Embedding → Dense/BM25/Hybrid 检索 → RRF → BGE Reranker → Context → 生成 → Citation 校验 → 分层评估，100 条 QA 评估集出报告）。下一步聚焦 V1.5 工程化与评估深化；应用层（FastAPI / Vue3 / Docker）按战略暂缓（见 Roadmap）。
+> ✅ **项目状态**：**V1 Knowledge RAG Core + V1.5 工程化与评估全部完成**。全链路（数据 → 解析/OCR → Chunk → Embedding → Dense/BM25 → Hybrid(RRF) → Rerank → Context → 生成 → Citation 校验 → 分层评估）已实现并跑通 100 条 QA 评估；①②③④⑤ 五项实验（Rerank/Query Rewrite/QA 分类/数据质量/生成对比）全部产出可复现报告，并完成一次真实 bug 修复闭环（见下方 ④）。应用层（FastAPI / Vue3 / Docker）按战略暂缓（见 Roadmap）。
+
+---
+
+## 项目亮点（面试速览）
+
+1. **完整纵向能力链 + 分层评估**：不是「Embedding → LLM」的 Demo，而是每个环节都有实验证据的工程案例（Recall@10 **0.86** / MRR **0.652**，全部可 `bench` 一键复现）
+2. **真实 bug 修复闭环**：数据质量审计发现 5 部扫描件法律「从未入库」→ 修复后法规 Recall@10 **0.433 → 0.933**——「指标→根因→修改→再验证」的完整叙事
+3. **反直觉实验发现**：Rerank 不提升文档级召回（R@20 相同）、规则改写 MRR 反降、LLM 生成接地性低于抽取式——比「我用了 Reranker/LLM」更有含金量
+4. **LLM 能力已验证**：DeepSeek 改写（Recall@10 →0.93）与生成（F1 +73%）均接入并有对比数据
 
 ---
 
@@ -16,14 +25,14 @@
 
 ---
 
-## 当前进度（2026-08-20）
+## 当前进度（2026-08-21）
 
 | 模块 | 状态 | 说明 |
 | --- | --- | --- |
-| 演示数据集 `data/` | ✅ 已完成 | 17 部官方法律 PDF（含 5 部扫描件 OCR）、28 份企业制度、7 份合同模板、4 份模拟案例、100 条 QA 评估集 |
+| 演示数据集 `data/` | ✅ 已完成 | **19 部**官方法律 PDF（含 5 部扫描件 OCR）、28 份企业制度、7 份合同模板、4 份模拟案例、100 条 QA 评估集 |
 | 法律下载工具 `tools/download_laws.py` | ✅ 已完成 | 从国家法律法规数据库（flk.npc.gov.cn）幂等下载官方 PDF |
 | **V1 Knowledge RAG Core** `rag/` | ✅ **已完成** | 全链路 18 个环节实现并跑通，见下方「V1 交付」与评估报告 |
-| 工程化与评估 | 🚧 V1.5 重点推进 | 评估集扩充、错误案例回归、Query Rewrite 优化、真实 LLM Adapter 调优 |
+| **V1.5 工程化与评估** | ✅ **已完成** | ①Rerank ②Query Rewrite ③QA 分类 ④数据质量 ⑤生成对比，全部有报告；仅「真实评估集扩充」未做（见 Roadmap） |
 | 应用层（FastAPI / Vue3 / Docker Compose） | ⏸ 暂缓 | 不增强 RAG 纵向能力，见「原计划功能处置」 |
 
 ---
@@ -34,12 +43,13 @@
 pip install -r requirements.txt          # 首次安装依赖
 python -m rag.cli index                   # 构建索引（解析/OCR -> Chunk -> Embedding -> 入库）
 python -m rag.cli query "试用期最长多久?"  # 命令行问答（交互模式不带参数）
-python -m rag.cli evaluate --tag v1       # 100 条 QA 全量评估，产出报告
+python -m rag.cli bench --tag v1          # ⭐ 一键复现全部 6 份评估报告（约 15-22 分钟）
 ```
 
 - 默认本地 numpy 向量库（零依赖服务）；接 Milvus 用 `--vector-backend milvus`
-- 未配置 `OPENAI_API_KEY` 时自动使用**本地抽取式生成兜底**（离线可复现）；配置后走 gpt-4o-mini 结构化生成
-- 模型（bge-base-zh-v1.5 / bge-reranker-base）首次运行时自动下载至 `data/models/`
+- 未配置 `OPENAI_API_KEY` 时自动使用**本地抽取式生成兜底**（离线可复现）；配置后走 LLM 结构化生成（OpenAI 兼容，可用 DeepSeek：`LEGAL_LLM_BASE_URL=https://api.deepseek.com` + `LEGAL_LLM_MODEL=deepseek-chat`）
+- 模型（bge-base-zh-v1.5 / bge-reranker-base）首次运行时自动下载至 `data/models/`；网络不稳时 `LEGAL_OFFLINE=1` 跳过联网检查
+- 单个实验命令：`ablate --exp rerank|query-rewrite` / `qa-class` / `data-quality`；全部命令见 [docs/demo_guide.md](docs/demo_guide.md)
 
 ## 能力链（项目主线）
 
@@ -103,7 +113,7 @@ loader(58 篇文档) → parser(PDF/DOCX + RapidOCR 扫描件兜底) → doc_tre
 - Rerank **不扩大候选集**：Recall@20 与 Hybrid 完全一致（0.86）——Rerank 的价值在精排而非召回
 - chunk 级 Recall@5/10 略降（0.74/0.82 vs 0.77/0.83）：chunk 级 gold 用「词汇重叠」代理，而 CrossEncoder 擅长**语义匹配**（字面不同但相关），代理指标低估其收益
 - **延迟代价显著**：CPU 上 Rerank 单查询 +1.8s（40 倍），生产需 GPU 或仅对候选精排
-- 分域：法规/制度/合同 Recall@10 ≥0.93，**案例 0.45 是唯一短板**（模拟案例文档检索难，指向后续根因）
+- 分域：法规/制度/合同 Recall@10 ≥0.93，**案例 0.45 是唯一短板**（根因已定位：标注口径 + 案例文档可检索性，LLM 改写缓解至 0.65，见 ②③）
 
 ### V1.5 ② Query Rewrite Ablation（无改写 / 规则 / LLM，下游统一 Hybrid）
 
@@ -131,7 +141,7 @@ loader(58 篇文档) → parser(PDF/DOCX + RapidOCR 扫描件兜底) → doc_tre
 
 **根因分析**（完整报告：[qa_class_v1.md](data/evaluation/reports/qa_class_v1.md)）：
 - **法规域已修复**（Recall@10 0.433 → 0.933）：见下方 ④ 的 bug 故事
-- **案例域 0.45 是当前唯一检索短板**：模拟案例文档的信息组织（案情/焦点/依据）与问答表述差异大，指向后续对案例文档做结构化解析
+- **案例域 0.45 是当前唯一检索短板，根因已定案**：① 标注口径（gold 只标案例库，但检索到能作答的法律算「失败」）② 案例文档的具体案情稀释了法律推理段落；**缓解方案已验证**——LLM 改写 Recall@10 0.45→0.65（见 ②）；后续按「争议焦点/裁判观点」拆分 parent 并开放双 gold 口径（见 [白皮书 §10](docs/whitepaper.md)）
 
 ### V1.5 ④ OCR / Chunking 数据质量（含一个真实 bug 修复）
 
@@ -223,7 +233,7 @@ legal-ai-assistant/
 ├── rag/                     # V1 Knowledge RAG Core（核心交付）
 │   ├── config.py            # 全局配置（路径/模型/参数，可用环境变量覆盖）
 │   ├── models.py            # Document / Chunk / RetrievalResult / Answer
-│   ├── loader.py            # Document Loader（56 篇文档发现与去重）
+│   ├── loader.py            # Document Loader（58 篇文档发现与去重）
 │   ├── parser.py            # PDF/DOCX 解析 + RapidOCR 扫描件兜底
 │   ├── doc_tree.py          # Document Tree（标题层级）
 │   ├── chunking.py          # Parent/Child Chunk
@@ -239,7 +249,7 @@ legal-ai-assistant/
 │   ├── pipeline.py          # 编排：index / query / evaluate
 │   └── cli.py               # python -m rag.cli
 ├── data/                    # 数据集与管线产物
-│   ├── raw/                 # 原始文档:laws(17 PDF)/policies(28)/contracts(7)/cases(4)
+│   ├── raw/                 # 原始文档:laws(19 PDF)/policies(28)/contracts(7)/cases(4)
 │   ├── parsed/              # 解析结果（管线缓存）
 │   ├── chunks/              # Parent/Child 缓存 + index_manifest
 │   ├── index/               # 本地向量索引（生成物）
@@ -261,7 +271,7 @@ legal-ai-assistant/
 
 ## 快速开始
 
-> ⚠️ 当前为**数据层 + V1 管线**阶段：以下「后端 / 前端 / Docker」启动步骤属应用层（V1.5 规划，暂缓）。V1 管线的使用方式见上文「快速使用」。
+> ⚠️ 当前为**数据层 + V1/V1.5 管线阶段**：以下「后端 / 前端 / Docker」启动步骤属应用层（暂缓，见 Roadmap）。V1/V1.5 管线的使用方式见上文「快速使用」。
 
 ### 环境要求
 
@@ -375,15 +385,15 @@ docker compose up -d
 
 > 战略：**做深不做大**。V1 打通并验证 RAG 纵向链路，V1.5 做成可评估、可解释的工程案例，V2 保留演进方向但当前不投入。
 
-### V1 — Knowledge RAG Core（✅ 已完成，2026-08-20）
+### V1 — Knowledge RAG Core（✅ 已完成，2026-08-21）
 
 - [x] 技术选型与 RAG 架构设计
 - [x] 法律法规 / 企业制度 / 合同 / 案例数据集构建
 - [x] 官方法律下载工具（tools/download_laws.py）
-- [x] Document Loader（56 篇文档，md 优先去重）
+- [x] Document Loader（58 篇文档，md 优先去重）
 - [x] PDF / DOCX 文档解析 + RapidOCR 扫描件兜底（5 部扫描版法律）
 - [x] Document Tree 构建（标题层级）
-- [x] Parent / Child Chunk（649 parents / 1724 children）
+- [x] Parent / Child Chunk（666 parents / 2115 children）
 - [x] BGE Embedding（bge-base-zh-v1.5，768 维）
 - [x] Milvus 向量检索（Dense，含本地 numpy 回退）
 - [x] Query Understanding / Query Rewrite（法律主题词典 + 可选 LLM）
@@ -395,16 +405,16 @@ docker compose up -d
 - [x] Citation / Groundedness Validation（逐句校验 + 无支撑句标记）
 - [x] Retrieval / Generation Evaluation（100 条 QA，四阶段对比报告）
 
-### V1.5 — Engineering & Evaluation（当前重点推进方向）
+### V1.5 — Engineering & Evaluation（✅ 已完成，2026-08-21）
 
-- [ ] 完善 50～100 条真实评估集（当前 100 条为模拟口径一致集）
-- [ ] 建立 Retrieval / Rerank / Generation 分层评估（V1 已搭框架 ✅）
-- [ ] 对比 Dense / BM25 / Hybrid / Reranker 效果（V1 已出首版报告 ✅）
-- [ ] 完善错误案例分析与回归测试（V1 报告已含错误案例分析 ✅）
-- [ ] 优化 Query Rewrite / Query Understanding（LLM 版本调优）
-- [ ] 完善 Citation 与 Evidence Traceability
-- [ ] 真实 LLM API Adapter 效果对比（本地兜底 vs gpt-4o-mini）
-- [ ] 完善 README / Architecture / Technical Design 文档
+- [ ] 完善 50～100 条真实评估集（**唯一未完成项**：当前 100 条为模拟口径一致集，补充真实裁判文书类样本为后续方向）
+- [x] 建立 Retrieval / Rerank / Generation 分层评估（四阶段 + chunk/doc 双层指标）
+- [x] 对比 Dense / BM25 / Hybrid / Reranker 效果（① 消融报告，含延迟与分域）
+- [x] 完善错误案例分析与回归测试（③ qa_class 报告：分桶 + 根因）
+- [x] 优化 Query Rewrite / Query Understanding（② 三组对比：原始/规则/DeepSeek LLM）
+- [x] 完善 Citation 与 Evidence Traceability（Groundedness 逐句校验 + 无支撑句标记）
+- [x] 真实 LLM API Adapter 效果对比（⑤ 本地抽取式 vs DeepSeek：F1 0.172→0.299）
+- [x] 完善 README / Architecture / Technical Design 文档（白皮书 + Demo Guide + 任务清单）
 
 ### V2 — Future Evolution（保留在 Roadmap，当前不做）
 
@@ -441,4 +451,4 @@ docker compose up -d
 
 ---
 
-*文档最后更新：2026-08-20 · 法律知识助手 · V1 Knowledge RAG Core ✅（含评估报告）*
+*文档最后更新：2026-08-21 · 法律知识助手 · V1 ✅ / V1.5 ✅（含 6 份评估报告 + 白皮书）*
