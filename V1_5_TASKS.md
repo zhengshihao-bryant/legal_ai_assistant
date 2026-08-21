@@ -58,8 +58,8 @@
 - 产出：覆盖 `ablation_query_rewrite_v1.md`，得到真实三组对比（回答「什么情况下规则已够、什么情况下需要 LLM」）
 
 ### ②-LLM：Query Rewrite 的 LLM 变体（DeepSeek）✅ 已完成（2026-08-21）
-- 结果：LLM 改写 99/100 生效；chunk MRR 0.562（vs 规则 0.515 / 原始 0.527）、NDCG@10 0.693 —— **LLM 综合最优**
-- 结论：常规制度/合同查询规则够用；法规术语稀疏查询 LLM 更稳
+- 结果：LLM 改写 99/100 生效；chunk R@10 0.91、chunk MRR 0.614、NDCG@10 0.800（vs 规则 0.85/0.573/0.742、原始 0.83/0.610/0.756）—— **LLM 综合最优**
+- 结论：常规制度/合同查询规则够用；法规术语稀疏与案例域查询 LLM 更稳（案例 0.45→0.65）
 
 ### ④ OCR / Chunking 数据质量审计 ✅ 已完成（2026-08-21），且发现并修复一个重大 bug
 - **Bug 故事**：OCR 扫描件（劳动合同法等 5 部）文本是无换行密文墙 → 标题检测失败 → 文档树无章节 → chunk=0 → **从未入库**
@@ -70,7 +70,7 @@
 
 ### ⑤ Technical Whitepaper + Demo Guide
 - Demo Guide ✅ 已写（docs/demo_guide.md，含 bench 统一基准命令）
-- Generation 对比 ✅ 已完成（F1 0.174→0.284 +63%，见 generation_compare_v1.md）
+- Generation 对比 ✅ 已完成（F1 0.172→0.299 +73%，见 generation_compare_v1.md）
 - **Whitepaper ✅ 已写（docs/whitepaper.md）**：以「为什么」为主线，覆盖 Dense+BM25 / RRF / Rerank / Query Rewrite / OCR / Groundedness 全部实验结论
 
 ### 新发现的下一步（来自修复后的 ③）
