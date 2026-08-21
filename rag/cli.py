@@ -118,6 +118,21 @@ def cmd_qa_class(args) -> None:
                        "report": str(path)}, ensure_ascii=False, indent=2))
 
 
+def cmd_data_quality(args) -> None:
+    """④ OCR / Chunking 数据质量审计。"""
+    import json as _json
+    from . import config as _cfg
+    from .data_quality import run_data_quality, write_data_quality_report
+
+    p = _pipeline(args)
+    p.build_index()
+    data = _json.loads((_cfg.EVAL_DIR / "qa.json").read_text(encoding="utf-8"))
+    result = run_data_quality(p, data["questions"])
+    path = write_data_quality_report(result, args.tag)
+    print(_json.dumps({"ocr": result["ocr"], "chunk": result["chunk"],
+                       "report": str(path)}, ensure_ascii=False, indent=2))
+
+
 def cmd_stats(args) -> None:
     from .loader import discover_files
     files = discover_files()
@@ -158,12 +173,15 @@ def main() -> None:
     qp = sub.add_parser("qa-class", help="③ QA 分类 + Error Analysis")
     qp.add_argument("--tag", default="v1")
 
+    dqp = sub.add_parser("data-quality", help="④ OCR / Chunking 数据质量审计")
+    dqp.add_argument("--tag", default="v1")
+
     sub.add_parser("all", help="index + evaluate")
 
     args = parser.parse_args()
     {"index": cmd_index, "query": cmd_query, "evaluate": cmd_evaluate,
      "all": cmd_all, "stats": cmd_stats, "ablate": cmd_ablate,
-     "qa-class": cmd_qa_class}[args.command](args)
+     "qa-class": cmd_qa_class, "data-quality": cmd_data_quality}[args.command](args)
 
 
 if __name__ == "__main__":
